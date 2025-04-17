@@ -1,0 +1,69 @@
+/* src/app/t/embed/[slug]/EmbedPage.module.css */
+.embedContainer {
+    /* Allow iframe to take full height potentially */
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--navbar-height) - 40px); /* Full viewport minus navbar and some padding */
+    margin-top: -20px; /* Counteract default MainLayout top margin */
+  }
+  
+  .loadingContainer, .notFoundContainer {
+      display: flex;
+      flex-direction: column; /* Stack content vertically */
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1; /* Take available space */
+      color: var(--text-sec-col);
+      font-size: 1.2rem;
+      text-align: center;
+      padding: 20px;
+  }
+  
+  .header {
+      padding: 15px 20px;
+      background-color: var(--nav-col);
+      border-bottom: 1px solid var(--border-col);
+      margin-bottom: 0; /* Remove margin below header */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+  
+  .header h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      color: var(--text-primary);
+  }
+  
+  .backButton {
+      background: none;
+      border: none;
+      color: var(--text-link);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: var(--border-radius);
+  }
+  .backButton:hover {
+      background-color: var(--hover-col);
+      text-decoration: none;
+  }
+  
+  
+  .iframeWrapper {
+    flex-grow: 1; /* Take remaining vertical space */
+    width: 100%;
+    background-color: #fff; /* Default background for iframe area */
+    overflow: hidden; /* Ensure iframe stays contained */
+    border: none; /* Remove border around wrapper */
+  }
+  
+  .toolIframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }

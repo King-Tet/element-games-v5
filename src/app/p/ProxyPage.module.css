@@ -1,0 +1,62 @@
+/* src/app/p/ProxyPage.module.css */
+
+.proxyContainer {
+    /* Ensure container takes full height relative to viewport,
+       minus the space potentially taken by the navbar if the layout forces it.
+       Using 100vh might be simpler if layout allows full screen takeover */
+    display: flex;
+    flex-direction: column;
+    /* Adjust height calculation if your MainLayout padding/margins interfere */
+    height: calc(100vh - var(--navbar-height)); /* Fill viewport below navbar */
+    width: 100%;
+    margin-top: calc(-1 * var(--navbar-height)); /* Pull up to cover navbar space - adjust if needed */
+    overflow: hidden; /* Prevent scrollbars on the container */
+  }
+  
+  .errorContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    text-align: center;
+    height: 100%; /* Take full height if error occurs */
+    background-color: var(--background-main); /* Ensure consistent bg */
+  }
+  
+  .errorContainer h2 {
+    color: var(--danger-color);
+    margin-bottom: 15px;
+  }
+  
+  .errorContainer p {
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+  }
+  
+  .backButton {
+    background-color: var(--primary-button-bg);
+    color: var(--primary-button-text);
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .backButton:hover {
+    background-color: var(--primary-button-hover-bg);
+  }
+  
+  
+  .proxyIframe {
+    flex-grow: 1; /* Take all available vertical space */
+    width: 100%;
+    height: 100%; /* Fill the container */
+    border: none; /* No border for seamless look */
+    display: block; /* Remove potential extra space below iframe */
+  }

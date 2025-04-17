@@ -1,0 +1,89 @@
+/* src/app/g/GamesPage.module.css */
+.gamesContainer {
+  /* Container styles if needed */
+}
+
+.header {
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-col);
+  padding-bottom: 15px;
+}
+
+.loadingMessage,
+.filterLoader {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-sec-col);
+  font-size: 1.1rem;
+  font-style: italic;
+}
+.filterLoader {
+  padding: 10px 0; /* Smaller padding for filter loader */
+  width: 100%; /* Take full width */
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.categoryFilter {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  flex-wrap: wrap; /* Allow wrapping */
+}
+
+.categoryButton {
+  padding: 8px 16px;
+  border: 1px solid var(--border-col);
+  background-color: var(--nav-col);
+  color: var(--text-sec-col);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  font-size: 0.9rem;
+}
+
+.categoryButton:hover {
+  background-color: var(--hover-col);
+  color: var(--text-primary);
+}
+
+.categoryButton.active {
+  background-color: var(--accent-color);
+  color: var(--background-main-dark); /* Ensure contrast */
+  border-color: var(--accent-color);
+  font-weight: bold;
+}
+
+.gamesGrid {
+  display: grid;
+  /* Responsive grid: Adjust columns based on screen width */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(220px, 1fr)
+  ); /* Min width 220px, fill available space */
+  gap: 20px;
+}
+
+/* Adjust column count for larger screens */
+@media (min-width: 768px) {
+  .gamesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+@media (min-width: 1200px) {
+  .gamesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}
+
+.noGamesMessage {
+  text-align: center;
+  color: var(--text-sec-col);
+  margin-top: 40px;
+  font-size: 1.1rem;
+}

@@ -1,0 +1,265 @@
+/* src/app/g/play/[slug]/GamePlayPage.module.css */
+
+/* --- Keep existing styles --- */
+.loadingContainer, .notFoundContainer {
+    display: flex;
+    flex-direction: column; /* Ensure content stacks vertically */
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    color: var(--text-sec-col);
+    font-size: 1.2rem;
+    text-align: center; /* Center text */
+    padding: 20px; /* Add padding */
+}
+
+.gamePlayContainer {
+   display: flex;
+   flex-direction: column;
+   /* Calculate height to fill space below navbar, considering layout padding */
+   min-height: calc(100vh - var(--navbar-height) - 40px); /* 40px approx for padding */
+}
+
+.gameWrapper {
+  position: relative;
+  width: 100%;
+  /* REMOVED fixed aspect-ratio */
+  /* Make it take significant vertical space */
+  height: 75vh; /* Example: 75% of viewport height */
+  min-height: 400px; /* Minimum height for smaller screens */
+  max-height: calc(100vh - var(--navbar-height) - 150px); /* Prevent excessive height, leave space for details/tools */
+  background-color: #000;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  border: 1px solid var(--border-col);
+  margin-bottom: 15px; /* Space below iframe */
+  flex-shrink: 0; /* Prevent wrapper from shrinking if content below grows */
+}
+
+.gameIframe {
+  display: block;
+  width: 100%;
+  height: 100%; /* Fill the wrapper */
+  border: none;
+}
+
+/* --- Ensure Tool Button Styles are Correct --- */
+.gameTools {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding: 0 0 15px 0; /* Only bottom padding needed now */
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.toolButton {
+  background-color: var(--nav-col); /* Restore background */
+  color: var(--text-primary); /* Restore text color */
+  border: 1px solid var(--border-col); /* Restore border */
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 500; /* Added font weight */
+  text-decoration: none; /* Remove underline if it's an <a> tag */
+  transition: background-color 0.2s ease;
+}
+
+.toolButton svg {
+  font-size: 1.1rem;
+}
+
+.toolButton:hover {
+  background-color: var(--hover-col); /* Restore hover */
+}
+
+/* --- Keep Game Details Styles --- */
+.gameDetails {
+    background-color: var(--card-col);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-col);
+    margin-bottom: 20px; /* Add some space at the very bottom */
+}
+
+.aggregateRating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.aggregateRating svg {
+    color: var(--accent-color);
+    margin-bottom: -2px; /* Align star slightly better */
+    font-size: 1.1em;
+}
+
+.ratingCount {
+    font-size: 0.9rem;
+    color: var(--text-sec-col);
+    margin-left: 3px;
+}
+
+
+.gameDetails p {
+  color: var(--text-sec-col);
+  line-height: 1.6;
+  font-size: 1rem;
+  margin-bottom: 25px; /* Add space before rating */
+}
+
+
+/* User Rating Section */
+.userRatingSection {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border-col);
+}
+
+.userRatingSection h3 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.starRating {
+    display: inline-flex; /* Align stars horizontally */
+    align-items: center;
+    gap: 3px;
+}
+
+.star {
+    font-size: 1.8rem; /* Adjust star size */
+    color: var(--border-col); /* Empty star color */
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.1s ease;
+}
+
+.star:hover {
+    transform: scale(1.1);
+}
+
+.star.filled {
+    color: var(--accent-color); /* Filled star color */
+}
+
+.star.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+.star.disabled:hover {
+    transform: none; /* Disable hover effect when disabled */
+}
+
+
+.clearRatingButton {
+    background: none;
+    border: none;
+    color: var(--text-sec-col);
+    font-size: 1.2rem;
+    margin-left: 10px;
+    cursor: pointer;
+    padding: 0 5px;
+    line-height: 1;
+}
+.clearRatingButton:hover {
+    color: var(--danger-color);
+}
+
+.submittingText {
+    margin-left: 15px;
+    font-size: 0.9rem;
+    color: var(--text-sec-col);
+    font-style: italic;
+}
+
+.loginPrompt {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border-col);
+    color: var(--text-sec-col);
+    font-size: 0.95rem;
+}
+.loginPrompt a {
+    color: var(--text-link);
+    font-weight: 500;
+}
+.loginPrompt a:hover {
+    text-decoration: underline;
+}
+
+/* --- NEW Styles --- */
+
+/* Iframe Placeholder */
+.iframeLoadingPlaceholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #000; /* Match wrapper bg */
+    color: var(--text-sec-col);
+    font-size: 1.1rem;
+    font-style: italic;
+}
+.iframeLoadingPlaceholder span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* Row for Controls and Sync Status */
+.controlsRow {
+    display: flex;
+    justify-content: space-between; /* Space out sync status and tools */
+    align-items: center;
+    padding: 0 0 15px 0; /* Bottom padding */
+    gap: 15px; /* Gap between items if they wrap */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.syncStatusIndicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    padding: 6px 12px; /* Adjusted padding */
+    border-radius: var(--border-radius);
+    background-color: var(--nav-col);
+    border: 1px solid var(--border-col);
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    flex-shrink: 0;
+    cursor: pointer; /* Make it look clickable */
+    color: var(--text-sec-col); /* Default color */
+}
+.syncStatusIndicator:hover:not(:disabled) {
+    background-color: var(--hover-col);
+    border-color: var(--text-sec-col);
+}
+.syncStatusIndicator:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+
+/* Specific Status Styles */
+.syncStatusSaving { color: var(--accent-color); border-color: var(--accent-color); }
+.syncStatusSynced { color: #4caf50; background-color: rgba(76, 175, 80, 0.1); border-color: rgba(76, 175, 80, 0.3); }
+.syncStatusError { color: var(--danger-color); background-color: rgba(244, 67, 54, 0.1); border-color: rgba(244, 67, 54, 0.3); }
+
+/* Adjust gameTools container if needed */
+.gameTools {
+    /* Removed padding as it's now on controlsRow */
+    /* Styles like flex-end, gap etc. remain */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}

@@ -1,0 +1,75 @@
+/* src/app/t/ToolsPage.module.css */
+.toolsContainer {
+    /* Container styles if needed */
+  }
+  
+  .header {
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-col);
+    padding-bottom: 15px;
+  }
+  
+  .header h1 {
+      margin: 0;
+  }
+  
+  .categoryFilter {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+      flex-wrap: wrap; /* Allow wrapping */
+  }
+  
+  .categoryButton {
+      padding: 8px 16px;
+      border: 1px solid var(--border-col);
+      background-color: var(--nav-col);
+      color: var(--text-sec-col);
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: background-color 0.2s, color 0.2s;
+      font-size: 0.9rem;
+  }
+  
+  .categoryButton:hover {
+      background-color: var(--hover-col);
+      color: var(--text-primary);
+  }
+  
+  .categoryButton.active {
+      background-color: var(--accent-color);
+      color: var(--background-main-dark); /* Ensure contrast */
+      border-color: var(--accent-color);
+      font-weight: bold;
+  }
+  
+  
+  .toolsGrid {
+    display: grid;
+    /* Responsive grid */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Adjust minmax as needed */
+    gap: 20px;
+  }
+  
+   /* Adjust column count for larger screens */
+   @media (min-width: 768px) {
+      .toolsGrid {
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      }
+   }
+   @media (min-width: 1200px) {
+      .toolsGrid {
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      }
+   }
+  
+  
+  .noToolsMessage {
+      text-align: center;
+      color: var(--text-sec-col);
+      margin-top: 40px;
+      font-size: 1.1rem;
+  }

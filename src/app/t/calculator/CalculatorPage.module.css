@@ -1,0 +1,90 @@
+/* src/app/t/calculator/CalculatorPage.module.css */
+.calculatorContainer {
+    max-width: 400px;
+    margin: 30px auto;
+    background-color: var(--card-col);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    border: 1px solid var(--border-col);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .calculatorContainer h1 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      text-align: center;
+      color: var(--text-primary);
+      font-size: 1.6rem;
+  }
+  
+  .display {
+    background-color: var(--input-col);
+    color: var(--text-col);
+    font-size: 2.2rem;
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    text-align: right;
+    overflow-x: auto; /* Handle long numbers */
+    white-space: nowrap;
+    border: 1px solid var(--border-col);
+    min-height: 70px; /* Ensure consistent height */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  
+  .keypad button {
+    font-size: 1.4rem;
+    padding: 18px 10px; /* Adjust padding */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-col);
+    background-color: var(--nav-col);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex; /* Center content */
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .keypad button:hover {
+    background-color: var(--hover-col);
+  }
+  
+  .keypad button.operator {
+    background-color: var(--accent-color);
+    color: var(--background-main-dark); /* Dark text on accent */
+    border-color: var(--accent-color);
+    font-weight: bold;
+  }
+  .keypad button.operator:hover {
+      background-color: #ffb300; /* Slightly darker accent */
+  }
+  
+  
+  .keypad button.equals {
+    grid-column: span 2; /* Make equals button wider */
+    background-color: var(--primary-button-bg);
+    color: var(--primary-button-text);
+    border-color: var(--primary-button-bg);
+    font-weight: bold;
+  }
+   .keypad button.equals:hover {
+      background-color: var(--primary-button-hover-bg);
+   }
+  
+  .keypad button.clear {
+     background-color: var(--danger-color);
+     color: var(--primary-button-text);
+     border-color: var(--danger-color);
+  }
+  .keypad button.clear:hover {
+      background-color: var(--danger-hover-color);
+  }

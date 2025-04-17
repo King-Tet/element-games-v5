@@ -1,0 +1,98 @@
+/* src/components/Layout/Sidebar.module.css */
+.sidebar {
+    width: var(--sidebar-width-open); /* Default width */
+    height: 100vh; /* Full viewport height */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--nav-col); /* Same as navbar or slightly different */
+    border-right: 1px solid var(--border-col);
+    padding-top: var(--navbar-height); /* Leave space for fixed navbar */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    transition: width 0.3s ease-in-out; /* Smooth transition for collapse */
+    z-index: 999; /* Below navbar */
+  }
+  
+  .sidebar.closed {
+    width: var(--sidebar-width-closed);
+  }
+  
+  .navList {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .navItem {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide text when collapsed */
+    cursor: pointer;
+    border-radius: var(--border-radius); /* Rounded corners on hover/active */
+    margin: 5px 10px; /* Margin around items */
+  }
+  
+  .navItem:hover {
+    background-color: var(--background-hover);
+    color: var(--text-primary);
+  }
+  
+  .navItem.active { /* Style for the active link */
+    background-color: var(--accent-color);
+    color: var(--background-main); /* Dark text on accent background */
+    font-weight: 500;
+  }
+  
+  .navIcon {
+    font-size: 1.4rem;
+    margin-right: 15px;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+    transition: margin 0.3s ease-in-out; /* Adjust margin for collapsed state */
+  }
+  
+  .navText {
+    font-size: 1rem;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+  }
+  
+  /* Styles when sidebar is closed */
+  .sidebar.closed .navItem {
+    justify-content: center; /* Center icon */
+    padding: 12px 0; /* Adjust padding */
+  }
+  
+  .sidebar.closed .navIcon {
+    margin-right: 0; /* Remove margin when text is hidden */
+  }
+  
+  .sidebar.closed .navText {
+    opacity: 0;
+    width: 0; /* Effectively hide text */
+    overflow: hidden;
+  }
+  
+  /* Placeholder for category/pinned sections styling */
+  .sectionTitle {
+      padding: 10px 20px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      opacity: 1;
+      transition: opacity 0.2s ease-in-out;
+  }
+  
+  .sidebar.closed .sectionTitle {
+      opacity: 0;
+      height: 0;
+      padding: 0 20px; /* Maintain padding for layout consistency */
+      overflow: hidden;
+  }

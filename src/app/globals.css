@@ -1,42 +1,122 @@
+/* src/app/globals.css */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* --- Dark Theme (Default) --- */
+  --background-main-dark: #1a1a1a;
+  --background-nav-dark: #252525;
+  --background-card-dark: #2f2f2f;
+  --background-hover-dark: #3a3a3a;
+  --background-input-dark: #333333;
+
+  --text-primary-dark: #e0e0e0;
+  --text-secondary-dark: #b0b0b0;
+  --text-placeholder-dark: #888888;
+  --text-link-dark: #82b1ff;
+
+  --border-color-dark: #444444;
+
+  /* --- Light Theme --- */
+  --background-main-light: #ffffff;
+  --background-nav-light: #f5f5f5;
+  --background-card-light: #ffffff;
+  --background-hover-light: #eeeeee;
+  --background-input-light: #f0f0f0; /* Slightly off-white for inputs */
+
+  --text-primary-light: #212121;
+  --text-secondary-light: #616161; /* Darker secondary text */
+  --text-placeholder-light: #bdbdbd;
+  --text-link-light: #1976d2; /* Standard blue link */
+
+  --border-color-light: #e0e0e0;
+
+  /* --- Shared Variables --- */
+  --border-radius: 6px;
+  --accent-color: #ffca28;
+  --primary-button-bg: #039be5;
+  --primary-button-text: #ffffff;
+  --primary-button-hover-bg: #0277bd;
+  --danger-color: #f44336;
+  --danger-hover-color: #d32f2f;
+  --navbar-height: 60px;
+  --sidebar-width-open: 240px;
+  --sidebar-width-closed: 70px;
+
+  /* --- Default Theme Application (Dark) --- */
+  color-scheme: dark;
+  --bg-col: var(--background-main-dark);
+  --nav-col: var(--background-nav-dark);
+  --card-col: var(--background-card-dark);
+  --hover-col: var(--background-hover-dark);
+  --input-col: var(--background-input-dark);
+  --text-col: var(--text-primary-dark);
+  --text-sec-col: var(--text-secondary-dark);
+  --text-placeholder: var(--text-placeholder-dark);
+  --text-link: var(--text-link-dark);
+  --border-col: var(--border-color-dark);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Apply light theme variables when data-theme="light" is set on <html> */
+html[data-theme='light'] {
+  color-scheme: light;
+  --bg-col: var(--background-main-light);
+  --nav-col: var(--background-nav-light);
+  --card-col: var(--background-card-light);
+  --hover-col: var(--background-hover-light);
+  --input-col: var(--background-input-light);
+  --text-col: var(--text-primary-light);
+  --text-sec-col: var(--text-secondary-light);
+  --text-placeholder: var(--text-placeholder-light);
+  --text-link: var(--text-link-light);
+  --border-col: var(--border-color-light);
+}
+
+
+/* --- Rest of globals.css --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  height: 100%;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+  background-color: var(--bg-col);
+  color: var(--text-col);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  line-height: 1.6;
+  transition: background-color 0.2s ease, color 0.2s ease; /* Smooth theme transition */
 }
 
 a {
-  color: inherit;
+  color: var(--text-link);
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+a:hover {
+  text-decoration: underline;
+}
+
+/* Scrollbar Styling (Optional) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--nav-col); /* Use nav bg for track */
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--hover-col); /* Use hover bg for thumb */
+  border-radius: 10px;
+  border: 2px solid var(--nav-col); /* Match track */
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--border-col); /* Use border color on hover */
 }

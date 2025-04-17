@@ -1,0 +1,55 @@
+/* src/components/ui/StarRating.module.css */
+.starRating {
+    display: inline-flex; /* Align stars horizontally */
+    align-items: center;
+    gap: 3px; /* Space between stars */
+}
+
+/* Individual star styling */
+.star {
+    font-size: 1.8rem; /* Adjust star size as needed */
+    color: var(--border-col); /* Default empty star color */
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.1s ease;
+    line-height: 1; /* Prevent extra line height */
+    display: inline-block; /* Ensure transform works */
+}
+
+.star:hover {
+    /* Optional: slight scale on hover */
+    transform: scale(1.1);
+}
+
+/* Filled star styling */
+.star.filled {
+    color: var(--accent-color); /* Use accent color for filled stars */
+}
+
+/* Disabled state styling */
+.star.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+.star.disabled:hover {
+    transform: none; /* Disable hover effect when disabled */
+}
+
+/* Optional: Clear button styling (if you add one) */
+.clearRatingButton {
+    background: none;
+    border: none;
+    color: var(--text-sec-col);
+    font-size: 1.2rem; /* Adjust size */
+    margin-left: 10px; /* Space it from the stars */
+    cursor: pointer;
+    padding: 0 5px;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+.clearRatingButton:hover {
+    color: var(--danger-color);
+}
+.clearRatingButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}

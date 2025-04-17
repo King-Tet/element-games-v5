@@ -1,0 +1,39 @@
+{
+  "en": {
+    "yourScore": "YOUR SCORE",
+    "bestScore": "BEST SCORE",
+    "newText": "NEW",
+    "timePlayed": "TIME PLAYED",
+    "playersKilled": "PLAYERS KILLED",
+    "playAgain": "PLAY AGAIN",
+    "menu": "MENU",
+    "messages": ["Ur MOTHER", "fr", "what the sigma"],
+    "nosupport": "The game is not supported on your device",
+    "btnPlay": "PLAY",
+    "placeholderText": "Your name",
+    "defaultPlayerName": "Player",
+    "bestTxt": "BEST",
+    "killText": "Kill",
+    "btnContinue": "CONTINUE",
+    "btnSelect": "SELECT"
+  },
+
+  "im bored": {
+    "yourScore": "YOUR MOM",
+    "bestScore": "NUH UH",
+    "newText": "old",
+    "timePlayed": "TIMEerrrrrrrrrrrrr",
+    "playersKilled": "PLAYERS rizzed",
+    "playAgain": "rizz AGAIN",
+    "menu": "MENUhhehehe",
+    "messages": ["Ur MOTHER", "fr", "what the sigma"],
+    "nosupport": "The game is not supported on your device",
+    "btnPlay": "Antidisestablishmentarianism fr thats a word",
+    "placeholderText": ">>>>>>>>>>>>>......>...>>",
+    "defaultPlayerName": "Rizzler",
+    "bestTxt": "WORSE",
+    "killText": "REZ",
+    "btnContinue": "CAncel",
+    "btnSelect": "unSElecCt"
+  }
+}

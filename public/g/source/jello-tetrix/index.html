@@ -1,0 +1,174 @@
+<html>
+    <!--
+	Yes, I've made it. 2023. Eric Gurt.
+    -->
+    <head>
+	<title>JelloTetrix - Game by Eric Gurt</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<style>
+	    *
+	    {
+		touch-action: none;
+	    }
+	    body
+	    {
+		margin: 0;
+		padding: 0;
+		background: #000000;
+		overflow: hidden;
+		
+		color: #3366aa;
+		font-family: Arial;
+		font-size: 14px;
+		user-select: none;
+	    }
+	    canvas
+	    {
+	    }
+	    a, a:link, a:visited
+	    {
+		text-decoration: none;
+		color: #6699dd;
+		cursor: pointer;
+		
+		transform: scale(1, 1);
+		transition: transform 0.1s ease;
+		display: inline-block;
+	    }
+	    a:hover
+	    {
+		color: #ffffff;
+		transform: scale(1.02, 1.02);
+		
+	    }
+	</style>
+    </head>
+    <body>
+	<div id="wrap" style="width:800px;height:900px;position:fixed;">
+	    <canvas id="c" width="800" height="900"></canvas>
+	    <div style="
+		position: absolute;
+		right: 0px;
+		bottom: 10px;
+		font-weight: bold;
+		width: 130px;
+	    ">
+		<a id="settings_btn" style="display:block" onclick="this.style.display='none';document.getElementById('settings').style.display='block';">Settings</a>
+		<div id="settings" style="display:none">
+		    Volume
+		    <div style="border-radius:17px;height:15px;margin-top:10px;background:#1a233d;padding:4px;box-sizing:border-box" onmousedown="let b=this.getBoundingClientRect();game.global_volume = event.offsetX
+    /b.width*game.global_volume_default_scale; game.UpdateVolumeElement(); localStorage.setItem('volume',game.global_volume)"><div id="volume_element" style="border-radius:17px;height:100%;background:#6699dd;width:50%;transition:width 0.2s ease"></div></div>
+		    <br>
+		    <br>
+		    <a onclick="game.ToggleMusic();">Toggle music</a>
+		    <br>
+		    <br>
+		    <a onclick="game.ToggleSounds();">Toggle sounds</a>
+		    <br>
+		    <br>
+		    <a onclick="game.ToggleEyes();">Toggle faces</a>
+		    <br>
+		    <br>
+		    <a onclick="game.LoopCSSBlockFilter();">Change colors</a>
+		    <br>
+		    <br>
+		    <a onclick="game.ToggleFullScreen()">Fullscreen</a>
+		    <br>
+		    <br>
+		    <a onclick="game.free_mode = !game.free_mode;">Toggle cursor drag</a>
+		    <br>
+		    <br>
+		    <a onclick="this.parentNode.style.display='none';document.getElementById('settings_btn').style.display='block';">Hide settings</a>
+		</div>
+		<br>
+		<br>
+		
+		
+		
+		Game by <a href="https://www.gevanni.com">Eric Gurt</a><br>
+		Music by <a href="https://softable.newgrounds.com/">softable</a><br>
+		SFX by <a href="https://pixabay.com/">Pixabay</a></div>
+	    
+		<div style="
+		
+		    position: fixed;
+		    left: 50%;
+		    top: 50%;
+		    transform: translate(-50%, -50%);
+		    background: linear-gradient(178deg, #315c68, #214009);
+		    border-radius: 50px;
+		    padding: 40px;
+		    padding-top: 0;
+		    padding-bottom: 0;
+		    
+		">
+		    <img src="logo.png" width=391 height=145 />
+			<div style="text-align:center;color:#ffffff;margin-top:30px;margin-bottom:10px">Controls</div>
+			<div style="color:#ffffff;width:200px;text-align:right;position:relative">Up arrow -<br>Right arrow -<br>Left arrow -<br>Down arrow -<br>R -
+			    <div style="color:#6699dd;position:absolute;left:calc( 100% + 4px );top:0;width:200px;text-align:left;">rotate piece<br>accelerate to the right<br>accelerate to the left<br>accelerate downwards<br>restart</div>
+			</div>
+
+			<div style="text-align:center;color:#ffffff;margin-top:50px;margin-bottom:10px">How to play</div>
+			<div style="color:#66dd7e;text-align:center;width:400px;margin-left:auto;margin-right:auto">
+			    <div style="opacity:0.4">I don't know if game will lag for you - it is quite demanding<br>Maybe try other browser if it will lag?</div>
+			    <br>
+			    Complete horizontal lines of blocks in order to get them cleared in exchange for score
+			    <br><br>
+			    The more blocks you clear at the same time - the more score you'll get
+			    <br><br>
+			    <div style="color:#7186ab">
+			    Watch out for game over line and try not to be too greedy even if combos are a way for longer game and higher score
+			    <br><br>
+			    It will be tricky to play but you'll get there eventually!
+			    <br><br>
+			    Don't forget to share your best score ^^
+			    <br><br>
+			    There is a small easter egg once<br>you beat my personal best score =P
+			    </div>
+			</div>
+			
+		    <a style="
+			font-size: 60px;
+			white-space: nowrap;
+			filter: brightness(1.5);
+			text-align: center;
+			display: block;
+			padding: 20px;
+			font-weight: bold;
+			position: relative;
+			display: block;
+		    " onmousedown="game.Start( this.parentNode )">
+			Play
+			<img src="arrow.png" style="border:0;pointer-events:none;position:absolute;right: 60%;top: 10%;opacity: 0.5;transform: scale(0.6, -0.6) rotate(20deg);" />
+		    </a>
+
+		</div>
+		<div id="easter_egg" style="
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		    background: #000000;
+		    display: none;
+		">
+			
+		    <video onpause="parentNode.display='none';" style="
+			width: 100%;
+			height: 100%;
+		    ">
+			<source src="mggaow.mp4" type="video/mp4">
+		    </video>
+
+		</div>
+	</div>
+	
+	<script src="howler.js" type="text/javascript"></script>
+	<script src="game.js" type="text/javascript"></script>
+	<script src="Atom.js" type="text/javascript"></script>
+	<script src="Chain.js" type="text/javascript"></script>
+	<script src="Face.js" type="text/javascript"></script>
+	
+    </body>
+</html>

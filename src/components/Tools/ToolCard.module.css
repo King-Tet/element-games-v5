@@ -1,0 +1,81 @@
+/* src/components/Tools/ToolCard.module.css */
+.card {
+    background-color: var(--card-col);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: var(--text-col);
+    display: flex; /* Use flex for better alignment */
+    flex-direction: column; /* Stack elements vertically */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid var(--border-col);
+    padding: 20px;
+    height: 100%; /* Ensure cards in a grid take same height */
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .iconWrapper {
+    font-size: 2rem; /* Icon size */
+    color: var(--accent-color);
+    flex-shrink: 0; /* Prevent icon from shrinking */
+    display: flex; /* Center icon if it's an img */
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Fixed width for alignment */
+    height: 40px; /* Fixed height */
+  }
+  
+  .iconWrapper img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+  }
+  
+  .title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0; /* Remove default margin */
+  }
+  
+  .description {
+    font-size: 0.95rem;
+    color: var(--text-sec-col);
+    line-height: 1.5;
+    flex-grow: 1; /* Allow description to take remaining vertical space */
+    margin-bottom: 15px; /* Space before footer */
+  }
+  
+  .footer {
+    font-size: 0.85rem;
+    color: var(--text-sec-col);
+    margin-top: auto; /* Push footer to the bottom */
+    padding-top: 10px;
+    border-top: 1px solid var(--border-col);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .category {
+    background-color: var(--hover-col);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  
+  .externalIcon {
+    margin-left: 5px; /* Space for external link icon */
+    vertical-align: middle;
+    font-size: 0.9em;
+  }

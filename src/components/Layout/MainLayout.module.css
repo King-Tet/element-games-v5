@@ -1,0 +1,26 @@
+/* src/components/Layout/MainLayout.module.css */
+.layoutContainer {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .contentArea {
+    flex-grow: 1;
+    padding-top: var(--navbar-height); /* Avoid content going under fixed navbar */
+    padding-left: var(--sidebar-width-open); /* Default padding */
+    padding-right: 20px; /* Add some right padding */
+    padding-bottom: 20px; /* Add some bottom padding */
+    transition: padding-left 0.3s ease-in-out; /* Smooth transition for content shift */
+    background-color: var(--bg-col); /* Main background */
+    min-width: 0; /* Prevent content overflow issues with flexbox */
+  }
+  
+  .contentArea.sidebarClosed {
+    padding-left: var(--sidebar-width-closed);
+  }
+  
+  .mainContent {
+      max-width: 1400px; /* Set a max width for the content */
+      margin: 20px auto; /* Center content and add top margin */
+      padding: 0 15px; /* Padding inside the main content */
+  }

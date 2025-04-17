@@ -1,0 +1,191 @@
+/* src/app/settings/SettingsPage.module.css */
+.settingsContainer {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px 30px;
+    background-color: var(--card-col);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-col);
+  }
+  
+  .settingsContainer h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-col);
+    color: var(--text-primary);
+  }
+  
+  .settingsSection {
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 1px dashed var(--border-col);
+  }
+  
+  .settingsSection:last-of-type {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+  }
+  
+  
+  .settingsSection h2 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+  }
+  
+  .description {
+      font-size: 0.95rem;
+      color: var(--text-sec-col);
+      margin-bottom: 20px;
+      line-height: 1.6;
+  }
+  
+  
+  /* Radio buttons for Theme */
+  .radioGroup label {
+    display: inline-block; /* Or block for vertical layout */
+    margin-right: 20px;
+    cursor: pointer;
+    color: var(--text-sec-col);
+  }
+  .radioGroup input[type="radio"] {
+    margin-right: 8px;
+    accent-color: var(--accent-color); /* Style the radio button itself */
+  }
+  .radioGroup label:hover {
+      color: var(--text-primary);
+  }
+  
+  
+  /* Input Fields */
+  .inputGroup {
+      margin-bottom: 20px;
+  }
+  
+  .inputGroup label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-primary);
+  }
+  
+  .inputField {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-col);
+      background-color: var(--input-col);
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .inputField:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(255, 202, 40, 0.3);
+  }
+  
+  .inputField::placeholder {
+      color: var(--text-placeholder);
+      opacity: 0.8;
+  }
+  
+  .inputHint {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: var(--text-sec-col);
+  }
+  
+  
+  /* Button Styles */
+  .buttonGroup {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+  }
+  
+  .buttonPrimary, .buttonSecondary {
+      padding: 10px 18px;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: background-color 0.2s ease;
+  }
+  
+  .buttonPrimary {
+      background-color: var(--primary-button-bg);
+      color: var(--primary-button-text);
+  }
+  .buttonPrimary:hover {
+      background-color: var(--primary-button-hover-bg);
+  }
+  
+  
+  .buttonSecondary {
+      background-color: var(--nav-col);
+      color: var(--text-primary);
+      border: 1px solid var(--border-col);
+  }
+  .buttonSecondary:hover {
+      background-color: var(--hover-col);
+  }
+  
+  /* --- Specific settings --- */
+  
+  /* Panic Key Input Special Handling */
+  .panicKeySetter {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+  }
+  
+  .keyDisplay {
+      display: inline-block;
+      padding: 8px 12px;
+      background-color: var(--input-col);
+      border: 1px solid var(--border-col);
+      border-radius: var(--border-radius);
+      font-family: monospace; /* Use monospace for key names */
+      min-width: 80px;
+      text-align: center;
+  }
+  
+  /* Site Info Styles */
+  .settingsSection p {
+      margin-bottom: 10px;
+      color: var(--text-sec-col);
+      line-height: 1.6;
+  }
+  .settingsSection p strong {
+      color: var(--text-primary);
+  }
+
+  .selectField {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-col);
+    background-color: var(--input-col);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    /* Appearance adjustments for select */
+    appearance: none; /* Remove default arrow */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23${(props) => props.theme === 'dark' ? 'e0e0e0' : '757575'}' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E"); /* Custom arrow (needs adjustment for theme color) */
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px 12px;
+}
+
+.selectField:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(255, 202, 40, 0.3);
+}
