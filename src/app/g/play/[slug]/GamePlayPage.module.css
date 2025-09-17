@@ -18,30 +18,49 @@
    flex-direction: column;
    /* Calculate height to fill space below navbar, considering layout padding */
    min-height: calc(100vh - var(--navbar-height) - 40px); /* 40px approx for padding */
+   padding-left: 120px;
+   padding-right: 100px;
 }
 
 .gameWrapper {
   position: relative;
   width: 100%;
-  /* REMOVED fixed aspect-ratio */
-  /* Make it take significant vertical space */
-  height: 75vh; /* Example: 75% of viewport height */
-  min-height: 400px; /* Minimum height for smaller screens */
-  max-height: calc(100vh - var(--navbar-height) - 150px); /* Prevent excessive height, leave space for details/tools */
+  aspect-ratio: 16 / 9;
+  max-width: 100%; /* Ensure it doesn't overflow container */
+  margin: 0 auto 15px auto; /* Center the wrapper and add bottom margin */
   background-color: #000;
   border-radius: var(--border-radius);
   overflow: hidden;
   border: 1px solid var(--border-col);
-  margin-bottom: 15px; /* Space below iframe */
-  flex-shrink: 0; /* Prevent wrapper from shrinking if content below grows */
 }
 
 .gameIframe {
-  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%; /* Fill the wrapper */
   border: none;
+  padding: 20;
 }
+
+/* Responsive scaling for small screens */
+@media (max-height: 550px) and (orientation: landscape) {
+  .gameWrapper {
+    /* Fill most of the vertical space on short, wide screens */
+    height: calc(100vh - var(--navbar-height) - 85px);
+    aspect-ratio: auto; /* Let the iframe fill the new height */
+  }
+}
+
+@media (max-width: 480px) {
+    .gameWrapper {
+        /* On very narrow screens, use a significant portion of the viewport height */
+        height: 60vh;
+        aspect-ratio: auto;
+    }
+}
+
 
 /* --- Ensure Tool Button Styles are Correct --- */
 .gameTools {
@@ -177,6 +196,9 @@
     font-size: 0.9rem;
     color: var(--text-sec-col);
     font-style: italic;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .loginPrompt {
@@ -195,6 +217,16 @@
 }
 
 /* --- NEW Styles --- */
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
 
 /* Iframe Placeholder */
 .iframeLoadingPlaceholder {
@@ -250,9 +282,9 @@
 
 
 /* Specific Status Styles */
-.syncStatusSaving { color: var(--accent-color); border-color: var(--accent-color); }
-.syncStatusSynced { color: #4caf50; background-color: rgba(76, 175, 80, 0.1); border-color: rgba(76, 175, 80, 0.3); }
-.syncStatusError { color: var(--danger-color); background-color: rgba(244, 67, 54, 0.1); border-color: rgba(244, 67, 54, 0.3); }
+.syncStatusSaving { color: var(--accent-color); }
+.syncStatusSynced { color: #4caf50; }
+.syncStatusError { color: var(--danger-color); }
 
 /* Adjust gameTools container if needed */
 .gameTools {

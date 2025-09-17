@@ -18,24 +18,15 @@
   /* Game Grid */
   .gameGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Smaller cards */
-    gap: 15px;
-  }
-  
-  @media (min-width: 768px) {
-      .gameGrid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 20px;
-      }
-  }
-  @media (min-width: 1024px) {
-      .gameGrid {
-         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      }
+    /* This creates a responsive grid that will show between 4 and 6 columns on most screen sizes,
+       ensuring the cards have a consistent minimum width. */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
   }
   
   
-  /* Home Page Game Card */
+  /* Home Page Game Card (styles for cards specifically on the homepage) */
+  /* Note: These styles rely on the structure of the GameCard component. */
   .gameCard {
     background-color: var(--card-col);
     border-radius: var(--border-radius);
@@ -54,7 +45,7 @@
   .gameCardImage {
     display: block;
     width: 100%;
-    aspect-ratio: 4 / 3; /* Different aspect ratio for smaller cards */
+    aspect-ratio: 4 / 3; /* A good aspect ratio for grid cards */
     object-fit: cover;
     background-color: var(--nav-col); /* Placeholder bg */
   }
@@ -190,3 +181,15 @@
   .viewAllLink:hover {
       text-decoration: underline;
   }
+
+  /* --- NEW Styles for Loading/Empty states --- */
+.loadingText, .noItemsText {
+    padding: 20px 10px;
+    text-align: center;
+    color: var(--text-sec-col);
+    font-style: italic;
+    min-height: 50px; /* Give it some space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

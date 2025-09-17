@@ -3,7 +3,7 @@
     /* Allow iframe to take full height potentially */
     display: flex;
     flex-direction: column;
-    height: calc(100vh - var(--navbar-height) - 40px); /* Full viewport minus navbar and some padding */
+    height: calc(120vh - var(--navbar-height) - 40px); /* Full viewport minus navbar and some padding */
     margin-top: -20px; /* Counteract default MainLayout top margin */
   }
   

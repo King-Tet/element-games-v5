@@ -1,14 +1,509 @@
 [
   {
+    "how-to-use": "Create a new object for each game. To upload to firestore use the command node 'scripts/populateFirestore.js' in the projects root terminal.",
+    "quick-copy": "node scripts/populateSupabase.js"
+  },
+  {
+    "id": "stumble-guys",
+    "name": "Stumble Guys",
+    "description": "NOTE: Game will throw an error becuase of a CORS Policy but just ignoore it it will work fineYou dont realize how hard it is to steal a game this large. The code is very fragile and could break in the future. Stumble Guys is a multiplayer party game where players compete in obstacle courses and mini-games to be the last one standing. The game features colorful graphics, fun characters, and a variety of challenges to keep players entertained.",
+    "imageUrl": "/game-images/stumble-guys.png",
+    "category": "Multiplayer",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/stumble-guys/index.html",
+    "tags": ["multiplayer", "party", "obstacle", "fun"],
+    "releaseDate": "2025-09-16 17:53:00"
+  },
+  {
+    "id": "steal-a-brainrot",
+    "name": "Steal a Brainrot",
+    "description": "Steal a Brainrot is a multiplayer online game where players compete to steal each other's brainrots while avoiding obstacles and enemies. The game features various levels and challenges, and players can customize their characters with different skins and accessories.",
+    "imageUrl": "/game-images/steal-a-brainrot.png",
+    "category": "Multiplayer",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/steal-a-brainrot/index.html",
+    "tags": ["multiplayer", "action", "strategy", "fun"],
+    "releaseDate": "2025-09-14 23:02:00"
+  },
+  {
+    "id": "melon-sandbox",
+    "name": "Melon Sandbox",
+    "description": "Melon Sandbox is a sandbox game that allows players to create and manipulate objects in a virtual environment. Players can use various tools to build structures, create physics-based simulations, and experiment with different materials.",
+    "imageUrl": "/game-images/melon-sandbox.png",
+    "category": "Sandbox",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/melon-sandbox/index.html",
+    "tags": ["casual", "sandbox", "building", "exploration"],
+    "releaseDate": "2025-07-026 12:33:00"
+  },
+  {
+    "id": "slither-io",
+    "name": "Slither.io",
+    "description": "Slither.io is a multiplayer online game where players control a snake and try to consume pellets to grow larger while avoiding other snakes. (Also Unity so there are no saves)",
+    "imageUrl": "/game-images/slither-io.png",
+    "category": "Arcade",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/slither-io/index.html",
+    "tags": ["multiplayer", "snake", "arcade", "casual"],
+    "releaseDate": "2025-06-02 22:39:00"
+  },
+  {
+    "id": "snow-rider-3d",
+    "name": "Snow Rider 3D",
+    "description": "Snow Rider 3D is a fun and addictive racing game where players control a snowmobile and navigate through snowy tracks filled with obstacles and challenges. (Sorry i cant add a cloud save for Unity games becuase they use a local db and i havent added the logic to read that. pay me $16 and ill do it.)",
+    "imageUrl": "/game-images/snow-rider-3d.png",
+    "category": "Racing",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/snow-rider-3d/index.html",
+    "tags": ["racing", "snowmobile", "obstacle", "fun"],
+    "releaseDate": "2025-06-02 22:11:00"
+  },
+  {
+    "id": "buckshot-roulette",
+    "name": "Buckshot Roulette",
+    "description": "Buckshot Roulette is a thrilling multiplayer game where players take turns shooting at each other with a shotgun. The last player standing wins the game.",
+    "imageUrl": "/game-images/buckshot-roulette.png",
+    "category": "Strategy",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/buckshot-roulette/embed.html",
+    "tags": ["gun", "action", "strategy", "fun"],
+    "releaseDate": "2025-06-02 17:35:00"
+  },
+  {
+    "id": "ovo3",
+    "name": "OvO 3",
+    "description": "OvO 3 is a fun and addictive platform game where players control a character that jumps and navigates through various levels filled with obstacles and challenges. This sequel introduces new levels, characters, and gameplay mechanics.",
+    "imageUrl": "/game-images/ovo3.png",
+    "category": "Platformer",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/ovo3/index.html",
+    "tags": ["platformer", "obstacle", "speedrun", "fun"],
+    "releaseDate": "2025-06-01 21:15:00",
+    "localStorageKeys": [
+      "_ym_synced",
+      "_ym93577277_lsid",
+      "_ym93577277:0_reqNum",
+      "_ym_uid",
+      "_ym_retryReqs",
+      "_ym93577277_lastHit"
+    ]
+  },
+  {
+    "id": "ovo2",
+    "name": "OvO 2",
+    "description": "OvO 2 is a fun and addictive platform game where players control a character that jumps and navigates through various levels filled with obstacles and challenges. This sequel introduces new levels, characters, and gameplay mechanics.",
+    "imageUrl": "/game-images/ovo2.png",
+    "category": "Platformer",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/ovo2/index.html",
+    "tags": ["platformer", "obstacle", "speedrun", "fun"],
+    "releaseDate": "2025-06-01 21:14:00"
+  },
+  {
+    "id": "ovo",
+    "name": "OvO",
+    "description": "OvO is a fun and addictive platform game where players control a character that jumps and navigates through various levels filled with obstacles and challenges.",
+    "imageUrl": "/game-images/ovo.jpg",
+    "category": "Platformer",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/ovo/index.html",
+    "tags": ["platformer", "obstacle", "speedrun", "fun"],
+    "releaseDate": "2025-06-01 21:13:00",
+    "localStorageKeys": [
+      "GA::ga_event",
+      "GA::ga_session",
+      "GA::ga_progression",
+      "GA::ga_items"
+    ]
+  },
+  {
+    "id": "draw-the-hill",
+    "name": "Draw the Hill",
+    "description": "Draw the Hill is a fun and addictive game where players draw lines to create hills and guide a ball to the finish line. The game features various levels with different challenges and obstacles.",
+    "imageUrl": "/game-images/draw-the-hill.png",
+    "category": "Puzzle",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/draw-the-hill/index.html",
+    "tags": ["puzzle", "drawing", "casual", "fun"],
+    "releaseDate": "2025-06-01 21:11:00"
+  },
+  {
+    "id": "bitlife",
+    "name": "BitLife",
+    "description": "BitLife is a life simulation game where players make choices that affect their character's life from birth to death. Players can choose careers, relationships, and various life events.",
+    "imageUrl": "/game-images/bitlife.png",
+    "category": "Simulation",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/bitlife/index.html",
+    "tags": ["simulation", "life", "choices", "casual"],
+    "releaseDate": "2025-06-01 21:10:00"
+  },
+  {
+    "id": "crazy-cattle-3d",
+    "name": "Crazy Cattle 3D",
+    "description": "Crazy Cattle 3D is a fun and addictive game where players control a cow and navigate through various levels filled with obstacles and challenges. The goal is to collect items and reach the finish line while avoiding hazards. (ai is stupid but you know what this is lol)",
+    "imageUrl": "/game-images/crazy-cattle-3d.png",
+    "category": "Arcade",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/crazy-cattle-3d/index.html",
+    "tags": ["arcade", "casual", "obstacle", "fun"],
+    "releaseDate": "2025-06-01 21:08:00"
+  },
+  {
+    "id": "bottle-flip-3d",
+    "name": "Bottle Flip 3D",
+    "description": "Bottle Flip 3D is a fun and addictive game where players flip a bottle and try to land it upright on various surfaces. The game features different levels and challenges to test your flipping skills.",
+    "imageUrl": "/game-images/bottle-flip-3d.png",
+    "category": "Arcade",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/bottle-flip-3d/index.html",
+    "tags": ["arcade", "casual", "skill", "fun"],
+    "releaseDate": "2025-06-01 21:07:00"
+  },
+  {
+    "id": "2048",
+    "name": "2048",
+    "description": "2048 is a simple yet addictive puzzle game where players slide numbered tiles on a grid to combine them and reach the number 2048.",
+    "imageUrl": "/game-images/2048.png",
+    "category": "Puzzle",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/2048/index.html",
+    "tags": ["puzzle", "strategy", "casual", "numbers"],
+    "releaseDate": "2025-06-01 21:06:00"
+  },
+  {
+    "id": "bloxorz",
+    "name": "Bloxorz",
+    "description": "Bloxorz is a fun and challenging puzzle game where players control a block and navigate it through various levels by rolling it over tiles to reach the goal.",
+    "imageUrl": "/game-images/bloxorz.png",
+    "category": "Puzzle",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/bloxorz/index.html",
+    "tags": ["puzzle", "strategy", "block", "casual"],
+    "releaseDate": "2025-06-01 21:01:00"
+  },
+  {
+    "id": "google-solitare",
+    "name": "Google Solitare",
+    "description": "Solitare is a classic card game where players aim to move all cards to the foundation piles by following specific rules. The game is played with a standard deck of cards and involves strategic thinking and planning.",
+    "imageUrl": "/game-images/google-solitare.png",
+    "category": "Card",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/google-solitare/index.html",
+    "tags": ["card", "strategy", "classic", "puzzle"],
+    "releaseDate": "2025-06-01 20:33:00"
+  },
+  {
+    "id": "obby-on-a-bike",
+    "name": "Obby on a Bike (Roblox)",
+    "description": "Obby on a Bike is a fun and challenging obstacle course game where players navigate through various levels on a bike, avoiding obstacles and completing challenges.",
+    "imageUrl": "/game-images/obby-on-a-bike.png",
+    "category": "Platformer",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/obby-on-a-bike/index.html",
+    "tags": ["platformer", "obstacle", "bike", "roblox"],
+    "localStorageKeys": ["gs-db-project-7601-players,NONE,p,"],
+    "leaderboardConfigs": [
+      {
+        "id": "level-1",
+        "displayName": "Level 1",
+        "localStorageKey": "gs-db-project-7601-players,NONE,p,",
+        "scoreType": "jsonPath",
+        "scorePath": "best-time-world-1",
+        "unit": "ms",
+        "sortOrder": "low-to-high"
+      },
+      {
+        "id": "level-2",
+        "displayName": "Level 2",
+        "localStorageKey": "gs-db-project-7601-players,NONE,p,",
+        "scoreType": "jsonPath",
+        "scorePath": "best-time-world-2",
+        "unit": "ms",
+        "sortOrder": "low-to-high"
+      },
+      {
+        "id": "level-3",
+        "displayName": "Level 3",
+        "localStorageKey": "gs-db-project-7601-players,NONE,p,",
+        "scoreType": "jsonPath",
+        "scorePath": "best-time-world-3",
+        "unit": "ms",
+        "sortOrder": "low-to-high"
+      },
+      {
+        "id": "level-4",
+        "displayName": "Level 4",
+        "localStorageKey": "gs-db-project-7601-players,NONE,p,",
+        "scoreType": "jsonPath",
+        "scorePath": "best-time-world-4",
+        "unit": "ms",
+        "sortOrder": "low-to-high"
+      },
+      {
+        "id": "level-5",
+        "displayName": "Level 5",
+        "localStorageKey": "gs-db-project-7601-players,NONE,p,",
+        "scoreType": "jsonPath",
+        "scorePath": "best-time-world-5",
+        "unit": "ms",
+        "sortOrder": "low-to-high"
+      },
+      {
+        "id": "level-6",
+        "displayName": "Level 6",
+        "localStorageKey": "gs-db-project-7601-players,NONE,p,",
+        "scoreType": "jsonPath",
+        "scorePath": "best-time-world-6",
+        "unit": "ms",
+        "sortOrder": "low-to-high"
+      },
+      {
+        "id": "level-7",
+        "displayName": "Level 7",
+        "localStorageKey": "gs-db-project-7601-players,NONE,p,",
+        "scoreType": "jsonPath",
+        "scorePath": "best-time-world-7",
+        "unit": "ms",
+        "sortOrder": "low-to-high"
+      },
+      {
+        "id": "level-8",
+        "displayName": "Level 8",
+        "localStorageKey": "gs-db-project-7601-players,NONE,p,",
+        "scoreType": "jsonPath",
+        "scorePath": "best-time-world-8",
+        "unit": "ms",
+        "sortOrder": "low-to-high"
+      }
+    ],
+    "releaseDate": "2025-05-30 21:15:00"
+  },
+  {
+    "id": "clash-royale",
+    "name": "Clash Royale",
+    "description": "Clash Royale is a real-time strategy game where players collect and upgrade cards featuring Clash of Clans troops, spells, and defenses. Players can build their own decks and battle against other players in real-time.",
+    "imageUrl": "/game-images/clash-royale.png",
+    "category": "Strategy",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/clash-royale/index.html",
+    "tags": ["strategy", "multiplayer", "real-time", "clash of clans"],
+    "releaseDate": "2025-05-30 20:53:00"
+  },
+  {
+    "id": "arena-king",
+    "name": "Arena King",
+    "description": "As you speed across the arena, the hexagons fall down behind you. Show off your best driving, drifting, jumping up and flying skills on dynamically changing arena. Ram into your opponents, performing crazy stunts by using ramps, collect boosters, unlock new cars, colors and game modes! (Yes the dang game is russian and i cant change it without changing a shat ton of stuff so if it matters that much to u pay me like $5.69)",
+    "imageUrl": "/game-images/arena-king.png",
+    "category": "Racing",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/arena-king/index.html",
+    "tags": ["cars", "action", "casual", "fun"],
+    "releaseDate": "2025-05-30 20:26:00",
+    "localStorageKeys": ["savesData"]
+  },
+  {
+    "id": "brawl-stars",
+    "name": "Brawl Stars",
+    "description": "Brawl Stars is a multiplayer online battle game where players can team up and fight against each other in various game modes. Players can choose from a variety of characters, each with unique abilities and playstyles. (ok so besides for the ai description, this game is buns comared to the real one but it's sick because its like a 1:1 ripoff)",
+    "imageUrl": "/game-images/brawl-stars.png",
+    "category": "Action",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/brawl-stars/index.html",
+    "tags": ["multiplayer", "action", "battle royale", "teamwork"],
+    "releaseDate": "2025-05-28 21:04:00"
+  },
+  {
+    "id": "basketball-stars",
+    "name": "Basketball Stars",
+    "description": "Basketball Stars is a fast-paced multiplayer basketball game where players can compete against each other in 1v1 matches. The game features various courts, characters, and power-ups to enhance the gameplay experience.",
+    "imageUrl": "/game-images/basketball-stars.png",
+    "category": "Sports",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/basketball-stars/index.html",
+    "tags": ["basketball", "multiplayer", "sports", "action"],
+    "localStorageKeys": ["bb_test", "bb_testh", "bb_sfx_sv", "bb_sfx_svh"],
+    "releaseDate": "2025-05-28 19:44:00"
+  },
+  {
+    "id": "tuts-platformer",
+    "name": "Tuts Platformer",
+    "description": "Tuts Platformer is a fun and addictive platform game where players navigate through various levels filled with obstacles and enemies. (This was ai so ya, im to lazy to make a dang description)",
+    "imageUrl": "/game-images/tuts-platformer.png",
+    "category": "Platformer",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/tuts-platformer/index.html",
+    "tags": ["platformer", "obstacle", "speedrun", "fun"],
+    "releaseDate": "2024-05-27 21:42:00"
+  },
+  {
+    "id": "hole-io",
+    "name": "Hole.io",
+    "description": "Hole.io is a fun and addictive multiplayer game where players control a black hole and try to consume as many objects as possible to grow larger.",
+    "imageUrl": "/game-images/hole-io.jpg",
+    "category": "Arcade",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/hole-io/index.html",
+    "tags": ["arcade", "multiplayer", "casual", "fun"],
+    "releaseDate": "2025-05-27 21:45:00"
+  },
+  {
+    "id": "doodle-jump",
+    "name": "Doodle Jump",
+    "description": "Doodle Jump is a fun and addictive arcade game where players control a character that jumps from platform to platform, avoiding obstacles and enemies.",
+    "imageUrl": "/game-images/doodle-jump.jpg",
+    "category": "Sandbox",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/doodle-jump/index.html",
+    "tags": ["arcade", "jump", "obstacle", "casual"],
+    "localStorageKeys": ["DJ_Doodle_name", "DJ_localTopScores", "DJ_stats"],
+    "releaseDate": "2025-05-27 21:45:00",
+    "leaderboardConfigs": [
+      {
+        "id": "main_score",
+        "displayName": "High Score",
+        "localStorageKey": "DJ_stats",
+        "scoreType": "jsonPath",
+        "scorePath": "high score",
+        "unit": "number",
+        "sortOrder": "high-to-low"
+      }
+    ]
+  },
+  {
+    "id": "infinite-craft",
+    "name": "Infinite Craft",
+    "description": "Infinite Craft is a sandbox game that allows players to build and explore virtual worlds made up of blocks. Players can gather resources, craft items, and create structures in a 3D environment.",
+    "imageUrl": "/game-images/infinite-craft.png",
+    "category": "Sandbox",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/infinite-craft/index.html",
+    "tags": ["casual", "sandbox", "building", "exploration"],
+    "releaseDate": "2025-05-27 21:45:00"
+  },
+  {
+    "id": "2-3-4-player-games",
+    "name": "2-3-4 Player Games",
+    "description": "A collection of fun and exciting games that can be played with 2, 3, or 4 players. Perfect for friends and family gatherings!",
+    "imageUrl": "/game-images/2-3-4-player-games.jpg",
+    "category": "Multiplayer",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/2-3-4-player-games/index.html",
+    "tags": ["multiplayer", "party", "fun", "casual"],
+    "releaseDate": "2025-05-27 21:45:00"
+  },
+  {
+    "id": "gimme-the-airpod",
+    "name": "Gimme the Airpod",
+    "description": "Gimme the Airpod is a fun and addictive arcade game where players control a character and fight their opponent to the death for a dang airpod.",
+    "imageUrl": "/game-images/gimme-the-airpod.jpg",
+    "category": "Multiplayer",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/gimme-the-airpod/index.html",
+    "tags": ["multiplayer", "arcade", "action", "fun"],
+    "releaseDate": "2025-05-27 21:45:00"
+  },
+  {
+    "id": "helix-jump",
+    "name": "Helix Jump",
+    "description": "Helix Jump is a fun and addictive arcade game where players control a bouncing ball that jumps through a helix tower. The goal is to navigate the ball through the gaps in the tower while avoiding obstacles.",
+    "imageUrl": "/game-images/helix-jump.png",
+    "category": "Arcade",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/helix-jump/index.html",
+    "tags": ["arcade", "jump", "obstacle", "casual"],
+    "releaseDate": "2025-05-27 21:45:00"
+  },
+  {
+    "id": "mini-golf",
+    "name": "Mini Golf",
+    "description": "Mini Golf is a fun and addictive arcade game where players navigate through various mini-golf courses, avoiding obstacles and aiming for the hole.",
+    "imageUrl": "/game-images/mini-golf.png",
+    "category": "Sports",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/mini-golf/index.html",
+    "tags": ["arcade", "golf", "obstacle", "casual"],
+    "releaseDate": "2025-05-27 21:45:00"
+  },
+  {
+    "id": "mr-bullet",
+    "name": "Mr. Bullet",
+    "description": "Mr. Bullet is a fun and addictive puzzle game where players solve challenges by shooting bullets to eliminate enemies and complete levels.",
+    "imageUrl": "/game-images/mr-bullet.png",
+    "category": "Puzzle",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/mr-bullet/index.html",
+    "tags": ["puzzle", "shooter", "strategy", "casual"],
+    "localStorageKeys": [
+      "_gdwt_gd",
+      "bullapi1",
+      "world1a",
+      "world2a",
+      "world3a",
+      "world4a",
+      "globalstar",
+      "s1",
+      "cash",
+      "skin"
+    ],
+    "releaseDate": "2025-05-27 21:45:00"
+  },
+  {
+    "id": "geometry-dash",
+    "name": "Geometry Dash",
+    "description": "Geometry Dash is a rhythm-based platformer game where players navigate through levels filled with obstacles by jumping and flying to the beat of the music.",
+    "imageUrl": "/game-images/geometry-dash.png",
+    "category": "Platformer",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/geometry-dash/index.html",
+    "tags": ["platformer", "rhythm", "obstacle", "music"],
+    "localStorageKeys": [
+      "extensions.turbowarp.org/local-storage:geometry_dash"
+    ],
+    "releaseDate": "2025-05-27 21:45:00"
+  },
+  {
     "id": "time-shooter-2",
     "name": "Time Shooter 2",
     "description": "Time Shooter 2 is a first-person shooter game where players can manipulate time to dodge bullets and defeat enemies. The game features various levels and challenges.",
     "imageUrl": "/game-images/time-shooter-2.jpg",
     "category": "Action",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/time-shooter-2/index.html",
-    "tags": ["shooter", "time manipulation", "action", "strategy"]
+    "tags": ["shooter", "time manipulation", "action", "strategy"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "time-shooter-3",
@@ -17,9 +512,10 @@
     "imageUrl": "/game-images/time-shooter-3.jpg",
     "category": "Action",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/time-shooter-3/index.html",
-    "tags": ["shooter", "time manipulation", "action", "strategy"]
+    "tags": ["shooter", "time manipulation", "action", "strategy"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "super-mario-bros",
@@ -28,9 +524,10 @@
     "imageUrl": "/game-images/super-mario-bros.png",
     "category": "Platformer",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/super-mario-bros/index.html",
-    "tags": ["platformer", "retro", "adventure", "action"]
+    "tags": ["platformer", "retro", "adventure", "action"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "superhot",
@@ -39,9 +536,10 @@
     "imageUrl": "/game-images/superhot.jpg",
     "category": "Action",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/superhot/index.html",
-    "tags": ["shooter", "strategy", "action", "puzzle"]
+    "tags": ["shooter", "strategy", "action", "puzzle"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "subway-surfers",
@@ -50,9 +548,10 @@
     "imageUrl": "/game-images/subway-surfers.png",
     "category": "Arcade",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/subway-surfers/index.html",
-    "tags": ["arcade", "endless runner", "obstacle", "casual"]
+    "tags": ["arcade", "endless runner", "obstacle", "casual"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "stickman-hook",
@@ -61,14 +560,14 @@
     "imageUrl": "/game-images/stickman-hook.jpg",
     "category": "Arcade",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/stickman-hook/index.html",
     "tags": ["arcade", "hook", "obstacle", "casual"],
-
     "localStorageKeys": [
       "STICKMANHOOK_currentLevel",
       "STICKMANHOOK_currentSkin"
-    ]
+    ],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "soccer-random",
@@ -77,9 +576,10 @@
     "imageUrl": "/game-images/soccer-random.png",
     "category": "Sports",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/soccer-random/index.html",
-    "tags": ["soccer", "random", "multiplayer", "fun"]
+    "tags": ["soccer", "random", "multiplayer", "fun"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "rocket-league",
@@ -88,9 +588,10 @@
     "imageUrl": "/game-images/rocket-league.png",
     "category": "Sports",
     "rating": 4.2,
-    "visits": 350112,
-    "sourceUrl": "/g/source/retro-bowl-college/index.html",
-    "tags": ["soccer", "sports", "cars", "multiplayer"]
+    "visits": 0,
+    "sourceUrl": "/g/source/rocket-league/index.html",
+    "tags": ["soccer", "sports", "cars", "multiplayer"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "retro-bowl-college",
@@ -99,9 +600,10 @@
     "imageUrl": "/game-images/retro-bowl-college.png",
     "category": "Sports",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/retro-bowl-college/index.html",
-    "tags": ["football", "sports", "retro", "management"]
+    "tags": ["football", "sports", "retro", "management"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "pacman",
@@ -110,9 +612,10 @@
     "imageUrl": "/game-images/pacman.png",
     "category": "Arcade",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/pacman/index.html",
-    "tags": ["arcade", "puzzle", "retro", "maze"]
+    "tags": ["arcade", "puzzle", "retro", "maze"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "minecraft-1.12",
@@ -121,9 +624,10 @@
     "imageUrl": "/game-images/minecraft-1.12.jpg",
     "category": "Sandbox",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/minecraft-1.12/index.html",
-    "tags": ["sandbox", "building", "exploration", "multiplayer"]
+    "tags": ["sandbox", "building", "exploration", "multiplayer"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "jello-tetrix",
@@ -132,9 +636,10 @@
     "imageUrl": "/game-images/jello-tetrix.png",
     "category": "Puzzle",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/jello-tetrix/index.html",
-    "tags": ["puzzle", "blocks", "colorful", "casual"]
+    "tags": ["puzzle", "blocks", "colorful", "casual"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "google-snake",
@@ -143,9 +648,10 @@
     "imageUrl": "/game-images/google-snake.png",
     "category": "Arcade",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/google-snake/index.html",
-    "tags": ["arcade", "snake", "classic", "casual"]
+    "tags": ["arcade", "snake", "classic", "casual"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "flappy-bird",
@@ -154,11 +660,20 @@
     "imageUrl": "/game-images/flappy-bird.jpg",
     "category": "Arcade",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/flappy-bird/index.html",
     "tags": ["arcade", "endless runner", "obstacle", "casual"],
-    "localStorageKeys": [
-      "Flappy Bird Best Score"
+    "localStorageKeys": ["Flappy Bird Best Score"],
+    "releaseDate": "2025-05-27 21:45:00",
+    "leaderboardConfigs": [
+      {
+        "id": "main_score",
+        "displayName": "High Score",
+        "localStorageKey": "Flappy Bird Best Score",
+        "scoreType": "number",
+        "unit": "number",
+        "sortOrder": "high-to-low"
+      }
     ]
   },
   {
@@ -168,10 +683,9 @@
     "imageUrl": "/game-images/crossy-road.jpg",
     "category": "Arcade",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/crossy-road/index.html",
     "tags": ["arcade", "endless runner", "obstacle", "casual"],
-
     "localStorageKeys": [
       "coins",
       "crossyScore",
@@ -183,7 +697,18 @@
       "lastGiftTime",
       "second_round_started",
       "selectedChar"
-    ]
+    ],
+    "leaderboardConfigs": [
+      {
+        "id": "main_score",
+        "displayName": "High Score",
+        "localStorageKey": "crossyScore",
+        "scoreType": "number",
+        "unit": "number",
+        "sortOrder": "high-to-low"
+      }
+    ],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "boxing-random",
@@ -192,9 +717,10 @@
     "imageUrl": "/game-images/boxing-random.png",
     "category": "Sports",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/boxing-random/index.html",
-    "tags": ["boxing", "random", "multiplayer", "fun"]
+    "tags": ["boxing", "random", "multiplayer", "fun"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "block-blast",
@@ -203,9 +729,10 @@
     "imageUrl": "/game-images/block-blast.jpg",
     "category": "Puzzle",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/block-blast/index.html",
-    "tags": ["puzzle", "match", "blocks", "casual"]
+    "tags": ["puzzle", "match", "blocks", "casual"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "basket-random",
@@ -214,9 +741,23 @@
     "imageUrl": "/game-images/basket-random.png",
     "category": "Sports",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/basket-random/index.html",
-    "tags": ["basketball", "random", "multiplayer", "fun"]
+    "tags": ["basketball", "random", "multiplayer", "fun"],
+    "releaseDate": "2025-05-27 21:45:00"
+  },
+  {
+    "id": "moto-x3m",
+    "name": "Moto X3M",
+    "description": "Moto X3M is a thrilling motorcycle racing game where players navigate through challenging tracks filled with obstacles and stunts.",
+    "imageUrl": "/game-images/moto-x3m.jpg",
+    "category": "Racing",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/moto-x3m/index.html",
+    "tags": ["racing", "motorcycle", "obstacle", "stunts"],
+    "localStorageKeys": ["mx3m_poki", "mx3m_pokih"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "moto-x3m-winter",
@@ -225,14 +766,11 @@
     "imageUrl": "/game-images/moto-x3m-winter.jpg",
     "category": "Racing",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/moto-x3m-winter/index.html",
     "tags": ["racing", "motorcycle", "obstacle", "stunts"],
-
-    "localStorageKeys": [
-      "mx3m_4_gd",
-      "mx3m_4_gdh"
-    ]
+    "localStorageKeys": ["mx3m_4_gd", "mx3m_4_gdh"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "moto-x3m-2",
@@ -241,16 +779,16 @@
     "imageUrl": "/game-images/moto-x3m-2.jpg",
     "category": "Racing",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/moto-x3m-2/index.html",
     "tags": ["racing", "motorcycle", "obstacle", "stunts"],
-
     "localStorageKeys": [
       "mx3m2sf2sfx",
       "mx3m2sf2sfxh",
       "mx3m2sf2_vseigru",
       "mx3m2sf2_vseigruh"
-    ]
+    ],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "moto-x3m-spooky",
@@ -259,11 +797,11 @@
     "imageUrl": "/game-images/moto-x3m-spooky.jpg",
     "category": "Racing",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/moto-x3m-spooky/index.html",
     "tags": ["racing", "motorcycle", "obstacle", "stunts"],
-
-    "localStorageKeys": ["mx3m_6_pk", "mx3m_6_pkh"]
+    "localStorageKeys": ["mx3m_6_pk", "mx3m_6_pkh"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "moto-x3m-pool",
@@ -272,22 +810,23 @@
     "imageUrl": "/game-images/moto-x3m-pool.png",
     "category": "Racing",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/moto-x3m-pool/index.html",
     "tags": ["racing", "motorcycle", "obstacle", "stunts"],
-
-    "localStorageKeys": ["mx3m_5_pk", "mx3m_5_pkh"]
+    "localStorageKeys": ["mx3m_5_pk", "mx3m_5_pkh"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "1v1-lol",
     "name": "1v1.lol",
-    "description": "1v1.lol is a multiplayer online battle royale game where players can build, shoot, and outsmart their opponents in a 1v1 showdown.",
+    "description": "1v1.lol is a multiplayer online battle royale game where players can build, shoot, and outsmart their opponents in a 1v1 showdown. NOTE: So i have modified the backend using my own firebase database and other endpoints using a service worker. After a match you will be logged out and you will have to log back in. this took like 2 days so pay me nowwwwww",
     "imageUrl": "/game-images/1v1-lol.png",
     "category": "Multiplayer",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/1v1-lol/index.html",
-    "tags": ["battle royale", "multiplayer", "shooter", "strategy"]
+    "tags": ["battle royale", "multiplayer", "shooter", "strategy"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "paper-io",
@@ -296,9 +835,10 @@
     "imageUrl": "/game-images/paper-io.png",
     "category": "Multiplayer",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/paper-io/index.html",
-    "tags": ["multiplayer", "territory", "strategy", "action"]
+    "tags": ["multiplayer", "territory", "strategy", "action"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "retro-bowl",
@@ -307,13 +847,14 @@
     "imageUrl": "/game-images/retro-bowl.png",
     "category": "Sports",
     "rating": 4.8,
-    "visits": 152043,
+    "visits": 0,
     "sourceUrl": "/g/source/retro-bowl/index.html",
     "tags": ["football", "sports", "retro", "management"],
     "localStorageKeys": [
       "MadeinGameMakerStudio2.0.optiondata.dat",
       "MadeinGameMakerStudio2.0.savedata.ini"
-    ]
+    ],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "slope",
@@ -322,9 +863,10 @@
     "imageUrl": "/game-images/slope.jpg",
     "category": "Arcade",
     "rating": 4.5,
-    "visits": 289567,
+    "visits": 0,
     "sourceUrl": "/g/source/slope/index.html",
-    "tags": ["3d", "endless runner", "fast paced", "skill"]
+    "tags": ["3d", "endless runner", "fast paced", "skill"],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "cookie-clicker",
@@ -333,11 +875,21 @@
     "imageUrl": "/game-images/cookie-clicker.png",
     "category": "Idle",
     "rating": 4.2,
-    "visits": 350112,
+    "visits": 0,
     "sourceUrl": "/g/source/cookie-clicker/index.html",
     "tags": ["idle", "clicker", "incremental", "casual"],
-
-    "localStorageKeys": ["CookieClickerGame", "CookieClickerLang"]
+    "localStorageKeys": ["CookieClickerGame", "CookieClickerLang", "cookieClickerScore"],
+    "leaderboardConfigs": [
+      {
+        "id": "main_score",
+        "displayName": "High Score",
+        "localStorageKey": "cookieClickerScore",
+        "scoreType": "number",
+        "sortOrder": "high-to-low",
+        "scoreMultiplier": 1
+      }
+    ],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "drift-boss",
@@ -346,15 +898,26 @@
     "imageUrl": "/game-images/drift-boss.png",
     "category": "Racing",
     "rating": 4.6,
-    "visits": 198754,
+    "visits": 0,
     "sourceUrl": "/g/source/drift-boss/index.html",
     "tags": ["racing", "drifting", "cars", "skill"],
-
     "localStorageKeys": [
       "mjs-drift-boss-game-v1.0.1-dailyreward",
       "_secure__ls__metadata",
       "keac7u"
-    ]
+    ],
+    "leaderboardConfigs": [
+      {
+        "id": "main_score",
+        "displayName": "High Score",
+        "localStorageKey": "mjs-drift-boss-game-v1.0.1-dailyreward",
+        "scoreType": "jsonPath",
+        "scorePath": "score",
+        "sortOrder": "high-to-low",
+        "scoreMultiplier": 1
+      }
+    ],
+    "releaseDate": "2025-05-27 21:45:00"
   },
   {
     "id": "tetris",
@@ -363,8 +926,9 @@
     "imageUrl": "/game-images/tetris.png",
     "category": "Puzzle",
     "rating": 4.9,
-    "visits": 410239,
+    "visits": 0,
     "sourceUrl": "/g/source/tetris/index.html",
-    "tags": ["puzzle", "classic", "retro", "blocks"]
+    "tags": ["puzzle", "classic", "retro", "blocks"],
+    "releaseDate": "2025-05-27 21:45:00"
   }
 ]

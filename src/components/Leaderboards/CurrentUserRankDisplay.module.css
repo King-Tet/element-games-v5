@@ -1,0 +1,63 @@
+/* src/components/Leaderboards/CurrentUserRankDisplay.module.css */
+.currentUserContainer {
+    margin-top: 25px;
+    padding: 15px;
+    background-color: var(--nav-col); /* Slightly different background */
+    border: 1px solid var(--accent-color); /* Highlight border */
+    border-radius: var(--border-radius);
+}
+
+.title {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.highlightRow {
+    background-color: var(--hover-col); /* Highlight the row slightly */
+    border-bottom: none !important; /* Remove bottom border if using tableRow style */
+    margin-bottom: 0 !important; /* Remove margin if using tableRow style */
+    padding: 12px 8px !important; /* Adjust padding if needed */
+    border-radius: var(--border-radius); /* Add radius to the row itself */
+}
+
+/* Adjustments for horizontal layout within the row */
+.rank {
+    /* Style rank specifically if needed */
+    font-size: 1.2em;
+}
+.statItem {
+     display: flex;
+     align-items: center;
+     gap: 4px;
+     justify-content: flex-end; /* Align stats right */
+}
+ .statItem svg {
+     font-size: 0.9em;
+     opacity: 0.8;
+ }
+ .score {
+      font-size: 1.2em;
+ }
+
+/* Responsive adjustments if needed */
+ @media (max-width: 600px) {
+     .highlightRow {
+         flex-wrap: wrap; /* Allow wrapping */
+         padding: 10px !important;
+     }
+      .statItem {
+          width: 48%; /* Two stats per line approx */
+          justify-content: flex-start;
+          font-size: 0.8em;
+          margin-top: 5px;
+      }
+       .score {
+            width: 100%;
+            text-align: right;
+            margin-top: 8px;
+       }
+ }

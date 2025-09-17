@@ -1,187 +1,195 @@
-.page {
-  --gray-rgb: 0, 0, 0;
-  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
-  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-
-  display: grid;
-  grid-template-rows: 20px 1fr 20px;
-  align-items: center;
-  justify-items: center;
-  min-height: 100svh;
-  padding: 80px;
-  gap: 64px;
-  font-family: var(--font-geist-sans);
-}
-
-@media (prefers-color-scheme: dark) {
-  .page {
-    --gray-rgb: 255, 255, 255;
-    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
-    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
+/* src/app/HomePage.module.css */
+.homeContainer {
+    padding: 10px 0; /* Reduced top/bottom padding within main layout */
   }
-}
-
-.main {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  grid-row-start: 2;
-}
-
-.main ol {
-  font-family: var(--font-geist-mono);
-  padding-left: 0;
-  margin: 0;
-  font-size: 14px;
-  line-height: 24px;
-  letter-spacing: -0.01em;
-  list-style-position: inside;
-}
-
-.main li:not(:last-of-type) {
-  margin-bottom: 8px;
-}
-
-.main code {
-  font-family: inherit;
-  background: var(--gray-alpha-100);
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-.ctas {
-  display: flex;
-  gap: 16px;
-}
-
-.ctas a {
-  appearance: none;
-  border-radius: 128px;
-  height: 48px;
-  padding: 0 20px;
-  border: none;
-  border: 1px solid transparent;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 500;
-}
-
-a.primary {
-  background: var(--foreground);
-  color: var(--background);
-  gap: 8px;
-}
-
-a.secondary {
-  border-color: var(--gray-alpha-200);
-  min-width: 158px;
-}
-
-.footer {
-  grid-row-start: 3;
-  display: flex;
-  gap: 24px;
-}
-
-.footer a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.footer img {
-  flex-shrink: 0;
-}
-
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
+  
+  .section {
+    margin-bottom: 40px;
   }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
+  
+  .sectionTitle {
+    font-size: 1.6rem;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-col);
   }
-
-  .footer a:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
+  
+  /* Game Grid */
+  .gameGrid {
+    display: grid;
+    /* This creates a responsive grid that will show between 4 and 6 columns on most screen sizes,
+       ensuring the cards have a consistent minimum width. */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
   }
-}
-
-@media (max-width: 600px) {
-  .page {
-    padding: 32px;
-    padding-bottom: 80px;
+  
+  
+  /* Home Page Game Card (styles for cards specifically on the homepage) */
+  /* Note: These styles rely on the structure of the GameCard component. */
+  .gameCard {
+    background-color: var(--card-col);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid var(--border-col);
   }
-
-  .main {
-    align-items: center;
+  
+  .gameCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   }
-
-  .main ol {
+  
+  .gameCardImage {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3; /* A good aspect ratio for grid cards */
+    object-fit: cover;
+    background-color: var(--nav-col); /* Placeholder bg */
+  }
+  
+  .gameCardTitle {
+    padding: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-align: center;
   }
-
-  .ctas {
-    flex-direction: column;
+  
+  /* Proxy Section */
+  .proxySection {
+      background-color: var(--nav-col); /* Distinct background */
+      padding: 25px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-col);
+  }
+  
+  .proxySection .sectionTitle {
+      border-bottom: none; /* Remove border for title in this section */
+      margin-bottom: 10px;
+      text-align: center;
+  }
+  
+  .proxyDescription {
+      text-align: center;
+      color: var(--text-sec-col);
+      margin-bottom: 20px;
+  }
+  
+  .proxyForm {
+      display: flex;
+      gap: 10px;
+      max-width: 600px;
+      margin: 0 auto; /* Center form */
+  }
+  
+  .proxyInput {
+      flex-grow: 1;
+      padding: 12px 15px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-col);
+      background-color: var(--input-col);
+      color: var(--text-primary);
+      font-size: 1rem;
+  }
+  .proxyInput:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(255, 202, 40, 0.3);
+  }
+  
+  .proxyButton {
+      padding: 0 25px;
+      border: none;
+      border-radius: var(--border-radius);
+      background-color: var(--primary-button-bg);
+      color: var(--primary-button-text);
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+  }
+  .proxyButton:hover {
+      background-color: var(--primary-button-hover-bg);
+  }
+  
+  
+  /* Tools Section */
+  .toolsGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Small icons */
+      gap: 20px;
+      margin-bottom: 20px;
+  }
+  
+  .toolLink {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text-sec-col);
+      transition: color 0.2s ease;
+      padding: 10px;
+      border-radius: var(--border-radius);
+  }
+  .toolLink:hover {
+      color: var(--text-primary);
+      background-color: var(--hover-col);
+  }
+  
+  
+  .toolIconWrapper {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: var(--card-col);
+      border: 1px solid var(--border-col);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      font-size: 1.5rem; /* Placeholder icon size */
+      color: var(--accent-color); /* Placeholder icon color */
+  }
+  
+  .toolName {
+      font-size: 0.85rem;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100px; /* Prevent overly long names */
+  }
+  
+  .toolIconPlaceholder {
+      /* Styles for the fallback text icon if needed */
+      font-weight: bold;
+  }
+  
+  .viewAllLink {
+      display: block;
+      text-align: right;
+      margin-top: 15px;
+      color: var(--text-link);
+      font-weight: 500;
+  }
+  .viewAllLink:hover {
+      text-decoration: underline;
   }
 
-  .ctas a {
-    font-size: 14px;
-    height: 40px;
-    padding: 0 16px;
-  }
-
-  a.secondary {
-    min-width: auto;
-  }
-
-  .footer {
-    flex-wrap: wrap;
+  /* --- NEW Styles for Loading/Empty states --- */
+.loadingText, .noItemsText {
+    padding: 20px 10px;
+    text-align: center;
+    color: var(--text-sec-col);
+    font-style: italic;
+    min-height: 50px; /* Give it some space */
+    display: flex;
     align-items: center;
     justify-content: center;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
-}
-
-.viewAllLink {
-  display: block; /* Make it block level */
-  text-align: right;
-  margin-top: 15px;
-  color: var(--text-link);
-  font-weight: 500;
-  text-decoration: none;
-  padding: 5px 0; /* Add some clickable area */
-}
-.viewAllLink:hover {
-  text-decoration: underline;
-}
-
-/* Specific spacing for the games link */
-.viewAllGames {
-  margin-top: 20px; /* More space after the game grid */
-}
-/* Specific spacing for the tools link */
-.viewAllTools {
-  margin-top: 15px; /* Space after tool grid */
 }

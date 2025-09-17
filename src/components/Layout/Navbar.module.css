@@ -1,8 +1,4 @@
-/* src/components/Layout/Navbar.module.css */
-
-/* --- Existing Navbar Styles --- */
 .navbar {
-    /* ... keep existing styles ... */
     display: flex;
     align-items: center;
     justify-content: space-between;

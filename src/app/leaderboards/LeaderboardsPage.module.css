@@ -1,0 +1,225 @@
+/* src/app/leaderboards/LeaderboardsPage.module.css */
+
+.pageContainer {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+.pageHeader {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.pageHeader h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 5px 0;
+}
+.pageHeader p {
+    font-size: 1.1rem;
+    color: var(--text-sec-col);
+    margin: 0;
+}
+
+.controlsContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-col);
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    background-color: var(--nav-col);
+    padding: 6px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-col);
+}
+
+.tabs button {
+    background-color: transparent;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-sec-col);
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.tabs button:hover:not(.active) {
+    background-color: var(--hover-col);
+    color: var(--text-primary);
+}
+.tabs button.active {
+    background-color: var(--accent-color);
+    color: var(--primary-button-text);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.userSearchContainer {
+    display: flex;
+    flex-grow: 1;
+    max-width: 350px;
+}
+.userSearchContainer form {
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+.searchInput {
+    width: 100%;
+    padding: 10px 40px 10px 15px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-col);
+    background-color: var(--input-col);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+.searchInput:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+.searchButton {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-sec-col);
+    cursor: pointer;
+    padding: 5px;
+    font-size: 1.2rem;
+}
+.searchButton:hover:not(:disabled) {
+    color: var(--accent-color);
+}
+.searchButton:disabled {
+    cursor: not-allowed;
+}
+
+.searchResultText {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    background-color: var(--nav-col);
+    border: 1px solid var(--border-col);
+}
+
+.contentContainer {
+    background-color: var(--card-col);
+    border: 1px solid var(--border-col);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    min-height: 400px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.loadingState, .errorState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  color: var(--text-sec-col);
+  font-style: italic;
+  gap: 10px;
+}
+.errorState {
+  color: var(--danger-color);
+  font-weight: 500;
+  font-style: normal;
+}
+.spinner {
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+
+.gameLinkGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    padding: 10px;
+}
+
+.gameLinkCard {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: var(--nav-col);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-col);
+    padding: 12px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.gameLinkCard:hover {
+    background-color: var(--hover-col);
+    transform: translateY(-3px);
+    border-color: var(--text-sec-col);
+}
+
+.gameLinkImage {
+    width: 60px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.gameLinkName {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.gameLinkIcon {
+    color: var(--text-sec-col);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.noItemsMessage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 200px;
+    color: var(--text-sec-col);
+    font-style: italic;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .controlsContainer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .userSearchContainer {
+        max-width: none;
+    }
+    .pageHeader h1 {
+        font-size: 2.2rem;
+    }
+    .pageHeader p {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,49 @@
+/* src/components/Ads/AdPlaceholder.module.css */
+.adPlaceholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--nav-col); /* Use a subtle background */
+    border: 1px dashed var(--border-col); /* Dashed border to indicate placeholder */
+    border-radius: var(--border-radius);
+    color: var(--text-sec-col);
+    font-size: 0.9rem;
+    text-align: center;
+    overflow: hidden; /* Hide overflow */
+    box-sizing: border-box;
+    /* Default minimums - will be overridden by specific placements */
+    min-width: 100px;
+    min-height: 50px;
+    width: 100%; /* Default to full width of container */
+    margin: 15px 0; /* Default vertical margin */
+  }
+  
+  /* Add specific min-heights based on common ad sizes */
+  /* These help prevent Cumulative Layout Shift (CLS) */
+  
+  /* Horizontal Banners */
+  .sizeLeaderboard { min-height: 90px; }
+  .sizeLargeLeaderboard { min-height: 90px; } /* Often same height */
+  .sizeBillboard { min-height: 250px; }
+  .sizeBanner { min-height: 60px; }
+  .sizeMobileBanner { min-height: 50px; }
+  .sizeLargeMobileBanner { min-height: 100px; }
+  
+  /* Square/Rectangle */
+  .sizeMediumRectangle { min-height: 250px; min-width: 300px; width: auto; /* Allow natural width up to container */ }
+  .sizeLargeRectangle { min-height: 280px; min-width: 336px; width: auto; }
+  .sizeSquare { min-height: 250px; min-width: 250px; width: auto; }
+  
+  /* Vertical Banners */
+  .sizeSkyscraper { min-height: 600px; min-width: 120px; width: 160px; } /* Fixed width often better */
+  .sizeWideSkyscraper { min-height: 600px; min-width: 160px; width: 160px; }
+  .sizeHalfPage { min-height: 600px; min-width: 300px; width: 300px; }
+  
+  /* Responsive - Use min-height of common mobile/desktop sizes */
+  .sizeResponsiveHorizontal { min-height: 90px; } /* Default to leaderboard height */
+  .sizeResponsiveVertical { min-height: 250px; min-width: 160px; } /* Default to common vertical/rect */
+  
+  /* Hide placeholder on very small screens if needed */
+  /* @media (max-width: 400px) {
+      .adPlaceholder { display: none; }
+  } */

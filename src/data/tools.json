@@ -2,7 +2,7 @@
     {
       "id": "calculator",
       "name": "Simple Calculator",
-      "description": "A basic calculator for everyday arithmetic operations.",
+      "description": "A basic calculator for normal math.",
       "iconName": "FiCalculator",
       "category": "Utilities",
       "sourceType": "component",
@@ -12,7 +12,7 @@
     {
       "id": "color-picker",
       "name": "Color Picker",
-      "description": "An interactive color picker to select HSL, RGB, and Hex values.",
+      "description": "Sorry if it sucks, I was using an external library and it is like 4 years old lmao, but it works good so ya.",
       "iconName": "FiEdit3",
       "category": "Development",
       "sourceType": "iframe",
@@ -20,28 +20,28 @@
       "tags": ["design", "webdev", "css", "hex", "rgb"]
     },
     {
-      "id": "lorem-ipsum",
-      "name": "Lorem Ipsum Generator",
-      "description": "Generate placeholder text for your design mockups.",
-      "iconName": "FiFileText",
-      "category": "Development",
-      "sourceType": "component",
-      "sourcePath": "/t/lorem-ipsum",
-      "tags": ["text", "placeholder", "generator", "design"]
+      "id": "advanced-calculator",
+      "name": "Advanced Calculator",
+      "description": "A calculator with advanced functions like trigonometry and logarithms.",
+      "iconName": "FiHash",
+      "category": "Utilities",
+      "sourceType": "iframe",
+      "sourcePath": "/t/source/advanced-calculator/index.html",
+      "tags": ["math", "advanced", "trigonometry", "logarithm"]
     },
     {
-      "id": "external-ai-writer",
-      "name": "Example AI Writer (External)",
-      "description": "An example link to an external AI writing assistant tool.",
-      "iconName": "FiExternalLink",
-      "category": "AI",
+      "id": "google-translate",
+      "name": "Google Translate",
+      "description": "Translate text between different languages. And use Googles TTS system.",
+      "iconName": "FiGlobe",
+      "category": "Utilities",
       "sourceType": "external",
-      "sourcePath": "https://chat.openai.com/",
-      "tags": ["ai", "writing", "content", "external"]
+      "sourcePath": "https://translate.google.com/?sl=es&tl=en&text=qu%C3%A9%20pasa%20g&op=translate",
+      "tags": ["translation", "language", "google", "tts"]
     },
     {
       "id": "unit-converter",
-      "name": "Unit Converter (Iframe)",
+      "name": "Unit Converter",
       "description": "Convert various units like length, weight, and temperature.",
       "iconName": "FiRefreshCw",
       "category": "Utilities",

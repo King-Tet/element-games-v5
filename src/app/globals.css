@@ -1,8 +1,72 @@
 /* src/app/globals.css */
 :root {
   /* --- Dark Theme (Default) --- */
-  --background-main-dark: #1a1a1a;
-  --background-nav-dark: #252525;
+  --background-main-dark: #09090b;
+  --background-nav-dark: #09090b;
+  --background-card-dark: #211d28;
+  --background-hover-dark: #3a3a3a;
+  --background-input-dark: #211d28;
+
+  --text-primary-dark: #e0e0e0;
+  --text-secondary-dark: #b0b0b0;
+  --text-placeholder-dark: #888888;
+  --text-link-dark: #8fa1be;
+
+  --border-color-dark: #444444;
+
+  /* --- Light Theme --- */
+  --background-main-light: #e8eaec;
+  --background-nav-light: #ffffff;
+  --background-card-light: #ffffff;
+  --background-hover-light: #eeeeee;
+  --background-input-light: #f0f0f0; /* Slightly off-white for inputs */
+
+  --text-primary-light: #212121;
+  --text-secondary-light: #616161; /* Darker secondary text */
+  --text-placeholder-light: #bdbdbd;
+  --text-link-light: #1976d2; /* Standard blue link */
+
+  --border-color-light: #e0e0e0;
+
+  /* --- Shared Variables --- */
+  --border-radius: 10px;
+  --accent-color: #9c2222;
+  --primary-button-bg: #039be5;
+  --primary-button-text: #ffffff;
+  --primary-button-hover-bg: #0277bd;
+  --danger-color: #f44336;
+  --danger-hover-color: #d32f2f;
+  --navbar-height: 60px;
+  --sidebar-width-open: 240px;
+  --sidebar-width-closed: 70px;
+
+  /* --- Default Theme Application (Dark) --- */
+  color-scheme: dark;
+  --bg-col: var(--background-main-dark);
+  --nav-col: var(--background-nav-dark);
+  --card-col: var(--background-card-dark);
+  --hover-col: var(--background-hover-dark);
+  --input-col: var(--background-input-dark);
+  --text-col: var(--text-primary-dark);
+  --text-sec-col: var(--text-secondary-dark);
+  --text-placeholder: var(--text-placeholder-dark);
+  --text-link: var(--text-link-dark);
+  --border-col: var(--border-color-dark);
+
+  /* --- Card Specific Variables (Dark) --- */
+  --card-bg: var(--card-col);
+  --card-text-primary: var(--text-col);
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --card-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.3);
+  --category-text: #ffffff;
+  --category-bg-default: #495057;
+  --category-border: rgba(197, 197, 197, 0.2);
+}
+
+.stream {
+  /* --- Dark Theme (Default) --- */
+  --background-main-dark: #0a0a0a;
+  --background-nav-dark: #0e0e0e;
   --background-card-dark: #2f2f2f;
   --background-hover-dark: #3a3a3a;
   --background-input-dark: #333333;
@@ -30,7 +94,7 @@
 
   /* --- Shared Variables --- */
   --border-radius: 6px;
-  --accent-color: #ffca28;
+  --accent-color: #9c2222;
   --primary-button-bg: #039be5;
   --primary-button-text: #ffffff;
   --primary-button-hover-bg: #0277bd;
@@ -67,6 +131,15 @@ html[data-theme='light'] {
   --text-placeholder: var(--text-placeholder-light);
   --text-link: var(--text-link-light);
   --border-col: var(--border-color-light);
+
+  /* --- Card Specific Variables (Light) --- */
+  --card-bg: var(--card-col);
+  --card-text-primary: var(--text-col);
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.15);
+  --category-text: #ffffff;
+  --category-bg-default: #6c757d;
+  --category-border: rgba(0, 0, 0, 0.1);
 }
 
 

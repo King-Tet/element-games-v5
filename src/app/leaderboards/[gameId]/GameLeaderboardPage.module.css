@@ -1,0 +1,123 @@
+/* src/app/leaderboards/[gameId]/GameLeaderboardPage.module.css */
+.pageContainer {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-link);
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    padding: 6px 10px;
+    border-radius: var(--border-radius);
+}
+.backLink:hover {
+    background-color: var(--hover-col);
+    text-decoration: none;
+}
+
+.pageHeader {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.gameImage {
+    width: 100px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-col);
+    flex-shrink: 0;
+}
+
+.headerText h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    color: var(--text-primary);
+}
+.headerText .pageSubtitle {
+    color: var(--text-sec-col);
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.levelSelector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-col);
+}
+.levelButton {
+    background-color: var(--nav-col);
+    border: 1px solid var(--border-col);
+    color: var(--text-sec-col);
+    padding: 8px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.levelButton:hover {
+    background-color: var(--hover-col);
+    color: var(--text-primary);
+}
+.levelButton.active {
+    background-color: var(--accent-color);
+    color: var(--primary-button-text);
+    border-color: var(--accent-color);
+}
+
+.leaderboardWrapper {
+    background-color: var(--card-col);
+    border: 1px solid var(--border-col);
+    border-radius: var(--border-radius);
+    padding: 10px;
+    min-height: 200px;
+}
+
+.loadingState, .errorState, .noScores {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    min-height: 150px;
+    color: var(--text-sec-col);
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+.errorState {
+    color: var(--danger-color);
+    font-weight: 500;
+    font-style: normal;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Responsive */
+@media (max-width: 600px) {
+    .pageHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        gap: 15px;
+    }
+    .headerText h1 {
+        font-size: 1.8rem;
+    }
+}

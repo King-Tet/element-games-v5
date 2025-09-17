@@ -3,12 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Picker Tool Placeholder</title>
-    <style>
-        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #eee; color: #333; font-family: sans-serif; text-align: center; }
-    </style>
+    <title> Color Picker</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Color Picker Tool<br>(Placeholder - Static Files Go Here)</h1>
+    <div class="color-picker-container">
+        <h1>Color Picker</h1>
+
+        <!-- Solid Color Picker Section -->
+        <section class="picker-section solid-color-section">
+            <h2>Solid Color</h2>
+            <div class="iro-picker-wrapper">
+                 <!-- iro.js color wheel will mount here -->
+                 <div class="color-picker-wheel" id="color-picker-wheel"></div>
+            </div>
+            <div class="color-values">
+                <div class="value-group">
+                    <label for="hex-input">HEX:</label>
+                    <input type="text" id="hex-input" readonly>
+                    <button class="copy-button" data-target="hex-input" title="Copy HEX">Copy</button>
+                </div>
+                <div class="value-group">
+                    <label for="rgb-input">RGB:</label>
+                    <input type="text" id="rgb-input" readonly>
+                    <button class="copy-button" data-target="rgb-input" title="Copy RGB">Copy</button>
+                </div>
+                 <div class="value-group">
+                    <label for="hsv-input">HSV:</label>
+                    <input type="text" id="hsv-input" readonly>
+                    <button class="copy-button" data-target="hsv-input" title="Copy HSV">Copy</button>
+                </div>
+                <div class="color-preview" id="color-preview-box"></div>
+            </div>
+        </section>
+
+        <!-- Gradient Picker Section -->
+        <section class="picker-section gradient-section">
+            <h2>Gradient Creator</h2>
+            <div class="gradient-controls">
+                 <div class="control-group">
+                     <label for="gradient-type">Type:</label>
+                     <select id="gradient-type">
+                         <option value="linear">Linear</option>
+                         <option value="radial">Radial</option>
+                     </select>
+                 </div>
+                 <div class="control-group linear-controls">
+                     <label for="gradient-angle">Angle (Linear):</label>
+                     <input type="number" id="gradient-angle" value="90" min="0" max="360"> deg
+                 </div>
+                 <!-- Add controls for radial shape/position later if desired -->
+            </div>
+
+            <div class="gradient-preview" id="gradient-preview-box">
+                <p>Gradient Preview</p>
+            </div>
+
+            <div class="gradient-stops" id="gradient-stops-container">
+                <h3>Color Stops</h3>
+                {/* Color stops will be added here by JS */}
+            </div>
+
+            <div class="gradient-output">
+                <label for="gradient-css-output">CSS Output:</label>
+                <textarea id="gradient-css-output" rows="4" readonly></textarea>
+                <button class="copy-button" data-target="gradient-css-output" title="Copy CSS">Copy</button>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Load iro.js library -->
+    <script src="iro.min.js"></script>
+    <!-- Load your custom script -->
+    <script src="script.js"></script>
 </body>
 </html>

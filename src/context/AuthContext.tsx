@@ -1,98 +1,130 @@
-'use client'; // This context will be used in client components
+// src/context/AuthContext.tsx
+
+'use client';
 
 import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
+  createContext, useContext, useState, useEffect, ReactNode, useCallback
 } from 'react';
-import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithPopup,
-  GoogleAuthProvider,
-  signOut,
-  User, // Import the User type from firebase/auth
-} from 'firebase/auth';
-import { auth } from '@/lib/firebase/config'; // Import your initialized auth instance
+import { supabase } from '@/lib/supabase/client';
+import { User } from '@supabase/supabase-js';
+import { getUserProfileData } from '@/lib/supabase/db';
+import { UserProfileData } from '@/types/user';
 
 interface AuthContextType {
-  user: User | null; // Use the specific User type
+  user: User | null;
+  userProfile: UserProfileData | null;
   loading: boolean;
+  isAdmin: boolean;
+  requiresUsernameSetup: boolean;
   signInWithGoogle: () => Promise<void>;
   signOutUser: () => Promise<void>;
+  reloadUserProfile: () => Promise<void>;
+  profileVersion: number; // For cache-busting
 }
 
-// Create the context with a default value
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-interface AuthProviderProps {
-  children: ReactNode;
-}
+interface AuthProviderProps { children: ReactNode; }
+const adminUids = (process.env.NEXT_PUBLIC_ADMIN_UIDS || '').split(',');
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true); // Start loading until auth state is confirmed
+  const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [requiresUsernameSetup, setRequiresUsernameSetup] = useState(false);
+  const [profileVersion, setProfileVersion] = useState(0); // State for cache busting
+
+  const fetchUserProfile = useCallback(async (supabaseUser: User | null) => {
+    setIsAdmin(false);
+    setRequiresUsernameSetup(false);
+    setUserProfile(null);
+
+    if (supabaseUser) {
+      if (adminUids.includes(supabaseUser.id)) {
+        setIsAdmin(true);
+      }
+      try {
+        const profileData = await getUserProfileData(supabaseUser.id);
+        if (profileData) {
+          setUserProfile(profileData);
+          if (!profileData.username) {
+            setRequiresUsernameSetup(true);
+          }
+        } else {
+          setRequiresUsernameSetup(true);
+        }
+      } catch (error) {
+         console.error("[AuthContext] Error fetching user profile:", error);
+      }
+    }
+  }, []);
 
   useEffect(() => {
-    // Listener for authentication state changes
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser); // Set user to the logged-in user or null
-      setLoading(false); // Auth state determined, stop loading
+    setLoading(true);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      const currentUser = session?.user ?? null;
+      
+      if (JSON.stringify(user) !== JSON.stringify(currentUser)) {
+        setUser(currentUser);
+        if (currentUser) {
+            await fetchUserProfile(currentUser);
+        } else {
+            setUserProfile(null);
+            setIsAdmin(false);
+            setRequiresUsernameSetup(false);
+        }
+      }
+      setLoading(false);
     });
 
-    // Cleanup listener on component unmount
-    return () => unsubscribe();
-  }, []); // Empty dependency array ensures this runs only once on mount
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [fetchUserProfile, user]);
 
-  const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      setLoading(true); // Optionally set loading during sign-in process
-      await signInWithPopup(auth, provider);
-      // onAuthStateChanged will handle setting the user state
-    } catch (error) {
-      console.error("Error signing in with Google:", error);
-      // Handle specific errors (e.g., popup closed, network error) if needed
-      setLoading(false); // Ensure loading is reset on error
-    }
-    // setLoading(false); // loading will be set to false by onAuthStateChanged
+  const signInWithGoogle = async (): Promise<void> => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      }
+    });
   };
 
   const signOutUser = async () => {
-    try {
-      setLoading(true); // Optionally set loading during sign-out
-      await signOut(auth);
-      // onAuthStateChanged will handle setting the user state to null
-    } catch (error) {
-      console.error("Error signing out:", error);
-      setLoading(false); // Ensure loading is reset on error
-    }
-     // setLoading(false); // loading will be set to false by onAuthStateChanged
+    await supabase.auth.signOut();
+    setUser(null);
+    setUserProfile(null);
   };
+
+  const reloadUserProfile = useCallback(async () => {
+       if (user) {
+         setLoading(true);
+         await fetchUserProfile(user);
+         setProfileVersion(v => v + 1); // Increment version to trigger re-renders
+         setLoading(false);
+       }
+   }, [user, fetchUserProfile]);
 
   const value = {
     user,
+    userProfile,
     loading,
+    isAdmin,
+    requiresUsernameSetup,
     signInWithGoogle,
     signOutUser,
+    reloadUserProfile,
+    profileVersion, // Export new value
   };
 
-  // Provide the context value to children components
-  // Don't render children until initial loading is complete to prevent layout shifts
   return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
   );
 };
 
-// Custom hook to use the AuthContext
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+  if (context === undefined) { throw new Error('useAuth must be used within an AuthProvider'); }
   return context;
 };

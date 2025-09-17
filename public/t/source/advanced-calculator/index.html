@@ -1,0 +1,482 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter font as default */
+            overscroll-behavior: none; /* Prevent pull-to-refresh */
+        }
+        /* Custom scrollbar for better dark theme integration */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937; /* gray-800 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563; /* gray-600 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280; /* gray-500 */
+        }
+        /* Style for the canvas */
+        #graphCanvas {
+            border: 1px solid #4b5563; /* gray-600 */
+            border-radius: 0.5rem; /* rounded-lg */
+            background-color: #374151; /* gray-700 */
+        }
+        /* Style for calculator buttons */
+        .calc-button {
+            @apply bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200 ease-in-out text-xl shadow-md active:shadow-sm active:translate-y-px;
+        }
+        .calc-button-operator {
+            @apply bg-orange-600 hover:bg-orange-500;
+        }
+        .calc-button-special {
+             @apply bg-indigo-600 hover:bg-indigo-500;
+        }
+        .calc-button-symbol {
+            @apply bg-gray-600 hover:bg-gray-500 text-sm py-2 px-3;
+        }
+        /* Input field styling */
+        .input-field {
+            @apply bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 placeholder-gray-400;
+        }
+         /* Expression input styling */
+        #display {
+             @apply bg-gray-700 border border-gray-600 text-white text-2xl text-right rounded-lg p-4 mb-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full; /* Reduced bottom margin */
+        }
+        /* Result display styling */
+        #resultDisplay {
+            @apply bg-gray-800 text-gray-400 text-xl text-right rounded-lg p-3 mb-4 min-h-[3rem] w-full break-words; /* Allow long results to wrap */
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-neutral-900 text-gray-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-4xl bg-gray-800 rounded-xl shadow-2xl p-6 space-y-6">
+        <h1 class="text-3xl font-bold text-center text-white mb-6">Advanced Calculator</h1>
+
+        <div class="bg-gray-900 p-4 rounded-lg shadow-inner">
+            <h2 class="text-xl font-semibold mb-3 text-indigo-400">Expression Evaluator</h2>
+            <input type="text" id="display" placeholder="Enter expression...">
+            <div id="resultDisplay" class="text-right">=</div>
+            <p id="calcError" class="text-red-400 text-sm h-4 mb-3"></p> <div class="mb-4">
+                <h3 class="text-sm font-medium mb-2 text-gray-400">Insert Symbol:</h3>
+                <div class="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-2">
+                    <button class="calc-button calc-button-symbol" onclick="insertSymbol('pi')">π</button>
+                    <button class="calc-button calc-button-symbol" onclick="insertSymbol('sqrt(')">√</button>
+                    <button class="calc-button calc-button-symbol" onclick="insertSymbol('^')">^</button>
+                    <button class="calc-button calc-button-symbol" onclick="insertSymbol('e')">e</button>
+                    <button class="calc-button calc-button-symbol" onclick="insertSymbol('log10(')">log</button>
+                    <button class="calc-button calc-button-symbol" onclick="insertSymbol('log(')">ln</button>
+                    <button class="calc-button calc-button-symbol" onclick="insertSymbol('sin(')">sin</button>
+                    <button class="calc-button calc-button-symbol" onclick="insertSymbol('cos(')">cos</button>
+                    <button class="calc-button calc-button-symbol" onclick="insertSymbol('tan(')">tan</button>
+                    <button class="calc-button calc-button-symbol" onclick="insertSymbol('(')">(</button>
+                    <button class="calc-button calc-button-symbol" onclick="insertSymbol(')')">)</button>
+                    <button class="calc-button calc-button-symbol" onclick="insertSymbol('%')">%</button>
+                    <button class="calc-button calc-button-symbol" onclick="insertSymbol(' deg')">deg</button>
+                     <button class="calc-button calc-button-symbol" onclick="insertSymbol('abs(')">abs</button>
+                     <button class="calc-button calc-button-symbol" onclick="insertSymbol('!')">n!</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-4 gap-3">
+                <button class="calc-button calc-button-special" onclick="clearDisplay()">AC</button>
+                <button class="calc-button calc-button-special" onclick="backspace()">DEL</button>
+                 <button class="calc-button calc-button-special" onclick="appendToDisplay('%')">%</button>
+                <button class="calc-button calc-button-operator" onclick="appendToDisplay('/')">÷</button>
+
+                <button class="calc-button" onclick="appendToDisplay('7')">7</button>
+                <button class="calc-button" onclick="appendToDisplay('8')">8</button>
+                <button class="calc-button" onclick="appendToDisplay('9')">9</button>
+                <button class="calc-button calc-button-operator" onclick="appendToDisplay('*')">×</button>
+
+                <button class="calc-button" onclick="appendToDisplay('4')">4</button>
+                <button class="calc-button" onclick="appendToDisplay('5')">5</button>
+                <button class="calc-button" onclick="appendToDisplay('6')">6</button>
+                <button class="calc-button calc-button-operator" onclick="appendToDisplay('-')">−</button>
+
+                <button class="calc-button" onclick="appendToDisplay('1')">1</button>
+                <button class="calc-button" onclick="appendToDisplay('2')">2</button>
+                <button class="calc-button" onclick="appendToDisplay('3')">3</button>
+                <button class="calc-button calc-button-operator" onclick="appendToDisplay('+')">+</button>
+
+                <button class="calc-button col-span-2" onclick="appendToDisplay('0')">0</button>
+                <button class="calc-button" onclick="appendToDisplay('.')">.</button>
+                <button class="calc-button calc-button-operator" onclick="calculate()">=</button> </div>
+             </div>
+
+        <div class="bg-gray-900 p-4 rounded-lg shadow-inner mt-6">
+            <h2 class="text-xl font-semibold mb-3 text-indigo-400">Graphing Tool</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                <div class="space-y-4">
+                    <div>
+                        <label for="pointInput" class="block mb-1 text-sm font-medium text-gray-300">Plot Point (x,y):</label>
+                        <input type="text" id="pointInput" class="input-field" placeholder="e.g., 2, -3">
+                        <button class="mt-2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-lg transition duration-200 ease-in-out text-sm" onclick="plotPoint()">Plot Point</button>
+                    </div>
+                     <div>
+                        <label for="equationInput" class="block mb-1 text-sm font-medium text-gray-300">Plot Line (y = mx + b):</label>
+                        <div class="flex gap-2">
+                            <span class="p-2.5 text-white">y =</span>
+                            <input type="text" id="slopeInput" class="input-field w-16" placeholder="m">
+                            <span class="p-2.5 text-white">x +</span>
+                            <input type="text" id="interceptInput" class="input-field w-16" placeholder="b">
+                        </div>
+                        <button class="mt-2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-lg transition duration-200 ease-in-out text-sm" onclick="plotLine()">Plot Line</button>
+                    </div>
+                    <div>
+                         <label for="rangeInput" class="block mb-1 text-sm font-medium text-gray-300">Axis Range (-range to +range):</label>
+                         <input type="number" id="rangeInput" class="input-field w-24" value="10" min="1">
+                         <button class="mt-2 bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg transition duration-200 ease-in-out text-sm" onclick="updateGraphRange()">Update Range</button>
+                    </div>
+                    <button class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg transition duration-200 ease-in-out text-sm" onclick="clearGraph()">Clear Graph</button>
+                    <p id="graphError" class="text-red-400 text-sm mt-2 h-4"></p> </div>
+
+                <div class="w-full aspect-square">
+                     <canvas id="graphCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        const resultDisplay = document.getElementById('resultDisplay'); // Get the result display element
+        const calcError = document.getElementById('calcError');
+        const graphError = document.getElementById('graphError');
+        const canvas = document.getElementById('graphCanvas');
+        const ctx = canvas.getContext('2d');
+        let graphRange = 10;
+        let canvasSize = 0;
+        // No longer need isResultDisplayed flag
+
+        // --- Calculator Logic ---
+
+        // Clear result and error when user types in the expression box
+        display.addEventListener('input', () => {
+             resultDisplay.textContent = '='; // Reset result display
+             calcError.textContent = ''; // Clear error
+        });
+
+        // Calculate when Enter key is pressed in the expression box
+        display.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent default form submission/newline
+                calculate();
+            }
+        });
+
+
+        function appendToDisplay(value) {
+            display.value += value; // Append directly to the expression input
+            resultDisplay.textContent = '='; // Reset result display on modification
+            calcError.textContent = '';
+            display.focus(); // Keep focus on the input field
+        }
+
+        function insertSymbol(symbol) {
+             const start = display.selectionStart;
+             const end = display.selectionEnd;
+             const text = display.value;
+             display.value = text.substring(0, start) + symbol + text.substring(end);
+             // Move cursor after the inserted symbol
+             display.selectionStart = display.selectionEnd = start + symbol.length;
+             resultDisplay.textContent = '='; // Reset result display on modification
+             calcError.textContent = '';
+             display.focus(); // Keep focus on the input field
+        }
+
+        function clearDisplay() {
+            display.value = ''; // Clear expression input
+            resultDisplay.textContent = '='; // Reset result display
+            calcError.textContent = ''; // Clear error message
+            display.placeholder = 'Enter expression...'; // Reset placeholder
+            display.focus();
+        }
+
+        function backspace() {
+            const start = display.selectionStart;
+            const end = display.selectionEnd;
+
+            if (start === end && start > 0) {
+                // If no selection, delete character before cursor
+                display.value = display.value.substring(0, start - 1) + display.value.substring(end);
+                display.selectionStart = display.selectionEnd = start - 1;
+            } else {
+                // If text is selected, delete the selection
+                display.value = display.value.substring(0, start) + display.value.substring(end);
+                display.selectionStart = display.selectionEnd = start;
+            }
+
+            resultDisplay.textContent = '='; // Reset result display on modification
+            calcError.textContent = '';
+            if (display.value === '') {
+                 display.placeholder = 'Enter expression...';
+            }
+            display.focus();
+        }
+
+
+        function calculate() {
+            let expression = display.value.trim();
+            if (expression === '') {
+                resultDisplay.textContent = '='; // Clear result if input is empty
+                calcError.textContent = '';
+                return;
+            }
+
+            calcError.textContent = ''; // Clear previous errors
+            resultDisplay.textContent = '= ...'; // Indicate calculation is happening
+
+            try {
+                 // Pre-process expression for math.js compatibility
+                 expression = expression.replace(/÷/g, '/').replace(/×/g, '*');
+                 expression = expression.replace(/(\d+(\.\d+)?)!/g, (match, num) => `factorial(${num})`); // Handle decimals in factorial if needed, though typically integer
+                 expression = expression.replace(/(\d+)!/g, (match, num) => `factorial(${num})`); // Integer factorial
+                 expression = expression.replace(/%/g, ' mod ');
+
+                 // Use math.js for safe evaluation
+                 const result = math.evaluate(expression);
+
+                 if (!Number.isFinite(result)) {
+                     throw new Error("Result is undefined or infinite");
+                 }
+
+                 // Display result in the dedicated result area
+                 resultDisplay.textContent = `= ${result}`;
+            } catch (error) {
+                 console.error("Calculation Error:", error);
+                 console.error("Processed Expression:", expression);
+                 resultDisplay.textContent = '= Error'; // Show error indication in result area
+                 calcError.textContent = `Invalid Expression`; // Show specific error below
+            }
+            display.focus(); // Keep focus on the expression input
+        }
+
+        // --- Graphing Logic (remains unchanged) ---
+
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            if (!container.clientWidth || !container.clientHeight) {
+                 requestAnimationFrame(resizeCanvas);
+                 return;
+            }
+            const size = Math.min(container.clientWidth, 500);
+            canvasSize = Math.max(size, 100);
+            canvas.width = canvasSize;
+            canvas.height = canvasSize;
+            drawGraph();
+        }
+
+
+        function drawGraph() {
+            if (!ctx || canvasSize <= 0) return;
+
+            ctx.fillStyle = '#374151';
+            ctx.fillRect(0, 0, canvasSize, canvasSize);
+
+            ctx.strokeStyle = '#9ca3af';
+            ctx.lineWidth = 1;
+            ctx.font = `${Math.max(10, canvasSize * 0.03)}px Inter`;
+            ctx.fillStyle = '#d1d5db';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            const scale = canvasSize / (graphRange * 2);
+            const originX = canvasSize / 2;
+            const originY = canvasSize / 2;
+
+            ctx.beginPath();
+            ctx.moveTo(0, originY);
+            ctx.lineTo(canvasSize, originY);
+            ctx.moveTo(originX, 0);
+            ctx.lineTo(originX, canvasSize);
+            ctx.stroke();
+
+            ctx.strokeStyle = '#4b5563';
+            ctx.lineWidth = 0.5;
+            let gridStep = 1;
+            const minPixelsPerStep = 30;
+             if (scale > 0 && isFinite(scale)) {
+                 gridStep = Math.max(1, Math.ceil(graphRange / (canvasSize / minPixelsPerStep)));
+                  if (gridStep > 2 && gridStep < 5) gridStep = 5;
+                  else if (gridStep > 5) gridStep = Math.ceil(gridStep / 5) * 5;
+             } else {
+                 gridStep = Math.max(1, graphRange / 4); // Fallback grid step
+             }
+
+
+            for (let i = -graphRange; i <= graphRange; i += gridStep) {
+                 const val = parseFloat(i.toFixed(2));
+                 if (val === 0) continue;
+
+                 const xPixel = originX + val * scale;
+                 if (xPixel > 0 && xPixel < canvasSize) {
+                    ctx.beginPath();
+                    ctx.moveTo(xPixel, 0);
+                    ctx.lineTo(xPixel, canvasSize);
+                    ctx.stroke();
+                    ctx.fillText(val.toString(), xPixel, originY + canvasSize * 0.04);
+                 }
+
+                 const yPixel = originY - val * scale;
+                 if (yPixel > 0 && yPixel < canvasSize) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, yPixel);
+                    ctx.lineTo(canvasSize, yPixel);
+                    ctx.stroke();
+                    ctx.fillText(val.toString(), originX - canvasSize * 0.04, yPixel);
+                 }
+            }
+             ctx.strokeStyle = '#9ca3af';
+             ctx.lineWidth = 1;
+
+            plotElements.forEach(el => {
+                if (el.type === 'point') {
+                    drawPoint(el.x, el.y, el.color);
+                } else if (el.type === 'line') {
+                    drawLine(el.m, el.b, el.color);
+                }
+            });
+        }
+
+        function mapCoords(x, y) {
+            const scale = canvasSize / (graphRange * 2);
+            const originX = canvasSize / 2;
+            const originY = canvasSize / 2;
+            return {
+                px: originX + x * scale,
+                py: originY - y * scale
+            };
+        }
+
+        let plotElements = [];
+
+        function drawPoint(x, y, color = '#34d399') {
+             if (!isFinite(x) || !isFinite(y)) return;
+            const { px, py } = mapCoords(x, y);
+            if (px >= 0 && px <= canvasSize && py >= 0 && py <= canvasSize) {
+                 ctx.fillStyle = color;
+                 ctx.beginPath();
+                 ctx.arc(px, py, Math.max(3, canvasSize * 0.01), 0, Math.PI * 2);
+                 ctx.fill();
+            }
+        }
+
+        function drawLine(m, b, color = '#60a5fa') {
+             if (!isFinite(m) || !isFinite(b)) return;
+
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+
+            const x1_math = -graphRange;
+            const y1_math = m * x1_math + b;
+            const { px: px1, py: py1 } = mapCoords(x1_math, y1_math);
+
+            const x2_math = graphRange;
+            const y2_math = m * x2_math + b;
+            const { px: px2, py: py2 } = mapCoords(x2_math, y2_math);
+
+            ctx.moveTo(px1, py1);
+            ctx.lineTo(px2, py2);
+
+            ctx.stroke();
+             ctx.strokeStyle = '#9ca3af';
+             ctx.lineWidth = 1;
+        }
+
+        function plotPoint() {
+            const pointInput = document.getElementById('pointInput');
+            const val = pointInput.value.trim();
+            graphError.textContent = '';
+
+            if (!val) {
+                graphError.textContent = 'Please enter coordinates.';
+                return;
+            }
+
+            const parts = val.split(',');
+            if (parts.length !== 2) {
+                graphError.textContent = 'Invalid format. Use x, y';
+                return;
+            }
+
+            const x = parseFloat(parts[0]);
+            const y = parseFloat(parts[1]);
+
+            if (isNaN(x) || isNaN(y)) {
+                graphError.textContent = 'Invalid numbers for coordinates.';
+                return;
+            }
+
+            plotElements.push({ type: 'point', x, y, color: '#34d399' });
+            drawGraph();
+            pointInput.value = '';
+        }
+
+        function plotLine() {
+            const slopeInput = document.getElementById('slopeInput');
+            const interceptInput = document.getElementById('interceptInput');
+            graphError.textContent = '';
+
+            const m = parseFloat(slopeInput.value);
+            const b = parseFloat(interceptInput.value);
+
+            if (isNaN(m)) {
+                 graphError.textContent = 'Invalid number for slope (m).';
+                 return;
+            }
+             if (isNaN(b)) {
+                 graphError.textContent = 'Invalid number for intercept (b).';
+                 return;
+            }
+
+            plotElements.push({ type: 'line', m, b, color: '#60a5fa' });
+            drawGraph();
+        }
+
+         function updateGraphRange() {
+             const rangeInput = document.getElementById('rangeInput');
+             const newRange = parseFloat(rangeInput.value);
+             graphError.textContent = '';
+
+             if (isNaN(newRange) || newRange <= 0) {
+                 graphError.textContent = 'Range must be a positive number.';
+                 return;
+             }
+             graphRange = newRange;
+             rangeInput.value = graphRange;
+             drawGraph();
+         }
+
+
+        function clearGraph() {
+            plotElements = [];
+            drawGraph();
+            graphError.textContent = '';
+        }
+
+        // --- Initialization ---
+        window.addEventListener('load', () => {
+             resizeCanvas();
+             window.addEventListener('resize', resizeCanvas);
+             display.focus(); // Focus the expression input on load
+        });
+
+    </script>
+
+</body>
+</html>

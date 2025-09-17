@@ -1,0 +1,50 @@
+/* src/app/feedback/FeedbackPage.module.css */
+.feedbackContainer {
+    padding: 20px 0; /* Add some vertical padding */
+  }
+  
+  .pageTitle {
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-col);
+  }
+  
+  .description {
+    text-align: center;
+    color: var(--text-sec-col);
+    margin-bottom: 30px;
+    max-width: 600px; /* Limit width for readability */
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+  
+  .iframeWrapper {
+    max-width: 700px; /* Max width for the form container */
+    margin: 0 auto; /* Center the form */
+    background-color: var(--card-col); /* Optional background for wrapper */
+    padding: 15px; /* Optional padding around iframe */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-col);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    /* The height will largely be determined by the iframe's height attribute */
+    /* You could add min-height here if needed */
+  }
+  
+  .googleForm {
+    display: block; /* Prevents potential extra space below */
+    /* Width is set to 100% inline */
+    max-width: 100%; /* Ensure it doesn't overflow wrapper */
+    /* Height is set inline */
+  }
+  
+  /* Optional: Style the loading text (usually replaced quickly) */
+  .googleForm::before {
+      content: 'Loading Form...';
+      display: block;
+      text-align: center;
+      padding: 50px;
+      color: var(--text-sec-col);
+  }

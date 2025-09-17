@@ -1,0 +1,397 @@
+.Footer_footer__3grSa {
+  position: relative;
+  background: linear-gradient(180deg, #fb0, #f39a00);
+}
+.Footer_footer__wave__HPofw {
+  background: url(/images/bg/footer_waves_mobile.svg) repeat-x;
+  height: 80px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: -79px;
+  z-index: 0;
+}
+@media (min-width: 1280px) {
+  .Footer_footer__wave__HPofw {
+    background: url(/images/bg/footer_waves.svg) repeat-x;
+    height: 122px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: -121px;
+    z-index: 0;
+  }
+}
+.DropdownList_list__VsPAx {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 1px 1.4px 0 #191919, 0.9239px 0.3827px 0 #191919,
+    0.7071px 0.7071px 0 #191919, 0.3827px 0.9239px 0 #191919,
+    1.4px 1px 0 #191919, -0.3827px 0.9239px 0 #191919,
+    -0.7071px 0.7071px 0 #191919, -0.9239px 0.3827px 0 #191919, -1px 0 0 #191919,
+    -0.9239px -0.3827px 0 #191919, -0.7071px -0.7071px 0 #191919,
+    -0.3827px -0.9239px 0 #191919, 0 -1px 0 #191919,
+    0.3827px -0.9239px 0 #191919, 0.7071px -0.7071px 0 #191919,
+    0.9239px -0.3827px 0 #191919;
+  scrollbar-width: auto;
+  scrollbar-color: #f39a00 transparent;
+}
+.DropdownList_list__VsPAx ::-webkit-scrollbar {
+  width: 10px;
+}
+.DropdownList_list__VsPAx ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.DropdownList_list__VsPAx ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  border: 2px solid #191919;
+}
+.DropdownList_list__VsPAx ::-webkit-scrollbar-corner {
+  background-color: #ddd;
+}
+.DropdownList_list__VsPAx.DropdownList_list--primary__kabMC {
+  background: linear-gradient(180deg, #fb0, #f39a00);
+  box-shadow: inset -2px -2px 0 #191919, inset 2px -2px 0 #191919,
+    inset -2px 2px 0 #191919, inset 2px 2px 0 #191919, inset 0 6px 1px #fff192,
+    inset 0 -6px 2px #d27a00;
+}
+.DropdownList_list__VsPAx.DropdownList_list--primary__kabMC
+  ::-webkit-scrollbar-thumb {
+  background-color: #f39a00;
+}
+.DropdownList_list__VsPAx.DropdownList_list--secondary__KosyY {
+  background: linear-gradient(180deg, #fbedcb, #c9b88f);
+  box-shadow: inset 2px -2px 0 #191919, inset -2px 2px 0 #191919,
+    inset -2px -2px 0 #191919, inset 2px 2px 0 #191919, inset 0 6px 1px #fffaef,
+    inset 0 -6px 2px #a69059;
+}
+.DropdownList_list__VsPAx.DropdownList_list--secondary__KosyY
+  ::-webkit-scrollbar-thumb {
+  background-color: #c9b88f;
+}
+.DropdownList_list__VsPAx.DropdownList_list--lg__CjR_d {
+  top: 47px;
+}
+.DropdownList_list__VsPAx.DropdownList_list--sm__420g0 {
+  top: 40px;
+}
+@media (min-width: 1280px) {
+  .DropdownList_list__VsPAx {
+    text-shadow: 1.6px 1.6px 0 #191919, 1.47824px 0.61232px 0 #191919,
+      1.13136px 1.13136px 0 #191919, 0.61232px 1.47824px 0 #191919,
+      1.6px 1.6px 0 #191919, -0.61232px 1.47824px 0 #191919,
+      -1.13136px 1.13136px 0 #191919, -1.47824px 0.61232px 0 #191919,
+      -1.6px 0 0 #191919, -1.47824px -0.61232px 0 #191919,
+      -1.13136px -1.13136px 0 #191919, -0.61232px -1.47824px 0 #191919,
+      0 -1.6px 0 #191919, 0.61232px -1.47824px 0 #191919,
+      1.13136px -1.13136px 0 #191919, 1.47824px -0.61232px 0 #191919;
+  }
+  .DropdownList_list__VsPAx.DropdownList_list--lg__CjR_d {
+    top: 55px;
+  }
+}
+.Dropdown_dropdown__WWuJf {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 1px 1.4px 0 #191919, 0.9239px 0.3827px 0 #191919,
+    0.7071px 0.7071px 0 #191919, 0.3827px 0.9239px 0 #191919,
+    1.4px 1px 0 #191919, -0.3827px 0.9239px 0 #191919,
+    -0.7071px 0.7071px 0 #191919, -0.9239px 0.3827px 0 #191919, -1px 0 0 #191919,
+    -0.9239px -0.3827px 0 #191919, -0.7071px -0.7071px 0 #191919,
+    -0.3827px -0.9239px 0 #191919, 0 -1px 0 #191919,
+    0.3827px -0.9239px 0 #191919, 0.7071px -0.7071px 0 #191919,
+    0.9239px -0.3827px 0 #191919;
+}
+.Dropdown_dropdown__WWuJf.Dropdown_dropdown--primary__7n2v5 {
+  background: linear-gradient(180deg, #fb0, #f39a00);
+  box-shadow: inset -2px -2px 0 #191919, inset 2px -2px 0 #191919,
+    inset -2px 2px 0 #191919, inset 2px 2px 0 #191919, inset 0 6px 1px #fff192,
+    inset 0 -6px 2px #d27a00;
+}
+.Dropdown_dropdown__WWuJf.Dropdown_dropdown--secondary__b6r3S {
+  background: linear-gradient(180deg, #fbedcb, #c9b88f);
+  box-shadow: inset 2px -2px 0 #191919, inset -2px 2px 0 #191919,
+    inset -2px -2px 0 #191919, inset 2px 2px 0 #191919, inset 0 6px 1px #fffaef,
+    inset 0 -6px 2px #a69059;
+}
+.Dropdown_dropdown__WWuJf.Dropdown_dropdown--lg__OjzkU {
+  height: 48px;
+  font-size: 20px;
+}
+.Dropdown_dropdown__WWuJf.Dropdown_dropdown--sm__VGtF6 {
+  height: 32px;
+  font-size: 16px;
+}
+@media (min-width: 1280px) {
+  .Dropdown_dropdown__WWuJf {
+    text-shadow: 1.6px 1.6px 0 #191919, 1.47824px 0.61232px 0 #191919,
+      1.13136px 1.13136px 0 #191919, 0.61232px 1.47824px 0 #191919,
+      1.6px 1.6px 0 #191919, -0.61232px 1.47824px 0 #191919,
+      -1.13136px 1.13136px 0 #191919, -1.47824px 0.61232px 0 #191919,
+      -1.6px 0 0 #191919, -1.47824px -0.61232px 0 #191919,
+      -1.13136px -1.13136px 0 #191919, -0.61232px -1.47824px 0 #191919,
+      0 -1.6px 0 #191919, 0.61232px -1.47824px 0 #191919,
+      1.13136px -1.13136px 0 #191919, 1.47824px -0.61232px 0 #191919;
+  }
+  .Dropdown_dropdown__WWuJf.Dropdown_dropdown--lg__OjzkU {
+    height: 56px;
+    font-size: 24px;
+  }
+  .Dropdown_dropdown__WWuJf.Dropdown_dropdown--sm__VGtF6 {
+    height: 48px;
+    font-size: 20px;
+  }
+}
+.Checkbox_checkbox__ShJU5 {
+  box-shadow: 0 0 0 2px #191919, 0.75px 1.5px 0 1.5px #191919;
+}
+@media (min-width: 1280px) {
+  .Checkbox_checkbox__ShJU5 {
+    box-shadow: 0 0 0 2px #191919, 1px 2px 0 2px #191919;
+  }
+}
+.ConsoleLogo_console__TH7sN {
+  background: #f5f5f5;
+  box-shadow: 1.4px 2.8px 0 #191919;
+  border: 2px solid #191919;
+}
+.ConsoleLogo_console__TH7sN .ConsoleLogo_applestore__qZ_ut,
+.ConsoleLogo_console__TH7sN .ConsoleLogo_nintendo__MSurY,
+.ConsoleLogo_console__TH7sN .ConsoleLogo_playstation__daoUt,
+.ConsoleLogo_console__TH7sN .ConsoleLogo_playstore__Po9hn,
+.ConsoleLogo_console__TH7sN .ConsoleLogo_xbox__8mJFb {
+  width: 20px;
+  height: auto;
+}
+.ConsoleLogo_console__TH7sN .ConsoleLogo_steam__GG8fS {
+  width: 20px;
+  height: auto;
+  margin-left: -2px;
+}
+@media (min-width: 1280px) {
+  .ConsoleLogo_console__TH7sN .ConsoleLogo_nintendo__MSurY,
+  .ConsoleLogo_console__TH7sN .ConsoleLogo_playstation__daoUt,
+  .ConsoleLogo_console__TH7sN .ConsoleLogo_xbox__8mJFb {
+    width: 30px;
+    height: auto;
+  }
+  .ConsoleLogo_console__TH7sN .ConsoleLogo_applestore__qZ_ut,
+  .ConsoleLogo_console__TH7sN .ConsoleLogo_playstore__Po9hn {
+    width: 27px;
+    height: auto;
+  }
+  .ConsoleLogo_console__TH7sN .ConsoleLogo_steam__GG8fS {
+    width: 50px;
+    height: auto;
+    margin-left: -5px;
+  }
+}
+.SocialNetwork_network__1SE6G {
+  background: #f5f5f5;
+  box-shadow: 1.4px 2.8px 0 #191919;
+  border: 2px solid #191919;
+}
+.SocialNetwork_network__1SE6G .SocialNetwork_discord__kFIdF {
+  width: 20px;
+  height: auto;
+}
+.SocialNetwork_network__1SE6G .SocialNetwork_twitch__nmNZb {
+  width: 18px;
+  height: auto;
+}
+.SocialNetwork_network__1SE6G .SocialNetwork_x__S5dGD {
+  width: 16px;
+  height: auto;
+}
+.SocialNetwork_network__1SE6G .SocialNetwork_instagram__m6A0W {
+  width: 16.41px;
+  height: 16.55px;
+}
+.SocialNetwork_network__1SE6G .SocialNetwork_facebook__6pKi0 {
+  width: 20px;
+  height: auto;
+}
+.SocialNetwork_network__1SE6G .SocialNetwork_tiktok__ntfJK {
+  width: 15.7px;
+  height: 18px;
+}
+.SocialNetwork_network__1SE6G .SocialNetwork_youtube__DDEgp {
+  width: 20px;
+  height: 13px;
+}
+.SocialNetwork_network__1SE6G .SocialNetwork_reddit___XQ5M {
+  width: 20.57px;
+  height: 19.43px;
+}
+.SocialNetwork_network__1SE6G .SocialNetwork_playstore__fxgsJ {
+  width: 19.12px;
+  height: 21.15px;
+}
+.SocialNetwork_network__1SE6G .SocialNetwork_appstore__rPaPZ {
+  width: 17.76px;
+  height: 21.85px;
+}
+.SocialNetwork_network__1SE6G .SocialNetwork_steam__u_dPt {
+  width: 32.97px;
+  height: 25.17px;
+  margin-left: -2px;
+}
+@media (min-width: 1280px) {
+  .SocialNetwork_network__1SE6G .SocialNetwork_discord__kFIdF {
+    width: 28px;
+    height: auto;
+  }
+  .SocialNetwork_network__1SE6G .SocialNetwork_twitch__nmNZb {
+    width: 25px;
+    height: auto;
+  }
+  .SocialNetwork_network__1SE6G .SocialNetwork_x__S5dGD {
+    width: 20px;
+    height: auto;
+  }
+  .SocialNetwork_network__1SE6G .SocialNetwork_instagram__m6A0W {
+    width: 23.98px;
+    height: 23.98px;
+  }
+  .SocialNetwork_network__1SE6G .SocialNetwork_facebook__6pKi0 {
+    width: 26.6px;
+    height: auto;
+  }
+  .SocialNetwork_network__1SE6G .SocialNetwork_tiktok__ntfJK {
+    width: 21.98px;
+    height: 25.2px;
+  }
+  .SocialNetwork_network__1SE6G .SocialNetwork_youtube__DDEgp {
+    width: 28px;
+    height: 18.2px;
+  }
+  .SocialNetwork_network__1SE6G .SocialNetwork_reddit___XQ5M {
+    width: 28.8px;
+    height: 27.2px;
+  }
+  .SocialNetwork_network__1SE6G .SocialNetwork_playstore__fxgsJ {
+    width: 26.76px;
+    height: 29.61px;
+  }
+  .SocialNetwork_network__1SE6G .SocialNetwork_appstore__rPaPZ {
+    width: 24.87px;
+    height: 30.59px;
+  }
+  .SocialNetwork_network__1SE6G .SocialNetwork_steam__u_dPt {
+    width: 46.16px;
+    height: 35.24px;
+    margin-left: -5px;
+  }
+}
+.Social_social_downloads__k7RWB > div:nth-child(2n) {
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.AuthButton_login__fPi4G {
+  background: linear-gradient(180deg, #0d8bed, #0a6ce8);
+  box-shadow: inset 2px -2px 0 #191919, inset -2px 2px 0 #191919,
+    inset -2px -2px 0 #191919, inset 2px 2px 0 #191919, inset 0 6px 1px #43c0f7,
+    inset 0 -6px 2px #053275;
+}
+.AuthButton_logout__yHcTQ {
+  background: linear-gradient(180deg, #f6533f, #f44031);
+  box-shadow: inset 2px -2px 0 #191919, inset -2px 2px 0 #191919,
+    inset -2px -2px 0 #191919, inset 2px 2px 0 #191919, inset 0 6px 1px #f77f70,
+    inset 0 -6px 2px #871000;
+}
+.Dropdown_dropdown__xK6j4 {
+  background: linear-gradient(180deg, #fb0, #f39a00);
+  box-shadow: inset -2px -2px 0 #191919, inset 2px -2px 0 #191919,
+    inset -2px 2px 0 #191919, inset 2px 2px 0 #191919, inset 0 6px 1px #fff192,
+    inset 0 -6px 2px #d27a00;
+}
+.MobileMenu_stores__QQ1Of > div {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start !important;
+}
+.Container_decorator__CKhkr {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.Container_decorator__CKhkr > .Container_decorator__content__wygpE {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin: 0 auto;
+}
+.Play_sky__IyYYV {
+  background-color: #00000000;
+  background-image: url(bgplay.png);
+  background-repeat: repeat;
+  background-position: 0 0;
+  background-size: initial;
+  width: 100%;
+  height: 100%;
+}
+.Play_sky__IyYYV:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #000000);
+  z-index: 0;
+}
+.Play_sky__IyYYV > * {
+  z-index: 1;
+}
+.Play_canvas__OVhhV {
+    position: fixed;      /* Position relative to the browser window */
+    top: 0;
+    left: 0;
+    width: 100vw;         /* 100% of the viewport width */
+    height: 100vh;        /* 100% of the viewport height */
+    z-index: 9999;        /* Ensure it's on top of all other elements */
+    object-fit: cover;    /* Ensures the canvas content covers the screen */
+}
+.Fullscreen_fullscreen__JcYpm {
+  position: absolute;
+  top: 0;
+  right: calc(11rem - 55px);
+}
+@media (min-width: 1280px) {
+  .Fullscreen_fullscreen__JcYpm {
+    position: static;
+    align-self: flex-end;
+    margin-top: 10px;
+  }
+}
+.Loader_loader__HaiDG {
+  width: 90%;
+  height: 100%;
+  position: relative;
+  padding: 150px 0 200px;
+}
+@media (min-width: 1500px) {
+  .Loader_loader__HaiDG {
+    width: 100%;
+  }
+}
+
+/* --- Hide All UI Elements Except Game Canvas --- */
+.Footer_footer__3grSa,
+.DropdownList_list__VsPAx,
+.Dropdown_dropdown__WWuJf,
+.Checkbox_checkbox__ShJU5,
+.ConsoleLogo_console__TH7sN,
+.SocialNetwork_network__1SE6G,
+.Social_social_downloads__k7RWB,
+.AuthButton_login__fPi4G,
+.AuthButton_logout__yHcTQ,
+.Dropdown_dropdown__xK6j4,
+.MobileMenu_stores__QQ1Of,
+.Container_decorator__CKhkr {
+  display: none !important;
+}

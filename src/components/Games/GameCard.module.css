@@ -1,56 +1,45 @@
-/* src/components/Games/GameCard.module.css */
 .card {
-    background-color: var(--card-col);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    text-decoration: none;
-    color: var(--text-col);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    border: 1px solid var(--border-col);
-    height: 100%; /* Ensure cards in a grid row take same height */
-  }
-  
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-  }
-  
-  .imageContainer {
-    width: 100%;
-    aspect-ratio: 16 / 9; /* Common aspect ratio for game covers */
-    background-color: var(--nav-col); /* Placeholder background */
-    position: relative;
-    overflow: hidden; /* Ensure image fits */
-  }
-  
-  .image {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Cover the container */
-  }
-  
-  .info {
-    padding: 15px;
-    flex-grow: 1; /* Allows info section to fill remaining space */
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--text-primary);
-    /* Prevent overly long titles */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .details {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--card-bg, #2a2a2e);
+  color: var(--card-text-primary, #fff);
+  text-decoration: none;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  box-shadow: var(--card-shadow, 0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-shadow-hover, 0 8px 16px rgba(0, 0, 0, 0.3));
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.image {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.info {
+  padding: 12px;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.details {
     font-size: 0.85rem;
     color: var(--text-sec-col);
     margin-top: auto; /* Push details to the bottom */
@@ -62,20 +51,48 @@
     flex-wrap: wrap; /* Allow wrapping if space is tight */
     gap: 5px;
   }
-  
-  .category {
-    background-color: var(--hover-col);
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-weight: 500;
-  }
-  
-  .rating, .visits {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-  }
-  
-  .rating svg {
-      color: var(--accent-color); /* Yellow star */
-  }
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Adds space between rating and visits */
+}
+
+.rating,
+.visits {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* --- STYLES FOR CATEGORIES --- */
+
+/* Base category style */
+.category {
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--category-text, #ffffff); /* Default text color is white */
+  background-color: var(--category-bg-default, #495057); /* A default gray color for un-themed categories */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--category-border, rgba(197, 197, 197, 0.815));
+}
+
+/* Category-specific background colors */
+.categoryAction { background-color: #d30f0f98; } /* Red */
+.categoryArcade { background-color: #e8590c98; } /* Orange */
+.categoryCard { background-color: #845ef798; } /* Violet */
+.categoryIdle { background-color: #868e9698; } /* Gray */
+.categoryMultiplayer { background-color: #1c7ed698; } /* Blue */
+.categoryPlatformer { background-color: #2f9e4498; } /* Green */
+.categoryPuzzle { background-color: #f59f0098; } /* Yellow/Amber */
+.categoryRacing { background-color: #d6336c98; } /* Pink */
+.categorySandbox { background-color: #0ca67898; } /* Teal */
+.categorySimulation { background-color: #15aabf98; } /* Cyan */
+.categorySports { background-color: #37b24d98; } /* Darker Green */
+.categoryStrategy { background-color: #7048e898; } /* Indigo */

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="converter-container">
+        <h1>Unit Converter</h1>
+
+        <div class="category-selector">
+            <label for="category-select">Category:</label>
+            <select id="category-select">
+                <option value="">-- Select Category --</option>
+                {/* Categories added by JS */}
+            </select>
+        </div>
+
+        <div class="conversion-wrapper">
+            <!-- Input Side -->
+            <div class="unit-section input-section">
+                <label for="from-value">From:</label>
+                <input type="number" id="from-value" placeholder="Enter value" value="1">
+                <select id="from-unit-select" disabled>
+                    <option value="">--</option>
+                    {/* Units added by JS */}
+                </select>
+            </div>
+
+            <!-- Swap Button (Optional but nice) -->
+             <div class="swap-button-container">
+                 <button id="swap-button" title="Swap Units" disabled>⇄</button>
+             </div>
+
+
+            <!-- Output Side -->
+            <div class="unit-section output-section">
+                <label for="to-value">To:</label>
+                <input type="text" id="to-value" readonly placeholder="Result">
+                <select id="to-unit-select" disabled>
+                     <option value="">--</option>
+                    {/* Units added by JS */}
+                </select>
+            </div>
+        </div>
+
+        <div class="result-details">
+             <p id="conversion-formula"></p> <!-- For showing formula (optional) -->
+        </div>
+
+    </div>
+
+    <!-- Load JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

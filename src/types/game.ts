@@ -1,19 +1,44 @@
 // src/types/game.ts
+
+// Define structure for a single leaderboard configuration
+export interface LeaderboardConfig {
+  id: string; // Unique ID for this leaderboard, e.g., "level-1" or "endless_mode"
+  displayName: string; // User-friendly name, e.g., "Level 1 Score" or "Endless Mode"
+  localStorageKey: string;
+  scoreType: 'number' | 'jsonPath';
+  scorePath?: string;
+  unit?: 'number' | 'ms' | 'seconds' | 'minutes'; // Defines the unit of the score
+  sortOrder: 'high-to-low' | 'low-to-high';
+  scoreMultiplier?: number;
+}
+
+
+export interface IndexedDbConfig {
+  dbName: string;
+  storeName: string;
+  keyPattern: string;
+}
+
 export interface Game {
-    id: string; // Unique identifier, used for URL slug
-    name: string;
-    description: string;
-    imageUrl: string;
-    category: string;
-    // Existing Firestore fields for rating/visits
-    averageRating?: number;
-    ratingCount?: number;
-    totalVisits?: number;
-    // Original static fields (if still used elsewhere, otherwise can remove)
-    rating: number; // Example static rating (will be overridden by averageRating)
-    visits: number; // Example static visits (will be overridden by totalVisits)
-    sourceUrl: string; // Path relative to /public, e.g., /g/source/game-id/index.html
-    tags?: string[];
-    // NEW field for localStorage sync configuration
-    localStorageKeys?: string[]; // Array of keys the game uses for saving
-  }
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  category: string;
+  // --- Stats Fields (from Firestore/Calculated) ---
+  averageRating?: number; // Optional because it might not be calculated yet
+  ratingCount?: number;   // Optional
+  totalVisits?: number;   // Optional
+  totalPlaytimeSeconds?: number; // Optional
+  elementGamesScore?: number; // Optional (calculated EGS)
+  // --- Static Fallback Fields ---
+  rating: number; // Keep for fallback display if needed
+  visits: number; // Keep for fallback display if needed
+  // --- Config Fields ---
+  sourceUrl: string;
+  tags?: string[];
+  localStorageKeys?: string[];
+  indexedDbConfig?: IndexedDbConfig;
+  leaderboardConfigs?: LeaderboardConfig[]; // Changed to an array for multiple leaderboards
+  releaseDate: string | null;
+}

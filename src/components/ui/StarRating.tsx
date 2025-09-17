@@ -1,4 +1,3 @@
-// src/components/ui/StarRating.tsx
 'use client'; // This component involves client-side interaction (hover state)
 
 import React, { useState } from 'react';
@@ -8,10 +7,9 @@ import styles from './StarRating.module.css';
 interface StarRatingProps {
   rating: number | null; // Current rating (null if not rated)
   maxRating?: number; // Maximum stars (default 5)
-  onRate: (rating: number) => void; // Callback when a star is clicked
+  onRate?: (rating: number) => void; // Callback when a star is clicked
   disabled?: boolean; // Whether interaction is disabled
-  // Optional: Add a callback for clearing the rating
-  // onClear?: () => void;
+  readOnly?: boolean; // Alias for disabled for display-only purposes
 }
 
 const StarRating: React.FC<StarRatingProps> = ({
@@ -19,39 +17,32 @@ const StarRating: React.FC<StarRatingProps> = ({
   maxRating = 5,
   onRate,
   disabled = false,
-  // onClear, // Uncomment if implementing clear button
+  readOnly = false,
 }) => {
-  // State to track the rating being hovered over
+  const isInteractive = !disabled && !readOnly;
   const [hoverRating, setHoverRating] = useState<number | null>(null);
 
   const handleMouseLeave = () => {
-    if (!disabled) {
+    if (isInteractive) {
       setHoverRating(null);
     }
   };
 
   const handleClick = (starValue: number) => {
-    if (!disabled) {
-      onRate(starValue); // Call the parent's onRate function
+    if (isInteractive && onRate) {
+      onRate(starValue);
     }
   };
-
-  // const handleClearClick = () => {
-  //   if (!disabled && onClear) {
-  //     onClear();
-  //   }
-  // };
 
   return (
     <div
       className={styles.starRating}
       onMouseLeave={handleMouseLeave}
-      aria-disabled={disabled}
-      role="radiogroup" // Semantically group the stars
+      aria-disabled={!isInteractive}
+      role="radiogroup"
     >
       {[...Array(maxRating)].map((_, index) => {
         const starValue = index + 1;
-        // Determine if the star should appear filled based on hover or actual rating
         const isFilled = (hoverRating ?? rating ?? 0) >= starValue;
 
         return (
@@ -60,17 +51,17 @@ const StarRating: React.FC<StarRatingProps> = ({
             className={`
               ${styles.star}
               ${isFilled ? styles.filled : ''}
-              ${disabled ? styles.disabled : ''}
+              ${!isInteractive ? styles.disabled : ''}
             `}
-            onMouseEnter={() => !disabled && setHoverRating(starValue)}
+            onMouseEnter={() => isInteractive && setHoverRating(starValue)}
             onClick={() => handleClick(starValue)}
-            role="radio" // Each star acts like a radio button
-            aria-checked={rating === starValue} // Indicate which one is selected
+            role="radio"
+            aria-checked={rating === starValue}
             aria-label={`Rate ${starValue} out of ${maxRating} stars`}
-            tabIndex={disabled ? -1 : 0} // Make focusable if not disabled
-            onKeyDown={(e) => { // Allow keyboard interaction
-                 if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
-                     e.preventDefault(); // Prevent page scroll on space
+            tabIndex={!isInteractive ? -1 : 0}
+            onKeyDown={(e) => {
+                 if (isInteractive && (e.key === 'Enter' || e.key === ' ')) {
+                     e.preventDefault();
                      handleClick(starValue);
                  }
             }}
@@ -79,19 +70,6 @@ const StarRating: React.FC<StarRatingProps> = ({
           </span>
         );
       })}
-
-      {/* Optional Clear Button */}
-      {/* {rating && !disabled && onClear && (
-                <button
-                    onClick={handleClearClick}
-                    className={styles.clearRatingButton}
-                    aria-label="Clear rating"
-                    title="Clear rating"
-                    disabled={disabled}
-                 >
-                    ×
-                 </button>
-            )} */}
     </div>
   );
 };

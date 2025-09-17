@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  images: {
+    domains: ['lh3.googleusercontent.com', 'image.tmdb.org', 'placehold.co'], // Add other domains here
+  }};
 
 export default nextConfig;

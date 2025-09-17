@@ -1,0 +1,31 @@
+/* app/w/page.module.css */
+
+.main {
+  width: 100%;
+  min-height: 100vh;
+  /*background-color: #0a0a0a;
+}
+
+.searchSection {
+  padding: 2rem 5%;
+  margin-top: -50px; /* Pulls the search bar up over the Hero gradient */
+  position: relative;
+  z-index: 10; /* Ensures search bar is on top of other elements */
+}
+
+.carouselsContainer {
+  padding: 0 5%;
+  /* No margin-top needed, search section handles the spacing */
+  position: relative;
+  z-index: 5;
+}
+
+@media (max-width: 768px) {
+  .searchSection {
+    padding: 1.5rem 8%;
+    margin-top: -40px;
+  }
+  .carouselsContainer {
+    padding: 0 8%;
+  }
+}

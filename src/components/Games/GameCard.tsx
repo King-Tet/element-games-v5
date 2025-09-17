@@ -26,6 +26,14 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
   // Use averageRating from Firestore, default to 0 if not present
   const displayRating = (game.averageRating || 0).toFixed(1);
 
+  // Helper function to get the CSS class for a category
+  const getCategoryClassName = (category?: string): string => {
+    if (!category) return '';
+    // Creates a class name like 'categoryAction', 'categoryMultiplayer', etc.
+    const categoryClassName = `category${category.replace(/\s+/g, '')}`;
+    return styles[categoryClassName] || ''; // Look up the class in our CSS module, fallback to empty string
+  };
+
   return (
     <Link href={`/g/play/${game.id}`} className={styles.card}>
       <div className={styles.imageContainer}>
@@ -46,7 +54,9 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
       <div className={styles.info}>
         <h3 className={styles.title}>{game.name}</h3>
         <div className={styles.details}>
-           <span className={styles.category}>{game.category}</span>
+           <span className={`${styles.category} ${getCategoryClassName(game.category)}`}>
+              {game.category}
+           </span>
            <span className={styles.rating}>
               {/* Display averageRating */}
               <FiStar /> {displayRating}

@@ -1,0 +1,35 @@
+body {
+  background-color: #f7efe7;
+  padding: 0;
+  margin: 0;
+  width: 400px;
+  height: 600px;
+  overflow: hidden;
+}
+
+#highscore {
+  position: absolute;
+  left: calc(-100px);
+  top: calc(-100px);
+  width: 5px;
+  display: none;
+}
+
+canvas {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center;    /* Centers vertically */
+  height: 200px;  
+}
+
+.banner {
+  opacity: 0;
+  transition: opacity 0.5s;
+  left: 0;
+}
+
+.banner.visible {
+  opacity: 1;
+  left: -152px;
+  transition: opacity 1s, left linear 4s;
+}

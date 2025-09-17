@@ -1,11 +1,11 @@
 // src/components/Layout/Navbar.tsx
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Navbar.module.css';
-import { FiMenu, FiSettings, FiSearch, FiX } from 'react-icons/fi';
+import { FiMenu, FiSettings, FiSearch, FiX} from 'react-icons/fi';
 import { useAuth } from '@/context/AuthContext';
 
 // Import data and types
@@ -13,7 +13,7 @@ import gameData from '@/data/games.json';
 import toolData from '@/data/tools.json';
 import { Game } from '@/types/game';
 import { Tool } from '@/types/tool';
-import { SearchItem, SearchItemType } from '@/types'; // Import the new SearchItem type
+import { SearchItem, SearchItemType } from '@/types';
 
 
 // Debounce function helper
@@ -40,11 +40,10 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
-  const { user, loading: authLoading, signInWithGoogle } = useAuth();
-  const pathname = usePathname(); // Get current path to close results on navigation
+  const { user, userProfile, loading: authLoading, signInWithGoogle, profileVersion } = useAuth();
+  const pathname = usePathname();
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchResultsRef = useRef<HTMLDivElement>(null);
-
   // --- Search State ---
   const [searchQuery, setSearchQuery] = useState('');
   const [allSearchableData, setAllSearchableData] = useState<SearchItem[]>([]);
@@ -54,62 +53,89 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
 
   // --- Load and prepare data on mount ---
   useEffect(() => {
-    const combinedData: SearchItem[] = [
-      ...gameData.map((game: Game) => ({
-        id: game.id,
-        name: game.name,
-        type: 'game' as SearchItemType,
-        category: game.category,
-        linkPath: `/g/play/${game.id}`, // Link path for games
-        isExternal: false,
-        rawData: game,
-      })),
-      ...toolData.map((tool: Tool) => ({
-        id: tool.id,
-        name: tool.name,
-        type: 'tool' as SearchItemType,
-        category: tool.category,
-        // Determine link path based on tool type
-        linkPath:
-          tool.sourceType === 'external'
-            ? tool.sourcePath
-            : tool.sourceType === 'iframe'
-            ? `/t/embed/${tool.id}`
-            : tool.sourcePath, // Component type uses sourcePath directly
-        isExternal: tool.sourceType === 'external',
-        rawData: tool,
-      })),
-    ];
-    setAllSearchableData(combinedData);
+    const loadAllData = async () => {
+      // Fetch users from our new API endpoint
+      let users: { uid: string; displayName: string; username: string }[] = [];
+      try {
+        const res = await fetch('/api/users/search');
+        if (res.ok) {
+          users = await res.json();
+        } else {
+          console.error('Failed to fetch users for search');
+        }
+      } catch (error) {
+        console.error('Error fetching users for search:', error);
+      }
+
+      const combinedData: SearchItem[] = [
+        ...gameData.map((game: Game) => ({
+          id: game.id,
+          name: game.name,
+          type: 'game' as SearchItemType,
+          category: game.category,
+          linkPath: `/g/play/${game.id}`,
+          isExternal: false,
+          rawData: game,
+        })),
+        ...toolData.map((tool: Tool) => ({
+          id: tool.id,
+          name: tool.name,
+          type: 'tool' as SearchItemType,
+          category: tool.category,
+          linkPath:
+            tool.sourceType === 'external'
+              ? tool.sourcePath
+              : tool.sourceType === 'iframe'
+              ? `/t/embed/${tool.id}`
+              : tool.sourcePath,
+          isExternal: tool.sourceType === 'external',
+          rawData: tool,
+        })),
+        ...users.map(user => ({
+          id: user.uid,
+          name: user.displayName || user.username, // Display name, fallback to username
+          type: 'user' as SearchItemType,
+          linkPath: `/u/${user.username}`, // Link to user profile page
+          isExternal: false,
+          rawData: user, // Keep all user data for more detailed search
+        })),
+      ];
+      setAllSearchableData(combinedData);
+    };
+
+    loadAllData();
   }, []); // Empty dependency array: run only once
 
   // --- Debounced search function ---
   const performSearch = useCallback((query: string) => {
-      if (!query.trim()) {
-          setFilteredResults([]);
-          setIsSearchLoading(false);
-          setIsResultsVisible(false); // Hide if query is empty
-          return;
-      }
+    if (!query.trim()) {
+        setFilteredResults([]);
+        setIsSearchLoading(false);
+        setIsResultsVisible(false); // Hide if query is empty
+        return;
+    }
 
-      setIsSearchLoading(true); // Indicate loading (optional)
-      const lowerCaseQuery = query.toLowerCase();
+    setIsSearchLoading(true); // Indicate loading (optional)
+    const lowerCaseQuery = query.toLowerCase();
 
-      const results = allSearchableData
-          .filter(item => {
-              // Search in name, category, and tags (if they exist)
-              const nameMatch = item.name.toLowerCase().includes(lowerCaseQuery);
-              const categoryMatch = item.category.toLowerCase().includes(lowerCaseQuery);
-              const tagsMatch = item.rawData.tags
-                  ? item.rawData.tags.some(tag => tag.toLowerCase().includes(lowerCaseQuery))
-                  : false;
-              const descriptionMatch = item.rawData.description // Also search description
-                  ? item.rawData.description.toLowerCase().includes(lowerCaseQuery)
-                  : false;
+    const results = allSearchableData
+        .filter(item => {
+            const nameMatch = item.name?.toLowerCase().includes(lowerCaseQuery);
 
-              return nameMatch || categoryMatch || tagsMatch || descriptionMatch;
-          })
-          .slice(0, 7); // Limit results (e.g., top 7)
+            if (item.type === 'user') {
+                // For users, search displayName (already in `name`) and username
+                const usernameMatch = item.rawData.username?.toLowerCase().includes(lowerCaseQuery);
+                return nameMatch || usernameMatch;
+            }
+
+            // For games and tools, search name, category, tags, and description
+            const categoryMatch = item.category?.toLowerCase()?.includes(lowerCaseQuery);
+            const tagsMatch = item.rawData.tags ? item.rawData.tags.some((tag: string) => tag?.toLowerCase()?.includes(lowerCaseQuery)) : false;
+            const descriptionMatch = item.rawData.description ? item.rawData.description.toLowerCase().includes(lowerCaseQuery) : false;
+
+            return nameMatch || categoryMatch || tagsMatch || descriptionMatch;
+        })
+        .slice(0, 7); // Limit results (e.g., top 7)
 
       setFilteredResults(results);
       setIsSearchLoading(false);
@@ -130,14 +156,14 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
 
   // --- Handle focus and blur/click outside ---
   const handleFocus = () => {
-     // Show results immediately on focus if there's already a query and results
-     if (searchQuery.trim() && filteredResults.length > 0) {
+    // Show results immediately on focus if there's already a query and results
+    if (searchQuery.trim() && filteredResults.length > 0) {
         setIsResultsVisible(true);
-     } else if (searchQuery.trim()) {
-         // If focused and query exists but no results yet (maybe due to debounce delay), show loading/empty state
-         setIsResultsVisible(true);
-     }
-     // Don't automatically show if query is empty on focus
+    } else if (searchQuery.trim()) {
+        // If focused and query exists but no results yet (maybe due to debounce delay), show loading/empty state
+        setIsResultsVisible(true);
+    }
+    // Don't automatically show if query is empty on focus
   };
 
   // Close results when clicking outside
@@ -154,13 +180,13 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, []); // Empty dependency array, so it only runs once. searchResultsRef will be stable.
 
-   // Close results on route change
-   useEffect(() => {
-       setIsResultsVisible(false);
-       setSearchQuery(''); // Optionally clear search on navigation
-   }, [pathname]);
+    // Close results on route change
+    useEffect(() => {
+        setIsResultsVisible(false);
+        setSearchQuery(''); // Optionally clear search on navigation
+    }, [pathname]);
 
 
   // Clear search input
@@ -182,9 +208,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
         <button onClick={toggleSidebar} className={styles.sidebarToggle} aria-label="Toggle Sidebar">
           <FiMenu />
         </button>
-        <Link href="/" className={styles.logo}>
-          Element Games v5
-        </Link>
+
       </div>
 
       {/* Center Section: Search Bar & Results */}
@@ -194,21 +218,21 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
           <input
             ref={searchInputRef}
             type="search"
-            placeholder="Search games and tools..."
+            placeholder="Search for games, tools, or users..."
             className={styles.searchBar}
             value={searchQuery}
             onChange={handleInputChange}
             onFocus={handleFocus}
-            aria-label="Search Games and Tools"
+            aria-label="Search for games, tools, or users"
           />
           {searchQuery && (
-             <button onClick={clearSearch} className={styles.clearSearchButton} aria-label="Clear search">
-                 <FiX />
-             </button>
+              <button onClick={clearSearch} className={styles.clearSearchButton} aria-label="Clear search">
+                  <FiX />
+              </button>
           )}
 
           {/* Search Results Dropdown */}
-          {isResultsVisible && (
+          {isResultsVisible && searchQuery.trim() && (
             <div ref={searchResultsRef} className={styles.searchResultsContainer}>
               {isSearchLoading && filteredResults.length === 0 && searchQuery.trim() ? (
                   <div className={styles.searchStatus}>Loading...</div>
@@ -227,7 +251,11 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
                       onClick={() => setIsResultsVisible(false)} // Close on click
                     >
                       <span className={styles.resultName}>{item.name}</span>
-                      <span className={styles.resultType}>{item.type}</span>
+                      <span className={styles.resultType}>
+                        {item.type === 'user'
+                          ? `@${item.rawData.username}` // Show username for users
+                          : item.type}
+                      </span>
                     </a>
                   </Link>
                 ))
@@ -241,31 +269,28 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
 
       {/* Right Section: Settings & Auth */}
       <div className={styles.rightSection}>
-        <Link href="/settings" passHref>
-          <button className={styles.settingsButton} aria-label="Settings">
-            <FiSettings />
-          </button>
-        </Link>
+            <Link href="/settings" passHref> <button className={styles.settingsButton} aria-label="Settings"> <FiSettings /> </button> </Link>
 
-        {authLoading ? (
-          <div style={{ width: '80px' }}></div>
-        ) : user ? (
-          <Link href="/account" passHref>
-             <img
-                src={user.photoURL || '/default-avatar.png'}
-                alt={user.displayName || 'User Profile'}
-                className={styles.profilePic}
-                referrerPolicy="no-referrer"
-              />
-          </Link>
-        ) : (
-          <button className={styles.signInButton} onClick={signInWithGoogle}>
-            Sign In
-          </button>
-        )}
-      </div>
-    </nav>
-  );
+            {/* --- UPDATED Auth Section --- */}
+            {authLoading ? (
+                <div style={{ width: '36px', height: '36px' }}></div>
+            ) : user && userProfile ? (
+                <Link href="/account" passHref>
+                    <img
+                        src={`${userProfile.avatar_url || '/logos/default-avatar.png'}?v=${profileVersion}`}
+                        alt={userProfile.display_name || 'Profile'}
+                        className={styles.profilePic}
+                        referrerPolicy="no-referrer"
+                        onError={(e) => { (e.target as HTMLImageElement).src = '/logos/default-avatar.png'; }}
+                    />
+                </Link>
+            ) : (
+                <button className={styles.signInButton} onClick={signInWithGoogle}>
+                    Sign In with Google
+                </button>
+            )}
+            </div>
+        </nav>
+    );
 };
-
 export default Navbar;

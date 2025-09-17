@@ -1,0 +1,97 @@
+/* UserInfo.module.css */
+.userInfoContainer {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+  background: linear-gradient(135deg, #232323, #1a1a1a);
+  border-radius: 12px;
+  border: 1px solid #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.avatarContainer {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar {
+  border-radius: 50%;
+  border: 4px solid #333;
+  transition: transform 0.3s ease-in-out;
+  display: block;
+}
+
+.avatarContainer:hover .avatar {
+  transform: scale(1.05) rotate(3deg);
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.displayName {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.username {
+  font-size: 1.2rem;
+  color: #aaa;
+  margin: 0;
+}
+
+.status {
+  margin-top: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ccc;
+  min-height: 24px; /* Reserve space to prevent layout shift */
+  transition: color 0.3s ease;
+}
+
+.statusIndicator {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 3px solid #1a1a1a;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.online {
+  background-color: #2ecc71;
+  box-shadow: 0 0 0 0 rgba(46, 204, 113, 1);
+  animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+.offline {
+  background-color: #7f8c8d;
+}
+
+.memberSince {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(46, 204, 113, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+  }
+}
+

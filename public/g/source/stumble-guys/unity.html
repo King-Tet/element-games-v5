@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | Stumble Guys</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #231F20;
+        overflow: hidden; /* Prevent scrollbars */
+      }
+      #unity-container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #unity-canvas {
+        width: 100%;
+        height: 100%;
+        background: #000;
+      }
+      #unity-loading-bar {
+        position: absolute;
+        width: 80%;
+        max-width: 400px;
+        height: 30px;
+        background-color: #333;
+        border: 2px solid #555;
+        border-radius: 5px;
+      }
+      #unity-progress-bar-full {
+        width: 0%;
+        height: 100%;
+        background-color: #4CAF50; /* Green loading bar */
+        border-radius: 3px;
+        transition: width 0.2s;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="unity-container">
+      <canvas id="unity-canvas"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-progress-bar-full"></div>
+      </div>
+    </div>
+    
+    <script>
+      window.DD_LOGS = {
+        init: () => {},
+        createLogger: () => ({
+          info: () => {},
+          error: () => {},
+          warn: () => {},
+          debug: () => {},
+          setHandler: () => {}
+        }),
+        logger: {
+          info: () => {},
+          error: () => {},
+          warn: () => {},
+          debug: () => {}
+        }
+      };
+      
+      window.DD_RUM = {
+        init: () => {},
+        setUser: () => {},
+        addFeatureFlagEvaluation: () => {}
+      };
+
+      window.dispatchReactUnityEvent = () => {};
+    </script>
+    
+    <script src="https://cdn.auth0.com/js/auth0/9.19.0/auth0.min.js"></script>
+
+    <script src="Build/WebGL.loader.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').then(function(registration) {
+          console.log('Service worker registration succeeded:', registration);
+        }).catch(function(error) {
+          console.log('Service worker registration failed:', error);
+        });
+      }
+
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+
+      var buildConfig = {
+        dataUrl: "Build/WebGL.data.unityweb",
+        frameworkUrl: "Build/WebGL.framework.js.unityweb",
+        codeUrl: "Build/WebGL.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Scopely",
+        productName: "Stumble Guys",
+        productVersion: "0.90.6"
+      };
+
+      createUnityInstance(canvas, buildConfig, (progress) => {
+        progressBarFull.style.width = 100 * progress + "%";
+      }).then((unityInstance) => {
+        loadingBar.style.display = "none";
+      }).catch((message) => {
+        alert(message);
+      });
+    </script>
+  </body>
+</html>

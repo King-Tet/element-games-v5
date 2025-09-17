@@ -1,0 +1,154 @@
+/* src/app/complete-profile/CompleteProfilePage.module.css */
+/* Most styles can be similar to SignupPage.module.css */
+
+.loadingScreen {
+    display: flex; justify-content: center; align-items: center; min-height: 80vh;
+    font-size: 1.5rem; color: var(--text-sec-col);
+}
+
+.pageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - var(--navbar-height) - 20px);
+    padding: 30px 20px;
+    box-sizing: border-box;
+}
+
+.setupCard { /* Renamed from signupCard */
+    width: 100%;
+    max-width: 480px;
+    background-color: var(--card-col);
+    padding: 30px 35px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-col);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--text-sec-col);
+    margin-bottom: 25px;
+    font-size: 1rem;
+}
+
+.inputGroup {
+    margin-bottom: 18px;
+    text-align: left;
+    position: relative;
+}
+
+.inputGroup label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.inputGroup label svg { opacity: 0.7; }
+
+.inputField {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-col);
+    background-color: var(--input-col);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.inputField:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(255, 202, 40, 0.3);
+}
+.inputField.inputError {
+    border-color: var(--danger-color) !important;
+    box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2) !important;
+}
+.inputField.inputValid {
+     border-color: #4caf50 !important;
+     box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2) !important;
+}
+
+.statusContainer {
+    min-height: 18px;
+    margin-top: 4px;
+    text-align: right;
+    font-size: 0.8rem;
+}
+.errorMessage { color: var(--danger-color); }
+.successMessage { color: #4caf50; }
+.loadingMessage { color: var(--text-sec-col); font-style: italic; }
+
+.inputHint {
+    display: block;
+    margin-top: 3px;
+    font-size: 0.8rem;
+    color: var(--text-sec-col);
+    text-align: left;
+}
+
+/* Avatar Selection */
+.avatarGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 10px;
+    margin-top: 5px;
+    justify-items: center;
+}
+.avatarOption {
+    padding: 4px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    background: none;
+    position: relative;
+    transition: border-color 0.2s ease;
+    width: 60px; height: 60px;
+    display: flex; justify-content: center; align-items: center;
+}
+.avatarOption:hover, .avatarOption:focus { border-color: var(--text-sec-col); outline: none; }
+.avatarOption.avatarSelected { border-color: var(--accent-color); box-shadow: 0 0 5px var(--accent-color); }
+.avatarOption img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+.checkIcon {
+    position: absolute; bottom: 0; right: 0;
+    background-color: var(--accent-color); color: var(--background-main);
+    border-radius: 50%; padding: 2px; font-size: 0.8rem;
+    border: 1px solid var(--background-main);
+}
+
+/* Submit Button */
+.submitButton {
+    width: 100%; padding: 12px 20px; border: none;
+    border-radius: var(--border-radius); background-color: var(--primary-button-bg);
+    color: var(--primary-button-text); font-size: 1.1rem; font-weight: 600;
+    cursor: pointer; transition: background-color 0.2s ease, opacity 0.2s ease;
+    margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.submitButton:hover:not(:disabled) { background-color: var(--primary-button-hover-bg); }
+.submitButton:disabled { opacity: 0.6; cursor: not-allowed; }
+.submitButton svg { font-size: 1.2em; }
+
+/* Footer text / Sign out link */
+.footerText { margin-top: 25px; font-size: 0.9rem; color: var(--text-sec-col); }
+.signOutLink { /* Different from .link which might imply navigation */
+    display: inline-block; /* Or block if you want it on its own line */
+    margin-top: 10px; /* Space if it's after other footer text */
+    background: none; border: none;
+    color: var(--text-sec-col);
+    text-decoration: underline;
+    cursor: pointer; font-size: 0.9rem;
+}
+.signOutLink:hover { color: var(--text-primary); }

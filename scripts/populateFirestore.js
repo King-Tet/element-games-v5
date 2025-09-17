@@ -1,6 +1,6 @@
 // scripts/populateFirestore.js
 const admin = require('firebase-admin');
-const serviceAccount = require('../serviceAccountKey.json'); // Adjust path if needed
+const serviceAccount = require('../secrets/serviceAccountKey.json'); // Adjust path if needed
 const gamesData = require('../src/data/games.json'); // Adjust path if needed
 
 // Initialize Firebase Admin SDK

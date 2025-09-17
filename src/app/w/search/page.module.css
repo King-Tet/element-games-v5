@@ -1,0 +1,62 @@
+/* app/w/search/page.module.css */
+
+.main {
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem 5%;
+  background-color: #0a0a0a;
+  color: #f1f1f1;
+}
+
+.searchBarContainer {
+  margin-bottom: 2rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+  background-color: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 12px;
+  color: #f1f1f1;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.searchInput:focus {
+  border-color: #9c2221;
+  box-shadow: 0 0 10px rgba(156, 34, 33, 0.5);
+}
+
+.resultsContainer {
+  width: 100%;
+}
+
+.message {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+  margin-top: 4rem;
+}
+
+.resultsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 1.5rem 8%;
+  }
+
+  .searchInput {
+    font-size: 1.2rem;
+  }
+
+  .resultsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+}

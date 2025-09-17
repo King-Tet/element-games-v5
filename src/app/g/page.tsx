@@ -1,108 +1,125 @@
 // src/app/g/page.tsx
-// No longer needs 'use client' for basic data fetching, but WILL need it
-// if we keep the client-side filtering/sorting controls interactive.
-// Let's keep it client-side for now to maintain filter interactivity.
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import GameCard from '@/components/Games/GameCard';
 import { Game } from '@/types/game';
 import styles from './GamesPage.module.css';
-// No longer importing static data
-// import gameData from '@/data/games.json';
-import { getAllGames } from '@/lib/firebase/firestore'; // Import Firestore helper
+import { getAllGames } from '@/lib/supabase/db';
+import { FiChevronDown } from 'react-icons/fi';
+
+type SortOptionValue = 'releaseDate_desc' | 'name_asc' | 'totalVisits_desc';
 
 const GamesPage: React.FC = () => {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
+
   const initialCategory = searchParams.get('category');
+  const initialSort = searchParams.get('sort') as SortOptionValue || 'releaseDate_desc';
 
-  const [allGames, setAllGames] = useState<Game[]>([]); // State to hold games
-  const [isLoading, setIsLoading] = useState(true); // Loading state
+  const [allGamesData, setAllGamesData] = useState<Game[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCategory);
+  const [currentSort, setCurrentSort] = useState<SortOptionValue>(initialSort);
 
-  // Fetch games from Firestore on component mount
-  useEffect(() => {
-    const fetchGames = async () => {
+  const fetchGames = useCallback(async () => {
       setIsLoading(true);
-      const gamesFromDb = await getAllGames('name', 'asc'); // Fetch sorted by name
-      setAllGames(gamesFromDb);
+      let orderByField = 'release_date';
+      let ascending = false;
+      if (currentSort === 'name_asc') {
+          orderByField = 'name';
+          ascending = true;
+      } else if (currentSort === 'totalVisits_desc') {
+          orderByField = 'total_visits';
+          ascending = false;
+      }
+      const gamesFromDb = await getAllGames(orderByField, ascending);
+      setAllGamesData(gamesFromDb);
       setIsLoading(false);
-    };
-    fetchGames();
-  }, []); // Empty dependency array runs once
+  }, [currentSort]);
 
-  // Update selectedCategory state if the URL query param changes
   useEffect(() => {
-    setSelectedCategory(initialCategory);
-  }, [initialCategory]);
+    fetchGames();
+  }, [fetchGames]);
 
-  // Derive unique categories from the *fetched* game data
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (selectedCategory) params.set('category', selectedCategory);
+    if (currentSort) params.set('sort', currentSort);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [selectedCategory, currentSort, pathname, router]);
+
+  const handleSortChange = (newSortValue: SortOptionValue) => {
+    setCurrentSort(newSortValue);
+  };
+  const handleCategoryChange = (category: string | null) => {
+    setSelectedCategory(category);
+  };
+
   const categories = useMemo(() => {
-     if (isLoading || allGames.length === 0) return ['All']; // Default while loading/empty
-    const uniqueCategories = new Set(allGames.map(game => game.category));
+    if (allGamesData.length === 0) return ['All'];
+    const uniqueCategories = new Set(allGamesData.map(game => game.category));
     return ['All', ...Array.from(uniqueCategories).sort()];
-  }, [allGames, isLoading]); // Depends on fetched games
+  }, [allGamesData]);
 
-  // Filter games based on the selected category
   const filteredGames = useMemo(() => {
-    if (isLoading) return []; // Don't filter while loading
     if (!selectedCategory || selectedCategory === 'All') {
-      return allGames;
+      return allGamesData;
     }
-    return allGames.filter(
+    return allGamesData.filter(
       (game) => game.category.toLowerCase() === selectedCategory.toLowerCase()
     );
-  }, [allGames, selectedCategory, isLoading]); // Depends on fetched games & category
+  }, [allGamesData, selectedCategory]);
 
   return (
     <div className={styles.gamesContainer}>
       <div className={styles.header}>
-         <h1>Games</h1>
-         {/* Add sorting controls here later */}
-      </div>
-
-       {/* Category Filter Buttons */}
-       <div className={styles.categoryFilter}>
-          {/* Only render categories once games are loaded */}
-          {!isLoading && categories.map(category => (
-              <Link
-                  key={category}
-                  href={category === 'All' ? '/g' : `/g?category=${category.toLowerCase()}`}
-                  passHref
-                  scroll={false}
+        <h1>Games</h1>
+        <div className={styles.controlsContainer}>
+          <div className={styles.sortDropdownContainer}>
+            <label htmlFor="sort-select" className={styles.sortLabel}>Sort by:</label>
+            <div className={styles.selectWrapper}>
+              <select
+                id="sort-select"
+                value={currentSort}
+                onChange={(e) => handleSortChange(e.target.value as SortOptionValue)}
+                className={styles.sortSelect}
               >
-                 <button
-                     className={`${styles.categoryButton} ${
-                        (selectedCategory === category.toLowerCase() || (category === 'All' && !selectedCategory))
-                            ? styles.active
-                            : ''
-                        }`}
-                     // Basic client-side category update
-                     onClick={() => setSelectedCategory(category === 'All' ? null : category.toLowerCase())}
-                  >
-                      {category}
-                  </button>
-              </Link>
-          ))}
-          {isLoading && <div className={styles.filterLoader}>Loading filters...</div>}
-       </div>
-
-      {/* Games Grid */}
+                <option value="releaseDate_desc">Newest</option>
+                <option value="name_asc">Name (A-Z)</option>
+                <option value="totalVisits_desc">Most Popular</option>
+              </select>
+              <FiChevronDown className={styles.selectArrow} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className={styles.categoryFilter}>
+        {categories.map((category) => (
+          <button
+            key={category}
+            onClick={() => handleCategoryChange(category === 'All' ? null : category)}
+            className={`${styles.categoryButton} ${
+              ((!selectedCategory && category === 'All') || selectedCategory === category) ? styles.active : ''
+            }`}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
       {isLoading ? (
         <div className={styles.loadingMessage}>Loading games...</div>
       ) : filteredGames.length > 0 ? (
-         <div className={styles.gamesGrid}>
-            {/* Pass Firestore data (totalVisits, averageRating) to GameCard */}
-            {filteredGames.map((game) => (
-                <GameCard key={game.id} game={game} />
-            ))}
+        <div className={styles.gamesGrid}>
+          {filteredGames.map((game) => (
+            <GameCard key={game.id} game={game} />
+          ))}
         </div>
       ) : (
-        <p className={styles.noGamesMessage}>
-            No games found{selectedCategory ? ` in the "${selectedCategory}" category` : ''}.
-        </p>
+        <p className={styles.noGamesMessage}>No games found.</p>
       )}
     </div>
   );

@@ -10,6 +10,8 @@
   align-items: center;
   border-bottom: 1px solid var(--border-col);
   padding-bottom: 15px;
+  flex-wrap: wrap; /* Allow header content to wrap on smaller screens */
+  gap: 15px; /* Add some gap for wrapped items */
 }
 
 .loadingMessage,
@@ -27,6 +29,7 @@
 
 .header h1 {
   margin: 0;
+  flex-grow: 1; /* Allow h1 to take available space */
 }
 
 .categoryFilter {
@@ -43,13 +46,14 @@
   color: var(--text-sec-col);
   border-radius: var(--border-radius);
   cursor: pointer;
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
   font-size: 0.9rem;
 }
 
 .categoryButton:hover {
   background-color: var(--hover-col);
   color: var(--text-primary);
+  border-color: var(--hover-col);
 }
 
 .categoryButton.active {
@@ -86,4 +90,139 @@
   color: var(--text-sec-col);
   margin-top: 40px;
   font-size: 1.1rem;
+}
+
+/* Styles for Sort Dropdown */
+.controlsContainer {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* For spacing if other controls are added in the future */
+}
+
+.sortDropdownContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between label and select wrapper */
+}
+
+.sortLabel {
+  font-size: 0.9rem;
+  color: var(--text-sec-col);
+  white-space: nowrap; /* Prevent label from wrapping */
+}
+
+.selectWrapper {
+  position: relative;
+  display: inline-flex; /* Wraps tightly around the select */
+  align-items: center;
+  border-radius: var(--border-radius);
+  background-color: var(--nav-col);
+  border: 1px solid var(--border-col);
+  transition: border-color 0.2s, box-shadow 0.2s; /* Added box-shadow transition */
+}
+
+.selectWrapper:hover {
+  border-color: var(--hover-col); /* Highlight on hover, similar to categoryButton */
+}
+
+/* Style for when the select element inside the wrapper is focused */
+.selectWrapper:focus-within {
+  border-color: var(--accent-color);
+  /* Optional: add a box-shadow for a more prominent focus, ensure --accent-color-rgb is defined (e.g., 0, 123, 255)
+  /* box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb), 0.25); */
+}
+
+.sortSelect {
+  appearance: none; /* Remove default browser styling */
+  -webkit-appearance: none; /* For Safari/Chrome */
+  -moz-appearance: none;    /* For Firefox */
+  background-color: transparent; /* Show the .selectWrapper's background */
+  border: none; /* Remove select's own border */
+  padding: 8px 32px 8px 12px; /* Top/Right/Bottom/Left - Right padding for arrow icon */
+  font-size: 0.9rem;
+  color: var(--text-primary); /* Text color for the selected option */
+  border-radius: var(--border-radius); /* Inherit or match wrapper's radius */
+  cursor: pointer;
+  width: 100%; /* Make it fill the wrapper if wrapper has a set width */
+  min-width: 180px; /* Or any width that suits your design */
+  outline: none; /* Remove default focus outline, relying on .selectWrapper:focus-within */
+  line-height: 1.5; /* Improves readability */
+}
+
+.sortSelect:disabled {
+  color: var(--text-sec-col);
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* Limited styling for options in the dropdown list itself */
+.sortSelect option {
+  background-color: var(--nav-col); /* Or your desired dropdown background */
+  color: var(--text-primary);
+  padding: 8px 12px; /* Add some padding to options for better touch targets */
+}
+
+.selectArrow {
+  position: absolute;
+  right: 12px; /* Position arrow on the right */
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* So clicks pass through to the select element */
+  color: var(--text-sec-col); /* Arrow color */
+  font-size: 1.1rem; /* Adjust size of the FiChevronDown icon */
+  transition: color 0.2s;
+}
+
+.selectWrapper:hover .selectArrow {
+  color: var(--text-primary); /* Change arrow color on wrapper hover */
+}
+
+/* Responsive adjustments for header and sort controls */
+@media (max-width: 768px) { /* Adjusted breakpoint for better layout earlier */
+  .header {
+    flex-direction: column;
+    align-items: stretch; /* Make items take full width */
+  }
+
+  .header h1 {
+    text-align: center; /* Center title on small screens */
+    margin-bottom: 10px;
+  }
+
+  .controlsContainer {
+    width: 100%;
+    justify-content: center; /* Center the sort dropdown container */
+  }
+
+  .sortDropdownContainer {
+    /* If you want the label above the dropdown on small screens:
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    width: 100%; /* Make it full width */
+    justify-content: center; /* Center label and select if they remain inline */
+  }
+  .selectWrapper {
+    flex-grow: 1; /* Allow select wrapper to grow if sortDropdownContainer is full width */
+  }
+  .sortSelect{
+    min-width: 0; /* Allow select to shrink if needed, but wrapper can control overall size */
+    width: 100%; /* Ensure select takes full width of wrapper */
+  }
+}
+
+@media (max-width: 480px) {
+  .sortLabel {
+    display: none; /* Optionally hide label on very small screens if space is tight */
+  }
+  .selectWrapper {
+     /* Could take full width if label is hidden or stacked */
+  }
+  .sortSelect {
+    padding-left: 10px;
+    padding-right: 28px;
+  }
+  .selectArrow {
+    right: 10px;
+  }
 }
