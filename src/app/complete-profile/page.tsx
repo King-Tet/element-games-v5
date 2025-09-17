@@ -83,38 +83,38 @@ const CompleteProfilePage: React.FC = () => {
     setIsUsernameValid(isValid);
     return isValid;
   }, []);
-  const debouncedCheckAvailability = useCallback(
-    debounce(async (currentUsername: string) => {
-      if (
-        currentUsername !== latestUsernameForCheck.current ||
-        !validateUsernameFormat(currentUsername)
-      ) {
-        setIsCheckingUsername(false);
-        return;
-      }
-      setIsCheckingUsername(true);
-      setServerError(null);
-      setIsUsernameAvailable(null);
-      try {
-        const available = await checkUsernameAvailability(currentUsername);
-        if (currentUsername === latestUsernameForCheck.current) {
-            setIsUsernameAvailable(available);
-            setUsernameError(available ? null : "Username is already taken.");
-        }} catch {
-        if (currentUsername === latestUsernameForCheck.current) {
-            setServerError("Could not check username. Please try again.");
-            setIsUsernameAvailable(null);
-        }
-      } finally {
-        if (currentUsername === latestUsernameForCheck.current) {
+
+  const debouncedCheckAvailability = useMemo(() => {
+    const check = async (currentUsername: string) => {
+        if (
+            currentUsername !== latestUsernameForCheck.current ||
+            !validateUsernameFormat(currentUsername)
+        ) {
             setIsCheckingUsername(false);
+            return;
         }
-      }
-    }, 500),
-    [
-      validateUsernameFormat, // This is now stable due to useCallback above
-    ]
-  );
+        setIsCheckingUsername(true);
+        setServerError(null);
+        setIsUsernameAvailable(null);
+        try {
+            const available = await checkUsernameAvailability(currentUsername);
+            if (currentUsername === latestUsernameForCheck.current) {
+                setIsUsernameAvailable(available);
+                setUsernameError(available ? null : 'Username is already taken.');
+            }
+        } catch {
+            if (currentUsername === latestUsernameForCheck.current) {
+                setServerError('Could not check username. Please try again.');
+                setIsUsernameAvailable(null);
+            }
+        } finally {
+            if (currentUsername === latestUsernameForCheck.current) {
+                setIsCheckingUsername(false);
+            }
+        }
+    };
+    return debounce(check, 500);
+  }, [validateUsernameFormat]);
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newUsername = e.target.value;
