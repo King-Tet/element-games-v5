@@ -1,6 +1,5 @@
 // src/app/api/user/profile/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase/client';
 import { updateUserAvatar } from '@/lib/supabase/db';
 
 export async function POST(request: NextRequest) {

@@ -1,6 +1,12 @@
 // app/api/tmdb/search/route.ts
 import { NextResponse } from 'next/server';
 
+interface TmdbSearchResult {
+  id: number;
+  media_type: 'movie' | 'tv' | 'person';
+  // Add other properties as needed, but media_type is sufficient for the filter.
+}
+
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const API_URL = 'https://api.themoviedb.org/3';
 
@@ -39,17 +45,17 @@ export async function GET(request: Request) {
     }
 
     const data = await res.json();
-    const filteredResults = data.results.filter((item: any) => item.media_type !== 'person');
-    
+    const filteredResults = data.results.filter((item: TmdbSearchResult) => item.media_type !== 'person');
+
     return NextResponse.json({ ...data, results: filteredResults }, { status: 200, headers: corsHeaders });
 
   } catch (error) {
     console.error('Network or other error:', error);
-    return NextResponse.json({ error: 'An internal server error occurred' }, { status: 500, headers: corsHeaders });
+    return NextResponse.json({ error: 'An internal server error occurred', details: (error as Error).message }, { status: 500, headers: corsHeaders });
   }
 }
 
-export async function OPTIONS(request: Request) {
+export async function OPTIONS(_request: Request) {
   return new Response(null, {
     status: 204,
     headers: corsHeaders,

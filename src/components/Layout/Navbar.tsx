@@ -261,7 +261,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
                   </Link>
               ))
               ) : searchQuery.trim() && !isSearchLoading ? (
-                <div className={styles.searchStatus}>No results found for "{searchQuery}"</div>
+                <div className={styles.searchStatus}>No results found for &quot;{searchQuery}&quot;</div>
               ) : null /* Don't show anything if query is empty and not loading */}
             </div>
           )}

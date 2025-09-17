@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from "react"; // Import useState and useEffect
 import Link from "next/link";
 import Image from "next/image"; // Import Next Image
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import styles from "./Sidebar.module.css";
 import { FiHome, FiPlayCircle, FiTool, FiMessageSquare, FiShield, FiBarChart, FiFilm } from 'react-icons/fi';
 
@@ -24,8 +24,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, isAdmin }) => {
   logSidebar(`Rendering. Received isAdmin prop: ${isAdmin}`);
 
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const currentCategory = searchParams.get("category");
   const [currentTheme, setCurrentTheme] = useState("dark"); // Default to dark
 
   useEffect(() => {

@@ -79,7 +79,7 @@ const formatAdminTimestamp = (timestamp: Timestamp | { seconds: number, nanoseco
     }
     try {
         return date.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
-    } catch (e) {
+    } catch {
         return 'Formatting Error';
     }
 }
@@ -211,7 +211,7 @@ const AdminPage: React.FC = () => {
         // Validate/reformat JSON before saving
         try {
              validatedData = JSON.stringify(JSON.parse(editingSaveData)); // Ensure valid, compact JSON
-        } catch (e) {
+        } catch {
             alert("Invalid JSON format in save data. Please correct it before saving.");
             return;
         }

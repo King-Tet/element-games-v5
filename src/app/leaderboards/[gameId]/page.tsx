@@ -42,7 +42,7 @@ const GameLeaderboardPage = () => {
                 } else {
                     setError("Game not found.");
                 }
-            } catch (err) {
+            } catch (_err) {
                 setError("Failed to load game data.");
             } finally {
                 // Loading will be handled by the leaderboard fetch
@@ -76,8 +76,12 @@ const GameLeaderboardPage = () => {
                 }
                 const data: GameLeaderboardEntry[] = await response.json();
                 setLeaderboardData(data);
-            } catch (err: any) {
-                setError(err.message);
+            } catch (err: unknown) {
+                if (err instanceof Error) {
+                    setError(err.message);
+                } else {
+                    setError("An unknown error occurred.");
+                }
             } finally {
                 setIsLoading(false);
             }

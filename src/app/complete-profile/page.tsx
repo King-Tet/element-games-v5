@@ -74,7 +74,10 @@ const CompleteProfilePage: React.FC = () => {
 
   const debouncedCheckAvailability = useCallback(
     debounce(async (currentUsername: string) => {
-      if (currentUsername !== latestUsernameForCheck.current || !isUsernameValid) {
+      if (
+        currentUsername !== latestUsernameForCheck.current ||
+        !validateUsernameFormat(currentUsername)
+      ) {
         setIsCheckingUsername(false);
         return;
       }
@@ -86,8 +89,7 @@ const CompleteProfilePage: React.FC = () => {
         if (currentUsername === latestUsernameForCheck.current) {
             setIsUsernameAvailable(available);
             setUsernameError(available ? null : "Username is already taken.");
-        }
-      } catch (err: unknown) {
+        }} catch (_err: unknown) {
         if (currentUsername === latestUsernameForCheck.current) {
             setServerError("Could not check username. Please try again.");
             setIsUsernameAvailable(null);
@@ -98,7 +100,13 @@ const CompleteProfilePage: React.FC = () => {
         }
       }
     }, 500),
-    [isUsernameValid]
+    [
+      validateUsernameFormat,
+      setIsCheckingUsername,
+      setServerError,
+      setIsUsernameAvailable,
+      setUsernameError,
+    ]
   );
 
   const validateUsernameFormat = useCallback((value: string): boolean => {
