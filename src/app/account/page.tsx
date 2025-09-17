@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './AccountPage.module.css';
 import { FiLogOut, FiClock, FiStar, FiPlayCircle, FiRefreshCw } from 'react-icons/fi';
 import { supabase } from '@/lib/supabase/client';
@@ -36,12 +37,12 @@ const formatTimestamp = (timestamp: string | undefined): string => {
 // Simple card component for stats display
 const StatsGameCard: React.FC<{ game: Game; children?: React.ReactNode }> = ({ game, children }) => (
     <Link href={`/g/play/${game.id}`} className={styles.statsCard}>
-        <img
+        <Image
             src={game.imageUrl || '/game-images/default-placeholder.png'}
             alt={game.name}
             className={styles.statsCardImage}
-            loading="lazy"
-            onError={(e) => { (e.target as HTMLImageElement).src = '/game-images/default-placeholder.png'; }}
+            width={160}
+            height={90}
         />
         <div className={styles.statsCardInfo}>
             <span className={styles.statsCardTitle}>{game.name}</span>
@@ -138,9 +139,13 @@ const AccountPage: React.FC = () => {
       setSaveMessage('Profile picture updated successfully!');
       setAvatarUrl('');
       await reloadUserProfile();
-    } catch (error: any) {
-      setSaveMessage(`Error: ${error.message}`);
-      console.error(error);
+    } catch (error: unknown) {
+      let errorMessage = 'An unknown error occurred.';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      setSaveMessage(`Error: ${errorMessage}`);
+      console.error("Avatar update error:", error);
     }
     setIsSaving(false);
   };
@@ -179,11 +184,12 @@ const AccountPage: React.FC = () => {
         <h2>Profile</h2>
         <div className={styles.profileSection}>
             {(userProfile?.avatar_url || user.user_metadata.avatar_url) && (
-            <img
+            <Image
                 src={`${userProfile?.avatar_url || user.user_metadata.avatar_url || '/default-avatar.png'}?v=${profileVersion}`}
                 alt="User Avatar"
                 className={styles.avatar}
                 referrerPolicy="no-referrer"
+                width={80} height={80}
             />
             )}
             <div className={styles.userInfo}>
@@ -248,7 +254,7 @@ const AccountPage: React.FC = () => {
                                 ))}
                             </div>
                          ) : (
-                             <p className={styles.noStatsMessage}>You haven't played any games recently.</p>
+                             <p className={styles.noStatsMessage}>You haven&apos;t played any games recently.</p>
                          )}
                     </div>
 
@@ -268,7 +274,7 @@ const AccountPage: React.FC = () => {
                                 ))}
                             </div>
                          ) : (
-                            <p className={styles.noStatsMessage}>You haven't rated any games yet.</p>
+                            <p className={styles.noStatsMessage}>You haven&apos;t rated any games yet.</p>
                          )}
                      </div>
                 </>

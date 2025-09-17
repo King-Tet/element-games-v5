@@ -1,13 +1,13 @@
 // src/app/admin/page.tsx
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './AdminPage.module.css'; // Ensure path is correct
 import { useAuth } from '@/context/AuthContext'; // Ensure path is correct
 // Import RTDB functions for presence
 import { rtdb } from '@/lib/firebase/config'; // Ensure path is correct
-import { ref, onValue, query, orderByChild, equalTo, DataSnapshot } from "firebase/database"; // Import DataSnapshot
-import { FiUsers, FiSearch, FiX, FiEdit, FiSave, FiTrash2, FiEye, FiLoader, FiArrowLeft, FiCircle } from 'react-icons/fi'; // Ensure all icons are imported
+import { ref, onValue, DataSnapshot } from "firebase/database"; // Import DataSnapshot
+import { FiUsers, FiSearch, FiEdit, FiSave, FiEye, FiLoader, FiArrowLeft, FiCircle } from 'react-icons/fi'; // Ensure all icons are imported
 import { Timestamp } from 'firebase/firestore'; // Import Timestamp for type checking/conversion display
 
 // Define interfaces for fetched data (can be moved to types file)
@@ -41,7 +41,7 @@ interface GameDetailsMapType {
 }
 
 interface AdminUserDetails {
-    profile: any; // Replace 'any' with your specific UserProfile type if defined elsewhere
+    profile: unknown; // Replace 'any' with your specific UserProfile type if defined elsewhere
     gameSaves: UserGameSave[];
     gameRatings: UserGameRating[];
     recentlyPlayed: UserRecentPlay[];
@@ -60,7 +60,7 @@ interface OnlineUser {
 }
 
 // Logger
-const logAdmin = (message: string, ...optionalParams: any[]) => {
+const logAdmin = (message: string, ...optionalParams: unknown[]) => {
     const DEBUG_ENABLED = true; // Toggle admin page specific logs
     if (DEBUG_ENABLED) console.log(`[AdminPage] ${message}`, ...optionalParams);
 };
@@ -167,7 +167,7 @@ const AdminPage: React.FC = () => {
             if (!response.ok) throw new Error(data.error || 'Search failed');
             logAdmin("Search results:", data);
             setSearchResults(data.users || []);
-        } catch (error: any) {
+        } catch (error: unknown) {
             logAdmin("User search error:", error); setApiError(error.message || "Failed to search users.");
         } finally { setIsLoadingSearch(false); }
     };
@@ -189,7 +189,7 @@ const AdminPage: React.FC = () => {
             // Convert gameDetailsMap from object back to Map if needed (or just use the object)
             // API response already converts timestamps to ISO strings
             setSelectedUserDetails(data);
-        } catch (error: any) { logAdmin("Fetch details error:", error); setApiError(error.message || "Failed to fetch user details."); }
+        } catch (error: unknown) { logAdmin("Fetch details error:", error); setApiError((error as Error).message || "Failed to fetch user details."); }
         finally { setIsLoadingDetails(false); }
     };
 
@@ -230,7 +230,7 @@ const AdminPage: React.FC = () => {
             logAdmin("Save edit successful.");
             setEditingSaveGameId(null); // Close editor
             fetchUserDetails(selectedUser); // Refresh details
-        } catch (error: any) { logAdmin("Save edit error:", error); setApiError(error.message || "Failed to save edited data."); }
+        } catch (error: unknown) { logAdmin("Save edit error:", error); setApiError((error as Error).message || "Failed to save edited data."); }
         finally { setIsSavingEdit(false); }
     };
 
@@ -304,7 +304,7 @@ const AdminPage: React.FC = () => {
                     </div>
                 )}
                 {!selectedUser && !isLoadingSearch && searchQuery && searchResults.length === 0 && ( // Show only if user not selected
-                     <p className={styles.noResults}>No users found matching "{searchQuery}".</p>
+                     <p className={styles.noResults}>No users found matching &quot;{searchQuery}&quot;.</p>
                 )}
 
                 {/* Selected User Details */}

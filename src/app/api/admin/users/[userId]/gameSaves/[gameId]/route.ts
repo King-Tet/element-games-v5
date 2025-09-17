@@ -31,7 +31,7 @@ export async function PUT(
         let parsedSaveData;
         try {
             parsedSaveData = JSON.parse(newSaveDataString);
-        } catch (e) {
+        } catch {
             return NextResponse.json({ error: 'Provided saveData is not valid JSON.' }, { status: 400 });
         }
 
@@ -55,8 +55,8 @@ export async function PUT(
 
         return NextResponse.json({ success: true, message: 'Game save updated successfully.' });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error(`API Error updating save for user ${userId}, game ${gameId}:`, error);
-        return NextResponse.json({ error: 'An unexpected server error occurred.', details: error.message }, { status: 500 });
+        return NextResponse.json({ error: 'An unexpected server error occurred.', details: (error as Error).message }, { status: 500 });
     }
 }

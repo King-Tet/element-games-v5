@@ -9,13 +9,19 @@ import { FiUsers, FiSearch, FiEye, FiLoader, FiArrowLeft, FiCircle, FiEdit, FiSa
 import AdminPanel from '@/components/Admin/AdminPanel.js';
 
 // --- Interfaces ---
+interface PresencePayload {
+    username?: string | null;
+    display_name?: string | null;
+    activity?: { type: string; name: string } | null;
+}
+
 interface OnlineUser {
     uid: string;
     username?: string | null;
     display_name?: string | null;
     activity?: { type: string; name: string } | null;
 }
-interface SearchUserResult { 
+interface SearchUserResult {
     id: string; 
     username?: string; 
     email?: string; 
@@ -40,7 +46,7 @@ interface UserRecentPlay {
     games?: { name: string };
 }
 interface AdminUserDetails { 
-    profile: unknown; 
+    profile: unknown;
     gameSaves: UserGameSave[]; 
     gameRatings: UserGameRating[]; 
     recentlyPlayed: UserRecentPlay[]; 
@@ -51,14 +57,14 @@ const formatTimestamp = (timestamp: string | undefined): string => {
     if (!timestamp) return 'N/A';
     try {
         return new Date(timestamp).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
-    } catch (e) {
+    } catch {
         return 'Invalid Date';
     }
 };
 
 
 const AdminPage: React.FC = () => {
-    const { user } = useAuth();
+    useAuth(); // Hook is used for auth guard in layout, but user object isn't needed here directly
     const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([]);
     const [isLoadingOnline, setIsLoadingOnline] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
@@ -79,13 +85,13 @@ const AdminPage: React.FC = () => {
     useEffect(() => {
         const channel = supabase.channel('online-users');
         channel.on('presence', { event: 'sync' }, () => {
-            const presenceState = channel.presenceState<unknown>();
-            const users = Object.keys(presenceState).map(key => ({ uid: key, ...presenceState[key][0] })).sort((a, b) => (a.username || a.display_name || a.uid).localeCompare(b.username || b.display_name || b.uid));
+            const presenceState = channel.presenceState<PresencePayload>();
+            const users: OnlineUser[] = Object.keys(presenceState).map(key => ({ uid: key, ...presenceState[key][0] })).sort((a, b) => (a.username || a.display_name || a.uid).localeCompare(b.username || b.display_name || b.uid));
             setOnlineUsers(users);
             setIsLoadingOnline(false);
         });
         channel.on('presence', { event: 'join' }, ({ key, newPresences }) => {
-            setOnlineUsers(prev => [...prev, { uid: key, ...newPresences[0] }].sort((a, b) => (a.username || a.display_name || a.uid).localeCompare(b.username || b.display_name || b.uid)));
+            setOnlineUsers(prev => [...prev, { uid: key, ...newPresences[0] as PresencePayload }].sort((a, b) => (a.username || a.display_name || a.uid).localeCompare(b.username || b.display_name || b.uid)));
         });
         channel.on('presence', { event: 'leave' }, ({ key }) => {
             setOnlineUsers(prev => prev.filter(user => user.uid !== key));
@@ -110,7 +116,7 @@ const AdminPage: React.FC = () => {
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || 'Search failed');
             setSearchResults(data.users || []);
-        } catch (error: unknown) {
+        } catch (error) {
             setApiError(error.message || "Failed to search for users.");
         } finally {
             setIsLoadingSearch(false);
@@ -132,7 +138,7 @@ const AdminPage: React.FC = () => {
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || 'Failed to fetch user details');
             setSelectedUserDetails(data);
-        } catch (error: unknown) {
+        } catch (error) {
             setApiError(error.message || "Failed to load user details.");
         } finally {
             setIsLoadingDetails(false);
@@ -182,7 +188,7 @@ const AdminPage: React.FC = () => {
             
             setEditingSaveGameId(null); // Close editor on success
             await fetchUserDetails(selectedUser); // Refresh data
-        } catch (error: unknown) {
+        } catch (error) {
             setApiError(error.message);
         } finally {
             setIsSavingEdit(false);
@@ -244,11 +250,11 @@ const AdminPage: React.FC = () => {
                         <h3>
                             Details for {
                                 'display_name' in selectedUser && selectedUser.display_name
-                                    ? selectedUser.display_name
+                                    ? selectedUser.display_name as string
                                     : 'username' in selectedUser && selectedUser.username
-                                    ? selectedUser.username
+                                    ? selectedUser.username as string
                                     : 'id' in selectedUser
-                                    ? selectedUser.id
+                                    ? selectedUser.id as string
                                     : ''
                             }
                         </h3>
