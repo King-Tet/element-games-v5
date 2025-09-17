@@ -247,7 +247,7 @@ const AdminPage: React.FC = () => {
                 ) : (
                      <div className={styles.userDetails}>
                         <button onClick={clearSelection} className={styles.backButton}><FiArrowLeft /> Back to Search</button>
-                        <h3>Details for {(selectedUser as unknown).display_name || selectedUser.usernameselectedUser </h3>
+                        <h3>Details for {(selectedUser as any).display_name || (selectedUser as any).username || selectedUser.id}</h3>
                         {isLoadingDetails ? <p className={styles.loadingText}>Loading details...</p> : apiError ? <p className={styles.errorText}>{apiError}</p> : selectedUserDetails ? (
                             <div className={styles.detailsContent}>
                                 <h4>Profile</h4>
