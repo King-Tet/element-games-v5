@@ -1,11 +1,12 @@
 // app/api/tmdb/[type]/[id]/route.ts
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const API_URL = 'https://api.themoviedb.org/3';
 
 // This route gets details for a specific movie or TV show.
 export async function GET(
+  request: NextRequest,
   { params }: { params: { type: string; id: string } }
 ) {
   const { type, id } = params;
