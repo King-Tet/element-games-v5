@@ -6,9 +6,9 @@ import { get } from 'lodash';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { gameId: string } }
+  { params }: { params: Promise<{ gameId: string }> }
 ) {
-  const { gameId } = params;
+  const { gameId } = await params;
   const { searchParams } = new URL(request.url);
   const levelId = searchParams.get('level');
 
