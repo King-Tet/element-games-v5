@@ -72,6 +72,17 @@ const CompleteProfilePage: React.FC = () => {
       return data.available;
   };
 
+  const validateUsernameFormat = useCallback((value: string): boolean => {
+    let isValid = false;
+    setUsernameError(null);
+    if (!value) {}
+    else if (value.length < 3) setUsernameError('Username must be at least 3 characters.');
+    else if (value.length > 20) setUsernameError('Username cannot exceed 20 characters.');
+    else if (!/^[a-zA-Z0-9_]+$/.test(value)) setUsernameError('Username can only contain letters, numbers, and underscores.');
+    else isValid = true;
+    setIsUsernameValid(isValid);
+    return isValid;
+  }, []);
   const debouncedCheckAvailability = useCallback(
     debounce(async (currentUsername: string) => {
       if (
@@ -101,25 +112,9 @@ const CompleteProfilePage: React.FC = () => {
       }
     }, 500),
     [
-      validateUsernameFormat,
-      setIsCheckingUsername,
-      setServerError,
-      setIsUsernameAvailable,
-      setUsernameError,
+      validateUsernameFormat, // This is now stable due to useCallback above
     ]
   );
-
-  const validateUsernameFormat = useCallback((value: string): boolean => {
-    let isValid = false;
-    setUsernameError(null);
-    if (!value) {}
-    else if (value.length < 3) setUsernameError('Username must be at least 3 characters.');
-    else if (value.length > 20) setUsernameError('Username cannot exceed 20 characters.');
-    else if (!/^[a-zA-Z0-9_]+$/.test(value)) setUsernameError('Username can only contain letters, numbers, and underscores.');
-    else isValid = true;
-    setIsUsernameValid(isValid);
-    return isValid;
-  }, []);
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newUsername = e.target.value;
