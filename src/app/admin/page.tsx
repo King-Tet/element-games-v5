@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './AdminPage.module.css';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase/client';
-import { FiUsers, FiSearch, FiEye, FiLoader, FiArrowLeft, FiCircle, FiEdit, FiSave, FiX } from 'react-icons/fi';
+import { FiUsers, FiSearch, FiEye, FiLoader, FiArrowLeft, FiCircle, FiEdit, FiSave } from 'react-icons/fi';
 import AdminPanel from '@/components/Admin/AdminPanel.js';
 
 // --- Interfaces ---
@@ -23,7 +23,7 @@ interface SearchUserResult {
 }
 interface UserGameSave {
     game_id: string;
-    save_data: any; // JSON object from Supabase
+    save_data: unknown; // JSON object from Supabase
     saved_at: string;
     games?: { name: string };
 }
@@ -40,7 +40,7 @@ interface UserRecentPlay {
     games?: { name: string };
 }
 interface AdminUserDetails { 
-    profile: any; 
+    profile: unknown; 
     gameSaves: UserGameSave[]; 
     gameRatings: UserGameRating[]; 
     recentlyPlayed: UserRecentPlay[]; 
@@ -79,7 +79,7 @@ const AdminPage: React.FC = () => {
     useEffect(() => {
         const channel = supabase.channel('online-users');
         channel.on('presence', { event: 'sync' }, () => {
-            const presenceState = channel.presenceState<any>();
+            const presenceState = channel.presenceState<unknown>();
             const users = Object.keys(presenceState).map(key => ({ uid: key, ...presenceState[key][0] })).sort((a, b) => (a.username || a.display_name || a.uid).localeCompare(b.username || b.display_name || b.uid));
             setOnlineUsers(users);
             setIsLoadingOnline(false);
@@ -110,7 +110,7 @@ const AdminPage: React.FC = () => {
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || 'Search failed');
             setSearchResults(data.users || []);
-        } catch (error: any) {
+        } catch (error: unknown) {
             setApiError(error.message || "Failed to search for users.");
         } finally {
             setIsLoadingSearch(false);
@@ -132,7 +132,7 @@ const AdminPage: React.FC = () => {
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || 'Failed to fetch user details');
             setSelectedUserDetails(data);
-        } catch (error: any) {
+        } catch (error: unknown) {
             setApiError(error.message || "Failed to load user details.");
         } finally {
             setIsLoadingDetails(false);
@@ -182,7 +182,7 @@ const AdminPage: React.FC = () => {
             
             setEditingSaveGameId(null); // Close editor on success
             await fetchUserDetails(selectedUser); // Refresh data
-        } catch (error: any) {
+        } catch (error: unknown) {
             setApiError(error.message);
         } finally {
             setIsSavingEdit(false);
@@ -241,7 +241,17 @@ const AdminPage: React.FC = () => {
                 ) : (
                      <div className={styles.userDetails}>
                         <button onClick={clearSelection} className={styles.backButton}><FiArrowLeft /> Back to Search</button>
-                        <h3>Details for {(selectedUser as any).display_name || selectedUser.username || (selectedUser as any).id}</h3>
+                        <h3>
+                            Details for {
+                                'display_name' in selectedUser && selectedUser.display_name
+                                    ? selectedUser.display_name
+                                    : 'username' in selectedUser && selectedUser.username
+                                    ? selectedUser.username
+                                    : 'id' in selectedUser
+                                    ? selectedUser.id
+                                    : ''
+                            }
+                        </h3>
                         {isLoadingDetails ? <p className={styles.loadingText}>Loading details...</p> : apiError ? <p className={styles.errorText}>{apiError}</p> : selectedUserDetails ? (
                             <div className={styles.detailsContent}>
                                 <h4>Profile</h4>

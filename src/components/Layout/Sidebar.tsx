@@ -6,11 +6,10 @@ import Link from "next/link";
 import Image from "next/image"; // Import Next Image
 import { usePathname, useSearchParams } from "next/navigation";
 import styles from "./Sidebar.module.css";
-import { FiHome, FiPlayCircle, FiTool, FiGrid, FiGlobe, FiMessageSquare, FiShield, FiBarChart, FiFilm } from 'react-icons/fi';
-import AdPlaceholder from "@/components/Ads/AdPlaceholder";
+import { FiHome, FiPlayCircle, FiTool, FiMessageSquare, FiShield, FiBarChart, FiFilm } from 'react-icons/fi';
 
 // Logger for Sidebar
-const logSidebar = (message: string, ...optionalParams: any[]) => {
+const logSidebar = (message: string, ...optionalParams: unknown[]) => {
   const DEBUG_ENABLED = true; // Keep true for debugging
   if (DEBUG_ENABLED) console.log(`[Sidebar] ${message}`, ...optionalParams);
 };
@@ -40,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, isAdmin }) => {
 
     // Observe changes to the data-theme attribute on <html>
     const observer = new MutationObserver((mutationsList) => {
-      for (let mutation of mutationsList) {
+      for (const mutation of mutationsList) {
         if (
           mutation.type === "attributes" &&
           mutation.attributeName === "data-theme"
@@ -87,15 +86,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, isAdmin }) => {
     logSidebar("isAdmin is not true, Admin Panel link NOT added.");
   }
 
-  // Example game categories
-  const gameCategories = [
-    { key: "action", label: "Action" },
-    { key: "puzzle", label: "Puzzle" },
-    { key: "sports", label: "Sports" },
-    { key: "arcade", label: "Arcade" },
-    { key: "idle", label: "Idle" },
-  ];
-
   // Helper to determine if a main nav link is active
   const isActive = (href: string): boolean => {
     if (href === "/") return pathname === "/";
@@ -106,11 +96,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, isAdmin }) => {
     }
     // For sections like /g or /t, check prefix
     return pathname.startsWith(href);
-  };
-
-  // Helper to determine if a game category link is active
-  const isCategoryActive = (categoryKey: string): boolean => {
-    return pathname === "/g" && currentCategory === categoryKey;
   };
 
   return (

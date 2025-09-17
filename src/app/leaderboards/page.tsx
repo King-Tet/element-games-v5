@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './LeaderboardsPage.module.css';
 import { FiTrendingUp, FiAward, FiSearch, FiLoader, FiChevronRight, FiUserX, FiMeh } from 'react-icons/fi';
 
 // Component Imports
 import GameEGSTable from '@/components/Leaderboards/GameEGSTable';
 import UserRankingTable from '@/components/Leaderboards/UserRankingTable';
-import { useAuth } from '@/context/AuthContext';
 import { getTopGamesByEGS, getTopUsersByScore, getUserDataByUsername, getGamesWithLeaderboards } from '@/lib/supabase/db'; 
 import { UserProfileData } from '@/types/user';
 import { Game } from '@/types/game';
@@ -32,7 +32,6 @@ const SectionWrapper: React.FC<{
 
 
 const LeaderboardsPage = () => {
-    const { user, userProfile, loading: authLoading } = useAuth();
     const [activeTab, setActiveTab] = useState<LeaderboardTab>('users');
 
     // States for data
@@ -47,7 +46,7 @@ const LeaderboardsPage = () => {
     // States for user search
     const [searchQuery, setSearchQuery] = useState('');
     const [isSearching, setIsSearching] = useState(false);
-    const [searchResult, setSearchResult] = useState<any>(null); // Can hold user data or null
+    const [searchResult, setSearchResult] = useState<unknown>(null); // Can hold user data or null
     const [searchError, setSearchError] = useState<string | null>(null);
 
     const fetchData = useCallback(async () => {
@@ -65,7 +64,7 @@ const LeaderboardsPage = () => {
             setTopUsers(usersData);
             setGamesWithLeaderboards(individualData);
 
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Leaderboard fetch error:", error);
             setErrors(prev => ({ ...prev, all: "Could not fetch leaderboard data." }));
         } finally {
@@ -95,7 +94,8 @@ const LeaderboardsPage = () => {
             } else {
                 setSearchError(`User "${searchQuery.trim()}" not found or is unranked.`);
             }
-        } catch (error) {
+        } catch (error: unknown) {
+            console.error("Error searching for user:", error);
             setSearchError("An error occurred while searching.");
         } finally {
             setIsSearching(false);
@@ -123,7 +123,12 @@ const LeaderboardsPage = () => {
                             <div className={styles.gameLinkGrid}>
                                 {gamesWithLeaderboards.map(game => (
                                     <Link href={`/leaderboards/${game.id}`} key={game.id} className={styles.gameLinkCard}>
-                                        <img src={game.imageUrl} alt={game.name} className={styles.gameLinkImage} />
+                                        <Image 
+                                            src={game.imageUrl || '/game-images/default-placeholder.png'} 
+                                            alt={game.name} 
+                                            width={60} height={45} 
+                                            className={styles.gameLinkImage} 
+                                        />
                                         <span className={styles.gameLinkName}>{game.name}</span>
                                         <FiChevronRight className={styles.gameLinkIcon} />
                                     </Link>
@@ -186,4 +191,3 @@ const LeaderboardsPage = () => {
 };
 
 export default LeaderboardsPage;
-

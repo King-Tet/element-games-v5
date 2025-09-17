@@ -10,7 +10,7 @@ import { supabase } from '@/lib/supabase/client';
 import { debounce } from 'lodash';
 
 // Logger for this component
-const logProfileSetup = (message: string, ...optionalParams: any[]) => {
+const logProfileSetup = (message: string, ...optionalParams: unknown[]) => {
     console.log(`[CompleteProfilePage] ${message}`, ...optionalParams);
 };
 
@@ -20,7 +20,7 @@ async function setUsernameAndFinalizeProfile(
   username: string,
   displayName: string,
   avatarUrl: string
-): Promise<{ error: any }> {
+): Promise<{ error: unknown }> {
   // First, check if the username is taken by calling a Supabase Edge Function
   const { data: availability, error: availabilityError } = await supabase.functions.invoke('check-username', {
       body: { username }
@@ -87,7 +87,7 @@ const CompleteProfilePage: React.FC = () => {
             setIsUsernameAvailable(available);
             setUsernameError(available ? null : "Username is already taken.");
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (currentUsername === latestUsernameForCheck.current) {
             setServerError("Could not check username. Please try again.");
             setIsUsernameAvailable(null);

@@ -50,18 +50,15 @@ export default function WatchHomePage() {
   const [popularMoviesData, setPopularMoviesData] = useState<TmdbApiResponse>({ results: [] });
   const [popularTvData, setPopularTvData] = useState<TmdbApiResponse>({ results: [] });
   const [continueWatchingItems, setContinueWatchingItems] = useState<MediaWatchProgress[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchAllMedia = async () => {
-      setIsLoading(true);
       const [movies, tv] = await Promise.all([
         getPopularMedia('movie'),
         getPopularMedia('tv'),
       ]);
       setPopularMoviesData(movies);
       setPopularTvData(tv);
-      setIsLoading(false);
     };
     fetchAllMedia();
   }, []);

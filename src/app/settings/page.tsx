@@ -1,10 +1,10 @@
 // src/app/settings/page.tsx
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react'; // No longer need useRef here
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from './SettingsPage.module.css'; // Ensure path is correct
 // Import presets and default from the utility file
-import { TAB_PRESETS, DEFAULT_PRESET, TabPreset } from '@/utils/tabPresets'; // Ensure path is correct
+import { TAB_PRESETS, DEFAULT_PRESET } from '@/utils/tabPresets'; // Ensure path is correct
 import { FiExternalLink } from 'react-icons/fi'; // Icon for the button
 
 // Define default settings (used if localStorage is empty)
@@ -17,7 +17,7 @@ const DEFAULT_SETTINGS = {
 };
 
 // Logger for Settings Page (optional, set DEBUG_ENABLED to false to disable)
-const logSettings = (message: string, ...optionalParams: any[]) => {
+const logSettings = (message: string, ...optionalParams: unknown[]) => {
     const DEBUG_ENABLED = true; // Toggle logs
     if (DEBUG_ENABLED) console.log(`[SettingsPage] ${message}`, ...optionalParams);
 };
@@ -52,7 +52,7 @@ const SettingsPage: React.FC = () => {
       // Apply initial theme visually (cloak is handled by MainLayout)
       applyTheme(loadedSettings.theme);
     }
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, [applyTheme]); // Empty dependency array ensures this runs only once on mount
 
 
   // --- Theme Section Logic ---
@@ -164,7 +164,7 @@ const SettingsPage: React.FC = () => {
 
             // Attempt to set the favicon
             try {
-                let link = win.document.createElement('link');
+                const link = win.document.createElement('link');
                 // Use the preset's icon URL directly
                 link.type = 'image/x-icon';
                 link.rel = 'shortcut icon';
@@ -259,7 +259,7 @@ const SettingsPage: React.FC = () => {
                     maxLength={20} // Limit input length
                 />
                  <small className={styles.inputHint}>
-                    Enter the key name (e.g., 'Escape', 'Delete', 'Backquote', ']', 'a', '1'). Case-sensitive.
+                    Enter the key name (e.g., &apos;Escape&apos;, &apos;Delete&apos;, &apos;Backquote&apos;, &apos;]&apos;, &apos;a&apos;, &apos;1&apos;). Case-sensitive.
                  </small>
             </div>
              <div className={styles.inputGroup}>
@@ -273,7 +273,7 @@ const SettingsPage: React.FC = () => {
                     className={styles.inputField}
                 />
                  <small className={styles.inputHint}>
-                    Enter the full URL (including http/https) or 'about:blank'.
+                    Enter the full URL (including http/https) or &apos;about:blank&apos;.
                  </small>
             </div>
        </section>
@@ -281,7 +281,7 @@ const SettingsPage: React.FC = () => {
        {/* --- Cloaked Window Section --- */}
         <section className={styles.settingsSection}>
             <h2>Cloaked Window</h2>
-            <p className={styles.description}>Open the site in a new tab that appears as "about:blank" in the address bar. This can sometimes help bypass basic network restrictions.</p>
+            <p className={styles.description}>Open the site in a new tab that appears as &quot;about:blank&quot; in the address bar. This can sometimes help bypass basic network restrictions.</p>
             <div className={styles.buttonGroup}>
                 {/* Button to trigger the cloaked window function */}
                 <button onClick={openInAboutBlank} className={styles.buttonPrimary}>

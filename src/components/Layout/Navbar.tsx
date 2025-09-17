@@ -1,7 +1,7 @@
 // src/components/Layout/Navbar.tsx
 'use client';
 
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Navbar.module.css';
@@ -13,11 +13,12 @@ import gameData from '@/data/games.json';
 import toolData from '@/data/tools.json';
 import { Game } from '@/types/game';
 import { Tool } from '@/types/tool';
-import { SearchItem, SearchItemType } from '@/types';
+import { SearchItem, SearchItemType, } from '@/types';
+import Image from 'next/image';
 
 
 // Debounce function helper
-function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
+function debounce<F extends (...args: unknown[]) => unknown>(func: F, waitFor: number) {
   let timeoutId: NodeJS.Timeout | null = null;
 
   return (...args: Parameters<F>): Promise<ReturnType<F>> =>
@@ -54,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
   // --- Load and prepare data on mount ---
   useEffect(() => {
     const loadAllData = async () => {
-      // Fetch users from our new API endpoint
+      // Fetch users from our API endpoint
       let users: { uid: string; displayName: string; username: string }[] = [];
       try {
         const res = await fetch('/api/users/search');
@@ -144,7 +145,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
   }, [allSearchableData]); // Recreate only if data changes
 
   // Create the debounced version of performSearch
-  const debouncedSearch = useCallback(debounce(performSearch, 300), [performSearch]);
+  const debouncedSearch = useMemo(() => debounce(performSearch, 300), [performSearch]);
 
   // --- Handle search input change ---
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -258,7 +259,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
                       </span>
                     </a>
                   </Link>
-                ))
+              ))
               ) : searchQuery.trim() && !isSearchLoading ? (
                 <div className={styles.searchStatus}>No results found for "{searchQuery}"</div>
               ) : null /* Don't show anything if query is empty and not loading */}
@@ -276,12 +277,12 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
                 <div style={{ width: '36px', height: '36px' }}></div>
             ) : user && userProfile ? (
                 <Link href="/account" passHref>
-                    <img
+                    <Image
                         src={`${userProfile.avatar_url || '/logos/default-avatar.png'}?v=${profileVersion}`}
                         alt={userProfile.display_name || 'Profile'}
                         className={styles.profilePic}
-                        referrerPolicy="no-referrer"
                         onError={(e) => { (e.target as HTMLImageElement).src = '/logos/default-avatar.png'; }}
+                        width={36} height={36}
                     />
                 </Link>
             ) : (

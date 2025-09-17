@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
         // The front-end expects an object with a 'users' property.
         return NextResponse.json({ users: data });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('API Error searching users:', error);
         return NextResponse.json({ error: 'An unexpected server error occurred.', details: error.message }, { status: 500 });
     }

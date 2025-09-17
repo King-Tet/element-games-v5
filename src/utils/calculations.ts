@@ -1,8 +1,6 @@
 // src/utils/calculations.ts
 import { Game } from '@/types/game';
-import { UserProfile, UserProfileData } from '@/types/user';
-
-const W_VISITS = 1.5; const W_RATING = 15.0; const W_PLAYTIME_GAME = 1.0; const W_RATING_COUNT = 0.5;
+import { UserProfileData } from '@/types/user';
 /**
  * Calculates the Element Games Score (EGS) for a given game.
  * EGS = floor(min(100, max(1, 5 * [ (0.5 * AR * log10(TR+1)) + (0.3 * log10(PT+1)) + (0.2 * log10(GV+1)) ] )))

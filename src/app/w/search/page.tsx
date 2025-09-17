@@ -89,7 +89,7 @@ function SearchPageClient() {
         {isLoading && <div className={styles.message}>Loading...</div>}
         {error && <div className={styles.message}>{error}</div>}
         {!isLoading && !error && results.length === 0 && initialQuery && (
-          <div className={styles.message}>No results found for "{initialQuery}".</div>
+          <div className={styles.message}>No results found for &quot;{initialQuery}&quot;.</div>
         )}
         
         <div className={styles.resultsGrid}>

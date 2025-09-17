@@ -1,6 +1,7 @@
 // src/components/Tools/ToolCard.tsx
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Tool } from '@/types/tool'; // Import the interface
 import styles from './ToolCard.module.css';
 import * as FiIcons from 'react-icons/fi'; // Import all Feather icons
@@ -25,9 +26,15 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
     <>
       <div className={styles.header}>
         {tool.iconUrl ? (
-             <div className={styles.iconWrapper}>
-                <img src={tool.iconUrl} alt={`${tool.name} icon`} />
-             </div>
+          <div className={styles.iconWrapper}>
+            <Image
+              src={tool.iconUrl}
+              alt={`${tool.name} icon`}
+              width={24} // Or appropriate size
+              height={24} // Or appropriate size
+              unoptimized={tool.iconUrl.startsWith('http')} // Don't optimize external images if not configured
+            />
+          </div>
         ) : IconComponent ? (
             <div className={styles.iconWrapper}>
                 <IconComponent />

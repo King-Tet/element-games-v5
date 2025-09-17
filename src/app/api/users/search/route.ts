@@ -32,7 +32,7 @@ export async function GET() {
     }));
 
     return NextResponse.json(searchResults, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching users for search:', error);
     return NextResponse.json(
         { error: 'Failed to fetch users', details: error.message },

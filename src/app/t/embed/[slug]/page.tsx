@@ -3,7 +3,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { Tool } from '@/types/tool';
 import styles from './EmbedPage.module.css';
 import toolData from '@/data/tools.json';

@@ -32,7 +32,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
     const channel = supabase.channel('online-users');
 
     const updatePresence = () => {
-        const presenceState = channel.presenceState<any>();
+        const presenceState = channel.presenceState<{ [key: string]: unknown }>();
         const userPresence = presenceState[user.uid];
 
         if (userPresence && userPresence.length > 0) {

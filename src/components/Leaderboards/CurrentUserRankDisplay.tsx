@@ -5,7 +5,7 @@ import { UserProfileData } from '@/types/user'; // Adjust path if needed
 import styles from './LeaderboardTable.module.css'; // Reuse some table styles
 import localStyles from './CurrentUserRankDisplay.module.css'; // Specific styles
 import { formatPlaytime, formatNumber } from '@/utils/calculations'; // Adjust path
-import { FiUser, FiStar, FiClock, FiGrid } from 'react-icons/fi';
+import { FiStar, FiClock, FiGrid } from 'react-icons/fi';
 
 interface CurrentUserRankDisplayProps {
     userData: UserProfileData & { userScore: number }; // User data with score

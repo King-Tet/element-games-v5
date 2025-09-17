@@ -11,7 +11,6 @@ import {
   FiMaximize,
   FiRefreshCw,
   FiAlertTriangle,
-  FiStar,
   FiDownloadCloud,
   FiUploadCloud,
   FiCheckCircle,
@@ -47,7 +46,7 @@ const PLAYTIME_UPDATE_INTERVAL_MS = 60000;
 const getIndexedDbData = (
   iframe: HTMLIFrameElement,
   config: Game['indexedDbConfig']
-): Promise<{ [key: string]: any }> => {
+): Promise<{ [key: string]: unknown }> => {
   return new Promise((resolve, reject) => {
     if (!iframe.contentWindow || !config) {
       return reject('Iframe or config not available');
@@ -55,10 +54,21 @@ const getIndexedDbData = (
 
     const request = iframe.contentWindow.indexedDB.open(config.dbName);
 
-    request.onerror = (event) => reject('Error opening IndexedDB: ' + (event.target as any).errorCode);
+    request.onerror = (event) => {
+      const target = event.target;
+      let errorMsg = "Unknown error";
+      if (target && "error" in target && (target as IDBRequest).error) {
+        errorMsg = (target as IDBRequest).error?.name || "Unknown error";
+      } else if (target && "errorCode" in target) {
+        // Type guard for errorCode property
+        const maybeErrorCode = target as { errorCode?: string };
+        errorMsg = maybeErrorCode.errorCode || "Unknown error";
+      }
+      reject('Error opening IndexedDB: ' + errorMsg);
+    };
 
     request.onsuccess = (event) => {
-      const db = (event.target as any).result;
+      const db = (event.target as IDBOpenDBRequest).result;
       if (!db.objectStoreNames.contains(config.storeName)) {
         db.close();
         return reject(`Object store not found: ${config.storeName}`);
@@ -66,13 +76,13 @@ const getIndexedDbData = (
       const transaction = db.transaction(config.storeName, 'readonly');
       const store = transaction.objectStore(config.storeName);
       const keyRegex = new RegExp(config.keyPattern);
-      const matchingData: { [key: string]: any } = {};
+      const matchingData: { [key: string]: unknown } = {};
 
       const cursorRequest = store.openCursor();
 
-      cursorRequest.onerror = (e: any) => reject('Error with cursor: ' + e.target.errorCode);
+      cursorRequest.onerror = (e: unknown) => reject('Error with cursor: ' + e.target.errorCode);
 
-      cursorRequest.onsuccess = (e: any) => {
+      cursorRequest.onsuccess = (e: unknown) => {
         const cursor = e.target.result;
         if (cursor) {
           if (typeof cursor.key === 'string' && keyRegex.test(cursor.key)) {
@@ -96,16 +106,16 @@ const getIndexedDbData = (
 const setIndexedDbData = (
   iframe: HTMLIFrameElement,
   config: Game['indexedDbConfig'],
-  savedData: { [key: string]: any }
+  savedData: { [key: string]: unknown }
 ): Promise<void> => {
     return new Promise((resolve, reject) => {
         if (!iframe.contentWindow || !config) {
           return reject('Iframe or config not available');
         }
         const request = iframe.contentWindow.indexedDB.open(config.dbName);
-        request.onerror = (event) => reject('Error opening IndexedDB for writing: ' + (event.target as any).errorCode);
+        request.onerror = (event) => reject('Error opening IndexedDB for writing: ' + ((event.target as IDBRequest)?.error?.name || (event.target as unknown)?.errorCode || 'Unknown error'));
         request.onsuccess = (event) => {
-            const db = (event.target as any).result;
+            const db = (event.target as IDBOpenDBRequest).result;
             if (!db.objectStoreNames.contains(config.storeName)) {
                 db.close();
                 return reject(`Object store not found: ${config.storeName}`);
@@ -121,7 +131,7 @@ const setIndexedDbData = (
                 db.close();
                 resolve();
             };
-            transaction.onerror = (e: any) => {
+            transaction.onerror = (e: unknown) => {
                 db.close();
                 reject('Transaction error while writing: ' + e.target.errorCode)
             };

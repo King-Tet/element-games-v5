@@ -28,7 +28,7 @@ export async function GET(
     return NextResponse.json({ error: 'Game not found or failed to fetch config.' }, { status: 404 });
   }
 
-  const config = game.leaderboard_configs?.find((c: any) => c.id === levelId);
+  const config = game.leaderboard_configs?.find((c: unknown) => c.id === levelId);
 
   if (!config) {
       return NextResponse.json({ error: `Leaderboard level "${levelId}" not found for this game.` }, { status: 404 });
@@ -66,7 +66,7 @@ export async function GET(
             parsedValue = parsedValue[0];
         }
         
-        let extractedValue: any = null;
+        let extractedValue: unknown = null;
         if (config.scoreType === 'number') {
           extractedValue = Number(parsedValue);
         } else if (config.scoreType === 'jsonPath' && config.scorePath) {
@@ -75,7 +75,7 @@ export async function GET(
 
           // FALLBACK for array of pairs format (like Doodle Jump)
           if (extractedValue === null && parsedValue.stats && Array.isArray(parsedValue.stats)) {
-              const statsArray: [string, any][] = parsedValue.stats;
+              const statsArray: [string, unknown][] = parsedValue.stats;
               const statEntry = statsArray.find(stat => Array.isArray(stat) && stat[0] === config.scorePath);
               if (statEntry && statEntry.length > 1) {
                   extractedValue = statEntry[1];
@@ -122,7 +122,7 @@ export async function GET(
 
     return NextResponse.json(rankedLeaderboard.slice(0, 100));
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(`API Error for game leaderboard ${gameId}:`, error);
     return NextResponse.json({ error: 'Failed to load leaderboard data.', details: error.message }, { status: 500 });
   }

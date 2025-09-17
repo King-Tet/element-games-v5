@@ -88,7 +88,7 @@ const AdminPanel = () => {
         setTimeout(connect, 5000);
       };
 
-      socket.onerror = (error) => {
+      socket.onerror = () => {
         addLog('SYSTEM', 'WebSocket error.', 'error');
         socket.close();
       };
@@ -175,7 +175,8 @@ const AdminPanel = () => {
     <>
       {fullscreenImage && (
         <div className="fullscreen-overlay" onClick={() => setFullscreenImage(null)}>
-          <img src={fullscreenImage} alt="Fullscreen Screenshot" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={fullscreenImage} alt="Fullscreen Screenshot" /> 
           <button className={`${styles.btn} ${styles.btnSecondary}`}>Close</button>
         </div>
       )}
@@ -267,6 +268,7 @@ const AdminPanel = () => {
                     <div className="screenshot-list">
                       {screenshots.map((shot, index) => (
                         <div key={index} className="screenshot-item">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img src={shot.imageData} alt={`Screenshot from ${shot.clientId}`} className="screenshot-thumbnail" />
                           <div className="screenshot-info">
                             <span>From: {shot.clientId}</span>
@@ -412,4 +414,3 @@ const AdminPanel = () => {
 };
 
 export default AdminPanel;
-

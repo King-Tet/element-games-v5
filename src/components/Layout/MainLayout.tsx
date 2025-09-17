@@ -40,7 +40,7 @@ function getCurrentActivity(pathname: string): { type: 'game' | 'activity'; name
     return null;
 }
 
-const logLayout = (message: string, ...optionalParams: any[]) => {
+const logLayout = (message: string, ...optionalParams: unknown[]) => {
     const DEBUG_ENABLED = true;
     if (DEBUG_ENABLED) console.log(`[MainLayout] ${message}`, ...optionalParams);
 };

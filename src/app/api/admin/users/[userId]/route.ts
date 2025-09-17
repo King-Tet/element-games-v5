@@ -37,7 +37,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
         return NextResponse.json(responseData);
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error(`API Error fetching details for user ${userId}:`, error);
         return NextResponse.json({ error: 'Failed to fetch user details', details: error.message }, { status: 500 });
     }

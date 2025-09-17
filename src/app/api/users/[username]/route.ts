@@ -18,7 +18,7 @@ async function getProfileByUsername(username: string): Promise<UserProfileData |
     return data;
 }
 
-async function getRecentlyPlayed(userId: string): Promise<any[]> {
+async function getRecentlyPlayed(userId: string): Promise<unknown[]> {
     const { data, error } = await supabase
         .from('recently_played')
         .select('*, games(*)')
@@ -28,7 +28,7 @@ async function getRecentlyPlayed(userId: string): Promise<any[]> {
     return error ? [] : data || [];
 }
 
-async function getRecentlyRated(userId: string): Promise<any[]> {
+async function getRecentlyRated(userId: string): Promise<unknown[]> {
     const { data, error } = await supabase
         .from('game_ratings')
         .select('*, games(*)')

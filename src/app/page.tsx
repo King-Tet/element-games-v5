@@ -1,7 +1,7 @@
 // src/app/page.tsx
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { Game } from "@/types/game";
@@ -94,7 +94,7 @@ const HomePage: React.FC = () => {
             </div>
           ) : (
             <p className={styles.noItemsText}>
-              You haven't played any games recently.
+              You haven&apos;t played any games recently.
             </p>
           )}
         </section>
