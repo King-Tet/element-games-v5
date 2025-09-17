@@ -89,7 +89,7 @@ const CompleteProfilePage: React.FC = () => {
         if (currentUsername === latestUsernameForCheck.current) {
             setIsUsernameAvailable(available);
             setUsernameError(available ? null : "Username is already taken.");
-        }} catch (_err: unknown) {
+        }} catch {
         if (currentUsername === latestUsernameForCheck.current) {
             setServerError("Could not check username. Please try again.");
             setIsUsernameAvailable(null);

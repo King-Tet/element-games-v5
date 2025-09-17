@@ -6,7 +6,6 @@ const API_URL = 'https://api.themoviedb.org/3';
 
 // This route gets details for a specific movie or TV show.
 export async function GET(
-  _request: Request,
   { params }: { params: { type: string; id: string } }
 ) {
   const { type, id } = params;
@@ -58,7 +57,7 @@ export async function GET(
 }
 
 // OPTIONS handler for CORS preflight requests
-export async function OPTIONS(_request: Request) {
+export async function OPTIONS() {
   return new Response(null, {
     status: 204,
     headers: {

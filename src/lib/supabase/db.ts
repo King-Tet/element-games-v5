@@ -1,7 +1,7 @@
 // src/lib/supabase/db.ts
 import { supabase } from "./client";
-import { UserProfileData } from "@/types/user";
-import { Game } from "@/types/game";
+import { UserProfileData, UserProfile } from "@/types/user";
+import { Game, LeaderboardConfig, IndexedDbConfig } from "@/types/game";
 import { MediaWatchProgress } from "@/types/watch";
 
 // Define placeholder types.
@@ -15,8 +15,28 @@ export interface RatedGameInfo {
   rated_at: string;
 }
 
+interface DbGame {
+  id: string;
+  name: string;
+  description: string;
+  image_url: string;
+  source_url: string;
+  category: string;
+  average_rating?: number;
+  rating_count?: number;
+  total_visits?: number;
+  total_playtime_seconds?: number;
+  release_date: string | null;
+  local_storage_keys?: string[];
+  indexed_db_config?: IndexedDbConfig;
+  leaderboard_configs?: LeaderboardConfig[];
+  element_games_score?: number;
+  rating: number;
+  visits: number;
+}
+
 // --- Helper to map DB columns to JS properties ---
-const mapGameData = (game: any): Game => ({
+const mapGameData = (game: DbGame): Game => ({
   ...game,
   id: game.id,
   name: game.name,
@@ -54,7 +74,7 @@ export async function getUserProfileData(
   return data as UserProfileData | null;
 }
 
-export async function updateUserAvatar(userId: string, avatarUrl: string): Promise<{ error: any }> {
+export async function updateUserAvatar(userId: string, avatarUrl: string): Promise<{ error: unknown }> {
   const { error } = await supabase
     .from('profiles')
     .update({ avatar_url: avatarUrl })
@@ -62,9 +82,9 @@ export async function updateUserAvatar(userId: string, avatarUrl: string): Promi
   return { error };
 }
 
-export async function getUserDataByUsername(
-  username: string
-): Promise<(UserProfileData & { rank?: number | null; user_score?: number }) | null> {
+export async function getUserDataByUsername(username: string): Promise<
+  (UserProfileData & { rank: number | null; user_score: number }) | null
+> {
   const { data: user, error } = await supabase
     .from("profiles")
     .select("*, user_score") // Explicitly select user_score
@@ -78,9 +98,9 @@ export async function getUserDataByUsername(
 
   if (rpcError) {
       console.error("Error getting user rank from RPC:", rpcError);
-      return { ...user, rank: null, user_score: user.user_score };
+      return { ...user, rank: null, user_score: user.user_score ?? 0 };
   }
-  return { ...user, rank: rankData, user_score: user.user_score };
+  return { ...user, rank: rankData, user_score: user.user_score ?? 0 };
 }
 
 
@@ -169,7 +189,7 @@ export async function getTopUsersByScore(count: number): Promise<(UserProfileDat
     console.error("Error fetching top users by score via RPC:", JSON.stringify(error, null, 2));
     return [];
   }
-  return data.map((user: any) => ({
+  return data.map((user: UserProfile) => ({
       uid: user.id,
       id: user.id,
       username: user.username,
@@ -281,7 +301,7 @@ export async function submitGameRating(
   userId: string,
   gameId: string,
   rating: number
-): Promise<{ error: any }> {
+): Promise<{ error: unknown }> {
   const { error } = await supabase.rpc('submit_game_rating', {
       p_user_id: userId,
       p_game_id: gameId,
@@ -308,7 +328,7 @@ export async function saveGameSaveData(
   userId: string,
   gameId: string,
   saveData: string
-): Promise<{ error: any }> {
+): Promise<{ error: Error | null }> {
   const { error } = await supabase.from("game_saves").upsert({
     user_id: userId,
     game_id: gameId,
@@ -321,7 +341,7 @@ export async function saveGameSaveData(
 export async function updateMediaProgress(
   userId: string,
   progressData: Omit<MediaWatchProgress, 'lastWatched'>
-): Promise<{ error: any }> {
+): Promise<{ error: Error | null }> {
   const { error } = await supabase
     .from('media_watch_history')
     .upsert({
@@ -383,7 +403,7 @@ export async function incrementGameVisit(gameId: string): Promise<void> {
 /**
  * Fetches the watch progress for a single media item for a user.
  */
-export async function getMediaProgress(
+export async function getMediaProgress( 
   userId: string,
   mediaId: string
 ): Promise<MediaWatchProgress | null> {

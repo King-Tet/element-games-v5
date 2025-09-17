@@ -42,7 +42,7 @@ const GameLeaderboardPage = () => {
                 } else {
                     setError("Game not found.");
                 }
-            } catch (_err) {
+            } catch {
                 setError("Failed to load game data.");
             } finally {
                 // Loading will be handled by the leaderboard fetch

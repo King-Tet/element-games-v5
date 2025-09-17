@@ -195,6 +195,14 @@ const AdminPage: React.FC = () => {
         }
     };
 
+    const getUserDisplayName = (user: SearchUserResult | OnlineUser | null): string => {
+        if (!user) return '';
+        // The 'id' property only exists on SearchUserResult, 'uid' on OnlineUser.
+        // This acts as a type guard.
+        const userId = 'id' in user ? user.id : user.uid;
+        return user.display_name || user.username || userId;
+    };
+
 
     return (
         <div className={styles.adminContainer}>
@@ -247,7 +255,7 @@ const AdminPage: React.FC = () => {
                 ) : (
                      <div className={styles.userDetails}>
                         <button onClick={clearSelection} className={styles.backButton}><FiArrowLeft /> Back to Search</button>
-                        <h3>Details for {(selectedUser as any).display_name || (selectedUser as any).username || selectedUser.id}</h3>
+                        <h3>Details for {getUserDisplayName(selectedUser)}</h3>
                         {isLoadingDetails ? <p className={styles.loadingText}>Loading details...</p> : apiError ? <p className={styles.errorText}>{apiError}</p> : selectedUserDetails ? (
                             <div className={styles.detailsContent}>
                                 <h4>Profile</h4>
