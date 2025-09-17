@@ -6,7 +6,7 @@
   {
     "id": "stumble-guys",
     "name": "Stumble Guys",
-    "description": "NOTE: Game will throw an error becuase of a CORS Policy but just ignoore it it will work fineYou dont realize how hard it is to steal a game this large. The code is very fragile and could break in the future. Stumble Guys is a multiplayer party game where players compete in obstacle courses and mini-games to be the last one standing. The game features colorful graphics, fun characters, and a variety of challenges to keep players entertained.",
+    "description": "NOTE: Game will throw an error becuase of a CORS Policy but just ignoore it it will work fine. You dont realize how hard it is to steal a game this large. The code is very fragile and could break in the future. Stumble Guys is a multiplayer party game where players compete in obstacle courses and mini-games to be the last one standing. The game features colorful graphics, fun characters, and a variety of challenges to keep players entertained.",
     "imageUrl": "/game-images/stumble-guys.png",
     "category": "Multiplayer",
     "rating": 4.2,
