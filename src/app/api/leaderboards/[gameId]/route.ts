@@ -1,11 +1,11 @@
 // src/app/api/leaderboards/[gameId]/route.ts
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 import { GameLeaderboardEntry } from '@/types/leaderboard';
 import { get } from 'lodash';
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { gameId: string } }
 ) {
   const { gameId } = params;
@@ -127,4 +127,3 @@ export async function GET(
     return NextResponse.json({ error: 'Failed to load leaderboard data.', details: error.message }, { status: 500 });
   }
 }
-
