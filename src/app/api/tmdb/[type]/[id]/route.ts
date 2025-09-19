@@ -7,9 +7,9 @@ const API_URL = 'https://api.themoviedb.org/3';
 // This route gets details for a specific movie or TV show.
 export async function GET(
   request: NextRequest,
-  { params }: { params: { type: string; id: string } }
+  context: { params: { type: string; id: string } }
 ) {
-  const { type, id } = params;
+  const { type, id } = context.params;
 
 
   // Common headers for the response
