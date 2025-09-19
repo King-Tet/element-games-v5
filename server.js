@@ -23,7 +23,7 @@ app.prepare().then(() => {
     if (err) throw err;
     console.log('> Ready on https://localhost:3000');
     // You can also add your local IP here for convenience
-    console.log('> Also ready on https://192.168.86.40:3000');
+    console.log('> Also ready on https://192.168.86.55:3000');
   });
 
   // Create an HTTPS server
@@ -34,6 +34,6 @@ app.prepare().then(() => {
     .listen(3001, (err) => {
       if (err) throw err;
       console.log('> HTTPS Ready on https://localhost:3001');
-      console.log('> HTTPS Also ready on https://192.168.86.40:3001');
+      console.log('> HTTPS Also ready on https://192.168.86.55:3001');
     });
 });
