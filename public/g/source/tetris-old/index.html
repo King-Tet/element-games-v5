@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Tetris</title> <script src="ruffle.js"></script>
+    <style>
+        /* Ensure body takes full viewport and remove default margin */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrollbars */
+            background-color: #000; /* Optional: background for empty space */
+        }
+
+        /* Container to fill the screen and center the content */
+        #flash-container { /* Target the specific ID */
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Style the object element inside the container */
+        #flash-container object { /* Target the object within the container */
+            /* Make the object try to fill the container */
+            width: 100%;
+            height: 100%;
+
+            /*
+             * Set the aspect ratio based on the original dimensions (760 / 530)
+             * The browser will adjust width/height to fit the container
+             * while respecting this ratio.
+             */
+            aspect-ratio: 760 / 530;
+
+            /*
+             * Ensure the object doesn't exceed the container bounds
+             * if the container itself is constrained somehow (less common in fullscreen).
+             * Also helps ensure the aspect ratio calculation works correctly.
+             */
+            max-width: 100%;
+            max-height: 100%;
+
+             /* Optional: Just in case, ensures the content scales down */
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="flash-container">
+        <object type="application/x-shockwave-flash" data="flash-tetris.swf" width="960" height="530">
+            <param name="movie" value="flash-tetris.swf"> Your browser does not support Flash content, and Ruffle cannot run.
+        </object>
+    </div>
+
+    <script>
+        // This line initializes Ruffle on the web page, targeting the container
+        // Ruffle will replace the object tag within this container
+        window.RufflePlayer = window.RufflePlayer || {};
+        window.addEventListener("load", (event) => {
+            const ruffle = window.RufflePlayer.newest();
+            const player = ruffle.createPlayer();
+            const container = document.getElementById("flash-container");
+            // Clear the container in case Ruffle adds its own structure
+            container.innerHTML = '';
+            container.appendChild(player);
+            // Load the SWF file specified in the original object's data attribute
+            player.load("flash-tetris.swf"); // Explicitly load the SWF
+        });
+    </script>
+</body>
+
+</html>

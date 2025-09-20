@@ -4,6 +4,57 @@
     "quick-copy": "node scripts/populateSupabase.js"
   },
   {
+    "id": "wordle",
+    "name": "Wordle",
+    "description": "Wordle is a word puzzle game where players have six attempts to guess a five-letter word. After each guess, the game provides feedback on which letters are correct and in the correct position, which letters are correct but in the wrong position, and which letters are not in the word at all.",
+    "imageUrl": "/game-images/wordle.png",
+    "category": "Puzzle",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/wordle/index.html",
+    "tags": ["puzzle", "word", "casual", "fun"],
+    "releaseDate": "2025-9-18 21:47:00"
+  },
+    {
+    "id": "rooftop-snipers-2",
+    "name": "Rooftop Snipers 2",
+    "description": "Rooftop Snipers 2 is a fun and addictive multiplayer game where players control snipers on rooftops and try to shoot each other while avoiding obstacles and hazards.",
+    "imageUrl": "/game-images/rooftop-snipers-2.png",
+    "category": "Multiplayer",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/rooftop-snipers-2/index.html",
+    "tags": ["multiplayer", "shooter", "action", "fun"],
+    "releaseDate": "2025-9-18 21:26:00"
+  },
+  {
+    "id": "rooftop-snipers",
+    "name": "Rooftop Snipers",
+    "description": "Rooftop Snipers is a fun and addictive multiplayer game where players control snipers on rooftops and try to shoot each other while avoiding obstacles and hazards.",
+    "imageUrl": "/game-images/rooftop-snipers.png",
+    "category": "Multiplayer",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/rooftop-snipers/index.html",
+    "tags": ["multiplayer", "shooter", "action", "fun"],
+    "releaseDate": "2025-9-18 21:25:00"
+  },
+  {
+    "id": "unicycle-heros",
+    "name": "Unicycle Heros",
+    "description": "Unicycle Heros is a fun and addictive platform game where players control a character on a unicycle that jumps and navigates through various levels filled with obstacles and challenges. This sequel introduces new levels, characters, and gameplay mechanics.",
+    "imageUrl": "/game-images/unicycle-heros.png",
+    "category": "Arcade",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/unicycle-heros/index.html",
+    "tags": ["platformer", "obstacle", "speedrun", "fun"],
+    "releaseDate": "2025-9-18 21:15:00",
+    "localStorageKeys": [
+      "UnicycleHero:mySave"
+    ]
+  },
+  {
     "id": "stumble-guys",
     "name": "Stumble Guys",
     "description": "NOTE: Game will throw an error becuase of a CORS Policy but just ignoore it it will work fine. You dont realize how hard it is to steal a game this large. The code is very fragile and could break in the future. Stumble Guys is a multiplayer party game where players compete in obstacle courses and mini-games to be the last one standing. The game features colorful graphics, fun characters, and a variety of challenges to keep players entertained.",
