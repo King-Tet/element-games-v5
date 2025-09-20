@@ -69,7 +69,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, isAdmin }) => {
     { href: "/t", icon: FiTool, label: "Tools" },
     { href: '/leaderboards', icon: FiBarChart, label: 'Leaderboards' },
     { href: "/feedback", icon: FiMessageSquare, label: "Feedback" },
-    { href: "/w", icon: FiFilm, label: "Movies & TV" },
+    //{ href: "/w", icon: FiFilm, label: "Movies & TV" },
   ];
 
   // Conditionally add admin link based on the received prop
