@@ -4,6 +4,18 @@
     "quick-copy": "node scripts/populateSupabase.js"
   },
   {
+    "id": "hextris",
+    "name": "Hextris",
+    "description": "Hextris is a modern take on the classic Tetris game, featuring hexagonal tiles and a unique gameplay experience. Players must strategically place hexagonal pieces to create complete lines and clear the board.",
+    "imageUrl": "/game-images/hextris.png",
+    "category": "Puzzle",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "/g/source/hextris/index.html",
+    "tags": ["puzzle", "strategy", "casual", "fun"],
+    "releaseDate": "2025-9-19 21:25:00"
+  },
+  {
     "id": "wordle",
     "name": "Wordle",
     "description": "Wordle is a word puzzle game where players have six attempts to guess a five-letter word. After each guess, the game provides feedback on which letters are correct and in the correct position, which letters are correct but in the wrong position, and which letters are not in the word at all.",

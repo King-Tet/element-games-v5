@@ -1,0 +1,114 @@
+Loading,Loading
+New York,New York
+London,London
+Paris,Paris
+Tokyo,Tokyo
+Amsterdam,Amsterdam
+Moscow,Moscow
+Score,Score
+Speed Level,Level
+Level,Level
+Retry,Retry
+Replay,Replay
+Exit,Exit
+Continue,Continue
+Highscore,High Score
+Play,Play
+Lines cleared {0}/{1},Line Clears {0}/{1}
+Lines cleared,Line Clears
+Next,Next
+Time's up!,Time's Up!
+Too bad!,Too Bad!
+Story Mode completed,Well Done!
+More levels coming soon,More levels coming soon
+Paused,Paused
+Pause,Pause
+Resume,Resume
+Back to map,Back to map
+Back,Back
+Game Over,Game Over
+New highscore,New High Score
+Level completed,Level completed
+Next_level,Next
+Controls,Controls
+Controls A,Controls A
+Controls B,Controls B
+Hold,Hold
+Rotate counter-clockwise,Rotate counter-clockwise
+Rotate clockwise,Rotate clockwise
+Move left,Move left
+Move right,Move right
+Soft drop,Soft Drop
+Hard drop,Hard Drop
+Drag horizontally to move,Drag to move the Tetrimino
+Release to drop,Release to drop
+Drag down to soft drop,Drag down to Soft Drop
+Flick down to hard drop,Flick down to Hard Drop
+Tap left to rotate counter-clockwise,Tap left to rotate counter clockwise
+Tap right to rotate clockwise,Tap right to rotate clockwise
+{0},{0}
+{0}/{1},{0}/{1}
+Level {0},Level {0}
+{0} is locked,City is locked
+Clear {0} lines,Clear {0} lines
+Line Clear,Line Clear
+Line Clears,Line Clears
+Lines,Line Clears
+Collect {0} stars to unlock {1},Collect {0} more stars to unlock {1}!
+Collect extra stars by watching a video or play Marathon Mode,Play Marathon Mode to collect extra stars.
+Story Mode,Level Mode
+Marathon Mode,Marathon Mode
+Replay Marathon Mode to collect more stars,Replay Marathon Mode to collect more stars.
+Coming soon,Coming soon
+Congratulations!,Congratulations!
+You completed Marathon Mode!,You completed Marathon Mode!
+You unlocked Marathon Mode!,You unlocked Marathon Mode!
+You completed the Story Mode!,"More levels are coming soon. In the mean time, play Marathon Mode!"
+Complete level 10 in Story Mode to unlock Marathon Mode!,Complete level 10 to unlock Marathon Mode!
+Tap to rotate. Drag to move. Flick down to drop.,Tap to rotate. Drag to move. Flick down to drop.
+Drag to move the shape. Release to drop.,Drag to move the Tetrimino. Release to drop.
+Move the shape with your mouse. Left-click to drop.,Aim your mouse to position the Tetrimino. Left-click to drop it in place.
+Well done! Make one more Line Clear to complete the level.,Reach the Line Clears goal to complete this level!
+Tap Hold to save the current shape. Tap Hold again to switch it with another.,Tap Hold to save the current Tetrimino.
+Click Hold to save the current shape. Click Hold again to switch it with another.,Click Hold to save the current Tetrimino.
+"When this number reaches zero, all blocks in the level are shuffled","When this number reaches zero, all the Blocks will be shuffled."
+"When this number reaches zero, gravity reverses and the shapes drop in the opposite direction","When this number reaches zero, gravity reverses and new Tetriminos will drop in the opposite direction."
+Use Score Cells to earn more points.,Include Score Cells in Line Clears for extra score. Use this to earn more stars!
+Complete the level before time runs out.,Complete the level before time runs out.
+Tetris ® & © 1985~2016 Tetris Holding.,Tetris ® & © 1985~2019 Tetris Holding.
+"Tetris logos, Tetris theme song and Tetriminos are trademarks of Tetris Holding. The Tetris trade dress is owned by Tetris Holding.","Tetris logos, Tetris theme song and Tetriminos are trademarks of Tetris Holding."
+Licensed to The Tetris Company.,"Licensed to The Tetris Company.,Licensed to The Tetris Company."
+Tetris Game Design by Alexey Pajitnov.,Tetris Game Design by Alexey Pajitnov.
+Tetris Logo Design by Roger Dean.,Tetris Logo Design by Roger Dean.
+All Rights Reserved.,All Rights Reserved.
+(c) CoolGames Studio 2016,(c) CoolGames Studio 2016
+Drag horizontally to move_PC,Drag to move the Tetrimino
+tut_greyblocks,Clear grey Blocks by including them in Line Clears.
+tut_junkspawn,"When this number reaches zero, grey Blocks will spawn up from the bottom."
+tut_score,"Double, Triple and Tetris Line Clears give higher score. Use this to earn more stars!"
+choosecontrols_choosecontrols,Choose Controls
+choosecontrols_keyboard,Keyboard
+choosecontrols_mouse,Mouse
+howtoplay_lineclears,Complete each level by reaching the Line Clears goal.
+tut_placement_keyboard,Use the arrow keys to position the Tetrimino. Press spacebar to drop it in place.
+whatsnew_header,What's New
+whatsnew_content1,• View “How to play” in each   level.
+whatsnew_content2,• Coming soon: New levels & cities!
+howtoplay_header,How to play
+tut_hold_keyboard,Press Shift or C to Hold the current Tetrimino.
+howtoplay_keyboard_rotate,Rotate
+level_goal,Goal: Make {0} Line Clears
+continue_header,Continue?
+continue_text,"Watch a video to remove half of all the Blocks in the level, and continue playing!"
+continue_video,Watch video
+continue_cancel,Cancel
+whatsnew_content3,"• If you go game over, watch   a video to continue playing!"
+marathon_description,"Play traditional Tetris"
+world_description,"Play levels with unique twists"
+marathon_stars,"Stars earned in Marathon Mode are added to your total to unlock new levels on the map!"
+howtoplay_hold,"Use Hold to save the current Tetrimino."
+marathon_tomap,"To Map"
+A,A
+B,B
+dotted_line,"------------------------------------"
+Beat my score!,Beat my score!

@@ -1,0 +1,128 @@
+{
+  "dev":{
+    "ads":false
+  },
+  "default":{
+    "adId":8803493624,
+    "analyticsId":"UA-66457658-20",
+    "flurryVersion":"tetris",
+    "flurryId":"GJ3BJY7YTP3763DYSVB3",
+    "gameId":"0001-tetris",
+    "gameCode":"0001-tetris",
+    "gameCategory":"Puzzle",
+    "lang":"en",
+    "storagePrefix":"tet_",
+    "gameName":"Tetris",
+    "moreGames":true,
+    "tabPosition": 7,
+    "ads":true,
+    "adTimeout":60,
+    "freemium": false,
+    "fullscreenEnabled": true,
+    "backgroundFill": true,
+    "allowedIPs": ["80.113.175.178","86.84.12.115", "62.131.152.231"],
+    "allowedCountries": [],
+    "passwordUrl": "http://facebook-gen.service.boostermedia.com/tetrispass/passwordmodule.php",
+    "modules": ["boosterSdk"],
+    "sessionScore": false,
+    "updateNumber": 3,
+    "preroll": "all",
+    "adtechZones": {
+      "mobile":4086,
+      "desktop":4087
+    }
+
+  },
+  "yahoo":{
+    "adId":8184921220,
+    "analyticsId":"UA-66457658-19",
+    "flurryVersion":"yahoo",
+    "flurryId":"PV3R929BBZ336CZKZQGG",
+    "lang":"jp",
+    "storagePrefix":"tetjp_",
+    "rotationImage":"yahoo-landscape-warning.png",
+    "tabIcon":"yahoo-menu-icon.png",
+    "splashImage":"yahoo-splashscreen.png",
+    "moreGames":false,
+    "modules": ["flurry","yahooJP"],
+    "allowedCountries": ["JP"],
+    "sessionScore": true
+  },
+  "english":{
+    "lang": "en",
+    "ads":false
+  },
+  "english_ads":{
+    "lang": "en",
+    "ads":true
+  },
+  "yahoo_us":{
+    "analyticsId":"UA-34318136-40",
+    "flurryId":"45RX9MH4SY7YJ2F28Z59",
+    "flurryVersion":"yahoo_us",
+    "freemium": true,
+    "ads":false,
+    "fullscreenEnabled": false,
+    "backgroundFill": false
+  },
+  "generic":{
+    "adId":3717048824,
+    "flurryVersion":"generic"
+  },
+  "clickjogos.com":{
+    "adId":2548686823,
+    "flurryVersion":"clickjogos"
+  },
+  "miniclip.com":{
+    "adId":1820330027,
+    "flurryVersion":"miniclip"
+  },
+  "7graus.com":{
+    "adId":8505992024,
+    "flurryVersion":"graus"
+  },
+  "jeux.com":{
+    "adId":1687402420,
+    "flurryVersion":"jeux"
+  },
+  "google":{
+    "adId":2553530023,
+    "flurryVersion":"google",
+    "moreGamesUrl": "https://redirect.service.boostermedia.com/chrome/redir.php?source=jewel"
+  },
+  "spil":{
+    "adId": "spil_0001-tetris_preroll",
+    "flurryVersion":"spil",
+    "spilApi":true,
+    "spilId":"576742227280299026",
+    "adTimeout":600,
+    "moreGames":false,
+    "preroll": "all",
+    "modules": ["boosterSdk","flurry","spil"]
+  },
+  "keygames":{
+    "adId":5974341221,
+    "flurryVersion":"keygames",
+    "moreGames":false
+  },
+  "iwin":{
+    "adId":5839583627,
+    "flurryVersion":"iwin",
+    "moreGames":false
+  },
+  "Y8":{
+    "adId":6342124429,
+    "moreGames":true,
+    "flurryVersion":"Y8"
+  },
+  "MiniJuegos":{
+    "adId":9295590820,
+    "moreGames":true,
+    "flurryVersion":"MiniJuegos"
+  },
+  "martatest":{
+    "adId":7818857621,
+    "moreGames":true,
+    "flurryVersion":"martatest"
+  }
+}

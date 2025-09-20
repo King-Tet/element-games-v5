@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'rounded-x-mplus-1m-bold';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../assets/fonts/jp/rounded-x-mplus-1m-bold.eot');              /* IE 5-8 */
+    src: local('☺'),                             /* sneakily trick IE */
+    url('../assets/fonts/jp/rounded-x-mplus-1m-bold.woff') format('woff'),    /* FF 3.6, Chrome 5, IE9 */
+    url('../assets/fonts/jp/rounded-x-mplus-1m-bold.ttf') format('truetype'), /* Opera, Safari */
+    url('../assets/fonts/jp/rounded-x-mplus-1m-bold.svg#font') format('svg'); /* iOS */
+}
+
+@font-face {
+    font-family: 'jiyucho-webfont';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../assets/fonts/jp/jiyucho-webfont.eot');              /* IE 5-8 */
+    src: local('☺'),                             /* sneakily trick IE */
+    url('../assets/fonts/jp/jiyucho-webfont.woff') format('woff'),    /* FF 3.6, Chrome 5, IE9 */
+    url('../assets/fonts/jp/jiyucho-webfont.ttf') format('truetype'), /* Opera, Safari */
+    url('../assets/fonts/jp/jiyucho-webfont.svg#font') format('svg'); /* iOS */
+}

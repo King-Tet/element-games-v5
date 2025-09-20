@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image"; // Import Next Image
 import { usePathname } from "next/navigation";
 import styles from "./Sidebar.module.css";
-import { FiHome, FiPlayCircle, FiTool, FiMessageSquare, FiShield, FiBarChart, FiFilm } from 'react-icons/fi';
+import { FiHome, FiPlayCircle, FiTool, FiMessageSquare, FiShield, FiBarChart } from 'react-icons/fi';
 
 // Logger for Sidebar
 const logSidebar = (message: string, ...optionalParams: unknown[]) => {
