@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { Game } from "@/types/game";
-import { Tool } from "@/types/tool";
+import { Tool } from "@/types/tools";
 import styles from "./HomePage.module.css";
 import GameCard from "@/components/Games/GameCard";
 import toolData from "@/data/tools.json";
@@ -143,7 +143,10 @@ const HomePage: React.FC = () => {
         <h2 className={styles.sectionTitle}>Featured Tools</h2>
         <div className={styles.toolsGrid}>
           {featuredTools.map((tool) => (
-            <ToolIconLink key={`tool-${tool.id}`} tool={tool} />
+            <ToolIconLink
+              key={`tool-${tool.id}`}
+              tool={{ ...tool, sourceType: tool.sourceType as Tool["sourceType"] }}
+            />
           ))}
         </div>
         <Link href="/t" className={`${styles.viewAllLink} ${styles.viewAllTools}`}>
