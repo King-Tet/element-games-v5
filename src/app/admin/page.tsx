@@ -117,7 +117,8 @@ const AdminPage: React.FC = () => {
             if (!response.ok) throw new Error(data.error || 'Search failed');
             setSearchResults(data.users || []);
         } catch (error) {
-            setApiError(error.message || "Failed to search for users.");
+            const message = error instanceof Error ? error.message : String(error || "Failed to search for users.");
+            setApiError(message);
         } finally {
             setIsLoadingSearch(false);
         }
@@ -139,7 +140,8 @@ const AdminPage: React.FC = () => {
             if (!response.ok) throw new Error(data.error || 'Failed to fetch user details');
             setSelectedUserDetails(data);
         } catch (error) {
-            setApiError(error.message || "Failed to load user details.");
+            const message = error instanceof Error ? error.message : String(error || "Failed to load user details.");
+            setApiError(message);
         } finally {
             setIsLoadingDetails(false);
         }
@@ -165,7 +167,8 @@ const AdminPage: React.FC = () => {
     };
 
     const handleSaveEdit = async () => {
-        if (!selectedUser || !editingSaveGameId) return;
+    if (!selectedUser || !editingSaveGameId) return;
+    const targetUserId = 'id' in selectedUser ? selectedUser.id : selectedUser.uid;
         
         // Validate JSON before sending
         try {
@@ -178,7 +181,7 @@ const AdminPage: React.FC = () => {
         setIsSavingEdit(true);
         setApiError(null);
         try {
-            const response = await fetch(`/api/admin/users/${selectedUser.id}/gameSaves/${editingSaveGameId}`, {
+            const response = await fetch(`/api/admin/users/${targetUserId}/gameSaves/${editingSaveGameId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ saveData: editingSaveData })
@@ -189,7 +192,8 @@ const AdminPage: React.FC = () => {
             setEditingSaveGameId(null); // Close editor on success
             await fetchUserDetails(selectedUser); // Refresh data
         } catch (error) {
-            setApiError(error.message);
+            const message = error instanceof Error ? error.message : String(error || 'Failed to save data.');
+            setApiError(message);
         } finally {
             setIsSavingEdit(false);
         }
