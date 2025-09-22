@@ -36,9 +36,8 @@ async function getUserProfile(username: string): Promise<UserProfile | null> {
 }
 
 // The main component for the user profile page
-export default async function ProfilePage({ params }: ProfilePageProps) {
-  // Await params directly before destructuring username
-  const { username } = params;
+export default async function ProfilePage({ params }: { params: Promise<{ username: string }> }) {
+  const { username } = await params; // Await the params promise
   const userProfile = await getUserProfile(username);
 
   // If the user profile couldn't be fetched, show the 404 page.
