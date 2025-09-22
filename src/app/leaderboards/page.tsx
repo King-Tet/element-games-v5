@@ -46,7 +46,7 @@ const LeaderboardsPage = () => {
     // States for user search
     const [searchQuery, setSearchQuery] = useState('');
     const [isSearching, setIsSearching] = useState(false);
-    const [searchResult, setSearchResult] = useState<unknown>(null); // Can hold user data or null
+    const [searchResult, setSearchResult] = useState<(UserProfileData & { rank: number; userScore: number }) | null>(null); // Can hold user data or null
     const [searchError, setSearchError] = useState<string | null>(null);
 
     const fetchData = useCallback(async () => {
@@ -88,7 +88,7 @@ const LeaderboardsPage = () => {
                 const rankIndex = topUsers.findIndex(u => u.id === profile.id);
                 setSearchResult({
                     ...profile,
-                    rank: rankIndex !== -1 ? rankIndex + 1 : profile.rank,
+                    rank: rankIndex !== -1 ? rankIndex + 1 : 0,
                     userScore: profile.user_score
                 });
             } else {

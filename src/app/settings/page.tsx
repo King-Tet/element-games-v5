@@ -31,6 +31,16 @@ const SettingsPage: React.FC = () => {
   const [panicUrl, setPanicUrl] = useState<string>(DEFAULT_SETTINGS.panicUrl);
   // No longer need faviconLinkRef here
 
+  // --- Theme Section Logic ---
+  // Function to apply the theme class/attribute to the document
+  const applyTheme = useCallback((theme: string) => {
+    if (typeof window !== 'undefined') {
+        logSettings("Applying theme:", theme);
+        // Using data attribute on <html> is common practice
+        document.documentElement.setAttribute('data-theme', theme);
+    }
+  }, []); // No dependencies needed
+
   // --- Load settings from localStorage on initial component mount ---
   useEffect(() => {
     // Ensure running on client side before accessing localStorage
@@ -53,17 +63,6 @@ const SettingsPage: React.FC = () => {
       applyTheme(loadedSettings.theme);
     }
   }, [applyTheme]); // Empty dependency array ensures this runs only once on mount
-
-
-  // --- Theme Section Logic ---
-  // Function to apply the theme class/attribute to the document
-  const applyTheme = useCallback((theme: string) => {
-    if (typeof window !== 'undefined') {
-        logSettings("Applying theme:", theme);
-        // Using data attribute on <html> is common practice
-        document.documentElement.setAttribute('data-theme', theme);
-    }
-  }, []); // No dependencies needed
 
   // Handler for theme radio button changes
   const handleThemeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
