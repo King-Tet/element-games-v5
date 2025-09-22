@@ -39,6 +39,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     } catch (error: unknown) {
         console.error(`API Error fetching details for user ${userId}:`, error);
-        return NextResponse.json({ error: 'Failed to fetch user details', details: error.message }, { status: 500 });
+        const message = error instanceof Error ? error.message : String(error || 'Unknown error');
+        return NextResponse.json({ error: 'Failed to fetch user details', details: message }, { status: 500 });
     }
 }
