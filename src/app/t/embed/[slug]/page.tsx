@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Tool } from '@/types/tool';
+import { Tool } from '@/types/tools';
 import styles from './EmbedPage.module.css';
 import toolData from '@/data/tools.json';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -13,7 +13,10 @@ const findToolBySlug = (slug: string | undefined): Tool | undefined => {
     if (!slug) return undefined;
     const lowerCaseSlug = slug.toLowerCase();
     // Find only iframe tools matching the ID
-    return toolData.find(tool => tool.id.toLowerCase() === lowerCaseSlug && tool.sourceType === 'iframe');
+    const found = toolData.find(tool => tool.id.toLowerCase() === lowerCaseSlug && tool.sourceType === 'iframe');
+    return found
+        ? { ...found, sourceType: found.sourceType as Tool['sourceType'] }
+        : undefined;
 };
 
 
