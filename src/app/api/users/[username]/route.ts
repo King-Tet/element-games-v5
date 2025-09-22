@@ -59,17 +59,20 @@ export async function GET(
 
     // Explicitly map game data to the structure the frontend expects
     const recentlyPlayedGames: ActivityGame[] = recentlyPlayed
-        .filter(p => p.games) // Ensure game data exists
-        .map(p => ({
-            id: p.games.id,
-            title: p.games.name,
-            bannerUrl: p.games.image_url,
-            lastPlayed: p.last_played,
-        }));
+        .filter((p) => (p as any).games) // Ensure game data exists
+        .map((p) => {
+            const game = (p as any).games;
+            return {
+                id: game.id,
+                title: game.name,
+                bannerUrl: game.image_url,
+                lastPlayed: (p as any).last_played,
+            };
+        });
 
     const recentlyRatedGames: ActivityGame[] = recentlyRated
-        .filter(r => r.games) // Ensure game data exists
-        .map(r => ({
+        .filter((r: any) => r.games) // Ensure game data exists
+        .map((r: any) => ({
             id: r.games.id,
             title: r.games.name,
             bannerUrl: r.games.image_url,
