@@ -6,12 +6,6 @@ import UserInfo from '@/components/Profile/UserInfo';
 import UserStats from '@/components/Profile/UserStats';
 import ActivityFeed from '@/components/Profile/ActivityFeed';
 
-interface ProfilePageProps {
-  params: {
-    username: string;
-  };
-}
-
 // Function to fetch user data from the API
 async function getUserProfile(username: string): Promise<UserProfile | null> {
   try {
