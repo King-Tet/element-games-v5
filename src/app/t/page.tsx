@@ -5,7 +5,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import ToolCard from '@/components/Tools/ToolCard';
-import { Tool } from '@/types/tool';
+import { Tool } from '@/types/tools';
 import styles from './ToolsPage.module.css';
 import toolData from '@/data/tools.json'; // Import the static data
 
@@ -13,7 +13,7 @@ const ToolsPage: React.FC = () => {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get('category');
 
-  const allTools: Tool[] = toolData;
+  const allTools: Tool[] = toolData as Tool[];
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCategory);
 
