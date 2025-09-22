@@ -50,13 +50,15 @@ export async function PUT(
 
         if (error) {
             console.error('Supabase error updating game save:', error);
-            return NextResponse.json({ error: 'Failed to update game save.', details: error.message }, { status: 500 });
+            const message = (error && typeof (error as any).message === 'string') ? (error as any).message : String(error || 'Failed to update game save.');
+            return NextResponse.json({ error: 'Failed to update game save.', details: message }, { status: 500 });
         }
 
         return NextResponse.json({ success: true, message: 'Game save updated successfully.' });
 
     } catch (error: unknown) {
         console.error(`API Error updating save for user ${userId}, game ${gameId}:`, error);
-        return NextResponse.json({ error: 'An unexpected server error occurred.', details: (error as Error).message }, { status: 500 });
+        const message = error instanceof Error ? error.message : String(error || 'An unexpected server error occurred.');
+        return NextResponse.json({ error: 'An unexpected server error occurred.', details: message }, { status: 500 });
     }
 }

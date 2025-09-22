@@ -1,7 +1,7 @@
 // src/app/complete-profile/page.tsx
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import styles from './CompleteProfilePage.module.css';
@@ -68,7 +68,10 @@ const CompleteProfilePage: React.FC = () => {
       const { data, error } = await supabase.functions.invoke('check-username', {
           body: { username: currentUsername }
       });
-      if (error) throw new Error(error.message);
+    if (error) {
+      const message = (error && typeof (error as any).message === 'string') ? (error as any).message : String(error || 'Username check failed');
+      throw new Error(message);
+    }
       return data.available;
   };
 
@@ -153,7 +156,8 @@ const CompleteProfilePage: React.FC = () => {
 
     if (error) {
         logProfileSetup("Profile setup error during submission:", error);
-        setServerError(error.message || "Failed to complete profile. Please try again.");
+    const message = (error && typeof (error as any).message === 'string') ? (error as any).message : String(error || 'Failed to complete profile. Please try again.');
+    setServerError(message);
         setIsSubmitting(false);
     } else {
         logProfileSetup("Profile finalized successfully.");

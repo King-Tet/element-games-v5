@@ -34,8 +34,9 @@ export async function GET() {
     return NextResponse.json(searchResults, { status: 200 });
   } catch (error: unknown) {
     console.error('Error fetching users for search:', error);
+    const message = error instanceof Error ? error.message : String(error || 'Failed to fetch users');
     return NextResponse.json(
-        { error: 'Failed to fetch users', details: error.message },
+        { error: 'Failed to fetch users', details: message },
         { status: 500 }
     );
   }

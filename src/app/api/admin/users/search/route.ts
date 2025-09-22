@@ -26,8 +26,9 @@ export async function GET(request: NextRequest) {
 
         if (error) {
             console.error('Supabase RPC error in search_users:', error);
+            const message = (error && typeof (error as any).message === 'string') ? (error as any).message : String(error || 'Database search failed');
             // Provide a more specific error message to the client
-            return NextResponse.json({ error: 'Database search failed.', details: error.message }, { status: 500 });
+            return NextResponse.json({ error: 'Database search failed.', details: message }, { status: 500 });
         }
 
         // The front-end expects an object with a 'users' property.
@@ -35,6 +36,7 @@ export async function GET(request: NextRequest) {
 
     } catch (error: unknown) {
         console.error('API Error searching users:', error);
-        return NextResponse.json({ error: 'An unexpected server error occurred.', details: error.message }, { status: 500 });
+        const message = error instanceof Error ? error.message : String(error || 'An unexpected server error occurred.');
+        return NextResponse.json({ error: 'An unexpected server error occurred.', details: message }, { status: 500 });
     }
 }

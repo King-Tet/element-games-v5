@@ -28,7 +28,7 @@ export async function GET(
     return NextResponse.json({ error: 'Game not found or failed to fetch config.' }, { status: 404 });
   }
 
-  const config = game.leaderboard_configs?.find((c: unknown) => c.id === levelId);
+  const config = (game.leaderboard_configs as any)?.find((c: any) => c.id === levelId);
 
   if (!config) {
       return NextResponse.json({ error: `Leaderboard level "${levelId}" not found for this game.` }, { status: 404 });
@@ -95,16 +95,18 @@ export async function GET(
         }
 
       } catch (e) {
-        console.warn(`Could not parse score for user ${save.profiles.id} in game ${gameId}. Error: ${e instanceof Error ? e.message : String(e)}`);
+        const profile = (save.profiles as any);
+        console.warn(`Could not parse score for user ${profile?.id || '(unknown)'} in game ${gameId}. Error: ${e instanceof Error ? e.message : String(e)}`);
         continue;
       }
 
-      if (score !== null && !isNaN(score)) {
+        if (score !== null && !isNaN(score)) {
+        const profile = (save.profiles as any) || {};
         scoredEntries.push({
-          userId: save.profiles.id,
-          username: save.profiles.username,
-          displayName: save.profiles.display_name,
-          avatarUrl: save.profiles.avatar_url,
+          userId: profile.id,
+          username: profile.username,
+          displayName: profile.display_name,
+          avatarUrl: profile.avatar_url,
           score: Math.floor(score),
           lastPlayed: save.saved_at,
         });
@@ -124,6 +126,7 @@ export async function GET(
 
   } catch (error: unknown) {
     console.error(`API Error for game leaderboard ${gameId}:`, error);
-    return NextResponse.json({ error: 'Failed to load leaderboard data.', details: error.message }, { status: 500 });
+    const message = error instanceof Error ? error.message : String(error || 'Failed to load leaderboard data.');
+    return NextResponse.json({ error: 'Failed to load leaderboard data.', details: message }, { status: 500 });
   }
 }
