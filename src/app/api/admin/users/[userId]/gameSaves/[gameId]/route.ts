@@ -50,7 +50,9 @@ export async function PUT(
 
         if (error) {
             console.error('Supabase error updating game save:', error);
-            const message = (error && typeof (error as any).message === 'string') ? (error as any).message : String(error || 'Failed to update game save.');
+            const message = (error && typeof error === 'object' && error !== null && 'message' in error && typeof (error as { message?: unknown }).message === 'string')
+                ? (error as { message: string }).message
+                : String(error || 'Failed to update game save.');
             return NextResponse.json({ error: 'Failed to update game save.', details: message }, { status: 500 });
         }
 

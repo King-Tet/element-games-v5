@@ -69,7 +69,9 @@ const CompleteProfilePage: React.FC = () => {
           body: { username: currentUsername }
       });
     if (error) {
-      const message = (error && typeof (error as any).message === 'string') ? (error as any).message : String(error || 'Username check failed');
+      const message = (error && typeof error === 'object' && error !== null && 'message' in error && typeof (error as { message?: unknown }).message === 'string')
+        ? (error as { message: string }).message
+        : String(error || 'Username check failed');
       throw new Error(message);
     }
       return data.available;
@@ -156,7 +158,10 @@ const CompleteProfilePage: React.FC = () => {
 
     if (error) {
         logProfileSetup("Profile setup error during submission:", error);
-    const message = (error && typeof (error as any).message === 'string') ? (error as any).message : String(error || 'Failed to complete profile. Please try again.');
+    const message =
+      error && typeof error === 'object' && error !== null && 'message' in error && typeof (error as { message?: unknown }).message === 'string'
+        ? (error as { message: string }).message
+        : String(error || 'Failed to complete profile. Please try again.');
     setServerError(message);
         setIsSubmitting(false);
     } else {

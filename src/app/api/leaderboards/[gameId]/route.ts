@@ -28,7 +28,16 @@ export async function GET(
     return NextResponse.json({ error: 'Game not found or failed to fetch config.' }, { status: 404 });
   }
 
-  const config = (game.leaderboard_configs as any)?.find((c: any) => c.id === levelId);
+  const leaderboardConfigs = Array.isArray(game.leaderboard_configs)
+    ? game.leaderboard_configs
+    : [];
+  const config = leaderboardConfigs.find((c: unknown) => {
+    if (typeof c === 'object' && c !== null && 'id' in c) {
+      // Type assertion to access id property
+      return (c as { id: string }).id === levelId;
+    }
+    return false;
+  });
 
   if (!config) {
       return NextResponse.json({ error: `Leaderboard level "${levelId}" not found for this game.` }, { status: 404 });
@@ -95,13 +104,16 @@ export async function GET(
         }
 
       } catch (e) {
-        const profile = (save.profiles as any);
+        const profile = Array.isArray(save.profiles)
+          ? save.profiles[0]
+          : save.profiles as { id?: string };
         console.warn(`Could not parse score for user ${profile?.id || '(unknown)'} in game ${gameId}. Error: ${e instanceof Error ? e.message : String(e)}`);
         continue;
       }
 
         if (score !== null && !isNaN(score)) {
-        const profile = (save.profiles as any) || {};
+        const profileArray = save.profiles as { id: string; username: string; display_name: string; avatar_url: string }[];
+        const profile = Array.isArray(profileArray) ? profileArray[0] : profileArray;
         scoredEntries.push({
           userId: profile.id,
           username: profile.username,

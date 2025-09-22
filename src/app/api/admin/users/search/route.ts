@@ -26,7 +26,9 @@ export async function GET(request: NextRequest) {
 
         if (error) {
             console.error('Supabase RPC error in search_users:', error);
-            const message = (error && typeof (error as any).message === 'string') ? (error as any).message : String(error || 'Database search failed');
+            const message = (error && typeof error === 'object' && error !== null && 'message' in error && typeof (error as { message?: unknown }).message === 'string')
+                ? (error as { message: string }).message
+                : String(error || 'Database search failed');
             // Provide a more specific error message to the client
             return NextResponse.json({ error: 'Database search failed.', details: message }, { status: 500 });
         }
