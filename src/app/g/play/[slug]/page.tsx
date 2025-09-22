@@ -80,10 +80,10 @@ const getIndexedDbData = (
 
       const cursorRequest = store.openCursor();
 
-      cursorRequest.onerror = (e: unknown) => reject('Error with cursor: ' + e.target.errorCode);
+      cursorRequest.onerror = (e: unknown) => reject('Error with cursor: ' + ((e as Event).target as IDBRequest)?.error?.name || 'Unknown error');
 
       cursorRequest.onsuccess = (e: unknown) => {
-        const cursor = e.target.result;
+        const cursor = (e as Event).target && ((e as Event).target as IDBRequest).result;
         if (cursor) {
           if (typeof cursor.key === 'string' && keyRegex.test(cursor.key)) {
             matchingData[cursor.key] = cursor.value;
@@ -113,7 +113,7 @@ const setIndexedDbData = (
           return reject('Iframe or config not available');
         }
         const request = iframe.contentWindow.indexedDB.open(config.dbName);
-        request.onerror = (event) => reject('Error opening IndexedDB for writing: ' + ((event.target as IDBRequest)?.error?.name || (event.target as unknown)?.errorCode || 'Unknown error'));
+        request.onerror = (event) => reject('Error opening IndexedDB for writing: ' + ((event.target as IDBRequest)?.error?.name || 'Unknown error'));
         request.onsuccess = (event) => {
             const db = (event.target as IDBOpenDBRequest).result;
             if (!db.objectStoreNames.contains(config.storeName)) {
@@ -133,7 +133,7 @@ const setIndexedDbData = (
             };
             transaction.onerror = (e: unknown) => {
                 db.close();
-                reject('Transaction error while writing: ' + e.target.errorCode)
+                reject('Transaction error while writing: ' + ((e as Event).target as IDBRequest)?.error?.name || 'Unknown error');
             };
         };
     });
