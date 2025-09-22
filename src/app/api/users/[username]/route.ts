@@ -58,26 +58,40 @@ export async function GET(
     ]);
 
     // Explicitly map game data to the structure the frontend expects
-    const recentlyPlayedGames: ActivityGame[] = recentlyPlayed
-        .filter((p) => (p as any).games) // Ensure game data exists
+    type RecentlyPlayedRow = {
+        games: {
+            id: string;
+            name: string;
+            image_url: string;
+        };
+        last_played: string;
+    };
+    
+    const recentlyPlayedGames: ActivityGame[] = (recentlyPlayed as RecentlyPlayedRow[])
+        .filter((p) => p.games) // Ensure game data exists
         .map((p) => {
-            const game = (p as any).games;
+            const game = p.games;
             return {
                 id: game.id,
                 title: game.name,
                 bannerUrl: game.image_url,
-                lastPlayed: (p as any).last_played,
+                lastPlayed: p.last_played,
             };
         });
 
     const recentlyRatedGames: ActivityGame[] = recentlyRated
-        .filter((r: any) => r.games) // Ensure game data exists
-        .map((r: any) => ({
-            id: r.games.id,
-            title: r.games.name,
-            bannerUrl: r.games.image_url,
-            rating: r.rating,
-        }));
+        .filter((r): r is { games: { id: string; name: string; image_url: string }, rating: number } => 
+            typeof r === 'object' && r !== null && 'games' in r && (r as { games?: unknown }).games !== undefined
+        ) // Ensure game data exists
+        .map((r) => {
+            const game = r.games;
+            return {
+                id: game.id,
+                title: game.name,
+                bannerUrl: game.image_url,
+                rating: r.rating,
+            };
+        });
 
     // Construct the final, consistent user profile object
     const userProfileResponse: UserProfile = {
