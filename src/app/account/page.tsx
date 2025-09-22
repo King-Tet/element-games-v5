@@ -57,7 +57,7 @@ const AccountPage: React.FC = () => {
   const router = useRouter();
 
   const [recentlyPlayed, setRecentlyPlayed] = useState<(Game & RecentlyPlayedInfo)[]>([]);
-  const [ratedGames, setRatedGames] = useState<RatedGameInfo[]>([]);
+  const [ratedGames, setRatedGames] = useState<(Game & RatedGameInfo)[]>([]);
   const [isLoadingStats, setIsLoadingStats] = useState(true);
   const [avatarUrl, setAvatarUrl] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -262,16 +262,16 @@ const AccountPage: React.FC = () => {
                          <h3>Your Ratings</h3>
                          {ratedGames.length > 0 ? (
                             <div className={styles.statsGrid}>
-                                 {ratedGames.map(ratedInfo => (
-                                    <StatsGameCard key={`rated-${ratedInfo.id}`} game={ratedInfo}>
-                                         <span className={`${styles.statsCardDetail} ${styles.userRating}`}>
-                                            <FiStar /> You rated: {ratedInfo.rating} / 5
-                                        </span>
-                                         <span className={styles.statsCardDetail}>
-                                            <FiClock /> Rated on: {formatTimestamp(ratedInfo.rated_at)}
-                                        </span>
-                                    </StatsGameCard>
-                                ))}
+                 {ratedGames.map(ratedInfo => (
+                  <StatsGameCard key={`rated-${ratedInfo.id}`} game={ratedInfo}>
+                     <span className={`${styles.statsCardDetail} ${styles.userRating}`}>
+                      <FiStar /> You rated: {ratedInfo.userRating} / 5
+                    </span>
+                     <span className={styles.statsCardDetail}>
+                      <FiClock /> Rated on: {formatTimestamp(ratedInfo.rated_at)}
+                    </span>
+                  </StatsGameCard>
+                ))}
                             </div>
                          ) : (
                             <p className={styles.noStatsMessage}>You haven&apos;t rated any games yet.</p>
