@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Tool } from '@/types/tool'; // Import the interface
+import { Tool } from '@/types/tools'; // Import the interface
 import styles from './ToolCard.module.css';
 import * as FiIcons from 'react-icons/fi'; // Import all Feather icons
 
