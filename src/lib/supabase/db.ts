@@ -2,7 +2,7 @@
 import { supabase } from "./client";
 import { UserProfileData, UserProfile } from "@/types/user";
 import { Game, LeaderboardConfig, IndexedDbConfig } from "@/types/game";
-import { MediaWatchProgress } from "@/types/watch";
+// import { MediaWatchProgress } from "@/types/watch";
 
 // Define placeholder types.
 export interface RecentlyPlayedInfo {
@@ -338,6 +338,7 @@ export async function saveGameSaveData(
   return { error };
 }
 
+/*
 export async function updateMediaProgress(
   userId: string,
   progressData: Omit<MediaWatchProgress, 'lastWatched'>
@@ -392,6 +393,7 @@ export async function getContinueWatchingList(
       lastWatched: item.last_watched,
   }));
 }
+*/
 
 export async function incrementGameVisit(gameId: string): Promise<void> {
   const { error } = await supabase.rpc('increment_game_visit', { game_id_to_update: gameId });
@@ -400,6 +402,7 @@ export async function incrementGameVisit(gameId: string): Promise<void> {
   }
 }
 
+/*
 /**
  * Fetches the watch progress for a single media item for a user.
  */
@@ -431,3 +434,4 @@ export async function getMediaProgress(
       lastWatched: data.last_watched,
   };
 }
+*/
