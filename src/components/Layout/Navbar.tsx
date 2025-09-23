@@ -13,7 +13,7 @@ import gameData from '@/data/games.json';
 import toolData from '@/data/tools.json';
 import { Game } from '@/types/game';
 import { Tool } from '@/types/tools';
-import { SearchItem, SearchItemType, } from '@/types';
+import { SearchItem } from '@/types';
 import Image from 'next/image';
 
 
@@ -38,6 +38,11 @@ function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
 interface NavbarProps {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
+}
+
+// Type guard to check if an item is a valid Game object
+function isGame(item: any): item is Game {
+    return item && typeof item.id === 'string' && typeof item.name === 'string';
 }
 
 const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
@@ -68,7 +73,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
         console.error('Error fetching users for search:', error);
       }
 
-      const gameSearchItems: SearchItem[] = (gameData as any[]).slice(1).map((game: Game) => ({
+      const gameSearchItems: SearchItem[] = gameData.filter(isGame).map((game: Game) => ({
         id: game.id,
         name: game.name,
         type: 'game',
