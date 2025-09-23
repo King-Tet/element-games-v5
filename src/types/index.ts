@@ -26,20 +26,41 @@ export interface Game {
     sourcePath: string;
     tags?: string[];
   }
-  // --- End Existing Types ---
-  
-  // New Combined Search Item Type
-  export type SearchItemType = 'game' | 'tool';
-  
-  export interface SearchItem {
-    id: string;
-    name: string;
-    type: SearchItemType;
-    category: string;
-    // Path for linking. For external tools, this is the external URL.
-    linkPath: string;
-    // Indicates if the linkPath is an external URL
-    isExternal: boolean;
-    // Raw data for potential future use (e.g., showing icons)
-    rawData: Game | Tool;
-  }
+// --- End Existing Types ---
+
+// Type for user data used in search
+export interface UserSearchInfo {
+  uid: string;
+  displayName: string;
+  username: string;
+}
+
+// Base interface for all searchable items
+interface SearchItemBase {
+  id: string;
+  name: string;
+  linkPath: string;
+  isExternal: boolean;
+}
+
+// Discriminated union for specific search item types
+export type SearchItem =
+  | (SearchItemBase & {
+      type: 'game';
+      category: string;
+      rawData: Game;
+    })
+  | (SearchItemBase & {
+      type: 'tool';
+      category: string;
+      rawData: Tool;
+    })
+  | (SearchItemBase & {
+      type: 'user';
+      rawData: UserSearchInfo;
+      // Users don't have a category in the same way, can be empty or a default
+      category?: string;
+    });
+
+// The SearchItemType can be inferred from the SearchItem union
+export type SearchItemType = SearchItem['type'];

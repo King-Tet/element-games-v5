@@ -18,7 +18,7 @@ import Image from 'next/image';
 
 
 // Debounce function helper
-function debounce<F extends (...args: unknown[]) => unknown>(func: F, waitFor: number) {
+function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
   let timeoutId: NodeJS.Timeout | null = null;
 
   return (...args: Parameters<F>): Promise<ReturnType<F>> =>
@@ -242,22 +242,17 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
                   <Link
                     key={`${item.type}-${item.id}`}
                     href={item.linkPath}
-                    passHref
-                    legacyBehavior // Needed for child `<a>` tag
-                    target={item.isExternal ? '_blank' : '_self'}
+                    target={item.isExternal ? '_blank' : undefined}
                     rel={item.isExternal ? 'noopener noreferrer' : undefined}
+                    className={styles.searchResultItem}
+                    onClick={() => setIsResultsVisible(false)} // Close on click
                   >
-                    <a
-                      className={styles.searchResultItem}
-                      onClick={() => setIsResultsVisible(false)} // Close on click
-                    >
-                      <span className={styles.resultName}>{item.name}</span>
-                      <span className={styles.resultType}>
-                        {item.type === 'user'
-                          ? `@${item.rawData.username}` // Show username for users
-                          : item.type}
-                      </span>
-                    </a>
+                    <span className={styles.resultName}>{item.name}</span>
+                    <span className={styles.resultType}>
+                      {item.type === 'user'
+                        ? `@${item.rawData.username}` // Show username for users
+                        : item.type}
+                    </span>
                   </Link>
               ))
               ) : searchQuery.trim() && !isSearchLoading ? (
@@ -270,13 +265,13 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
 
       {/* Right Section: Settings & Auth */}
       <div className={styles.rightSection}>
-            <Link href="/settings" passHref> <button className={styles.settingsButton} aria-label="Settings"> <FiSettings /> </button> </Link>
+            <Link href="/settings" className={styles.settingsButton} aria-label="Settings"> <FiSettings /> </Link>
 
             {/* --- UPDATED Auth Section --- */}
             {authLoading ? (
                 <div style={{ width: '36px', height: '36px' }}></div>
             ) : user && userProfile ? (
-                <Link href="/account" passHref>
+                <Link href="/account">
                     <Image
                         src={`${userProfile.avatar_url || '/logos/default-avatar.png'}?v=${profileVersion}`}
                         alt={userProfile.display_name || 'Profile'}
