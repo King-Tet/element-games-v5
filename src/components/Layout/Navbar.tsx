@@ -18,7 +18,7 @@ import Image from 'next/image';
 
 
 // Debounce function helper
-function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
+function debounce<F extends (...args: unknown[]) => unknown>(func: F, waitFor: number) {
   let timeoutId: NodeJS.Timeout | null = null;
 
   return (...args: Parameters<F>): Promise<ReturnType<F>> =>
