@@ -32,14 +32,16 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
     const channel = supabase.channel('online-users');
 
     const updatePresence = () => {
+        if (!user.uid) return;
         const presenceState = channel.presenceState<{ [key: string]: unknown }>();
         const userPresence = presenceState[user.uid];
 
         if (userPresence && userPresence.length > 0) {
             const statusData = userPresence[0];
+            const activity = statusData.activity as ActivityState;
             setPresence({
                 isOnline: true,
-                activity: statusData.activity || null,
+                activity: activity && activity.type && activity.name ? activity : null,
             });
         } else {
             setPresence({ isOnline: false });
