@@ -12,7 +12,7 @@ import { useAuth } from '@/context/AuthContext';
 import gameData from '@/data/games.json';
 import toolData from '@/data/tools.json';
 import { Game } from '@/types/game';
-import { Tool } from '@/types/tool';
+import { Tool } from '@/types/tools';
 import { SearchItem, SearchItemType, } from '@/types';
 import Image from 'next/image';
 
