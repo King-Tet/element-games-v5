@@ -18,7 +18,7 @@ import Image from 'next/image';
 
 
 // Debounce function helper
-function debounce<F extends (...args: unknown[]) => unknown>(func: F, waitFor: number) {
+function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
   let timeoutId: NodeJS.Timeout | null = null;
 
   return (...args: Parameters<F>): Promise<ReturnType<F>> =>
@@ -68,38 +68,44 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
         console.error('Error fetching users for search:', error);
       }
 
+      const gameSearchItems: SearchItem[] = (gameData as any[]).slice(1).map((game: Game) => ({
+        id: game.id,
+        name: game.name,
+        type: 'game',
+        category: game.category,
+        linkPath: `/g/play/${game.id}`,
+        isExternal: false,
+        rawData: game,
+      }));
+
+      const toolSearchItems: SearchItem[] = (toolData as Tool[]).map((tool: Tool) => ({
+        id: tool.id,
+        name: tool.name,
+        type: 'tool',
+        category: tool.category,
+        linkPath:
+          tool.sourceType === 'external'
+            ? tool.sourcePath
+            : tool.sourceType === 'iframe'
+            ? `/t/embed/${tool.id}`
+            : tool.sourcePath,
+        isExternal: tool.sourceType === 'external',
+        rawData: tool,
+      }));
+
+      const userSearchItems: SearchItem[] = users.map(user => ({
+        id: user.uid,
+        name: user.displayName || user.username, // Display name, fallback to username
+        type: 'user',
+        linkPath: `/u/${user.username}`, // Link to user profile page
+        isExternal: false,
+        rawData: user, // Keep all user data for more detailed search
+      }));
+
       const combinedData: SearchItem[] = [
-        ...gameData.map((game: Game) => ({
-          id: game.id,
-          name: game.name,
-          type: 'game' as SearchItemType,
-          category: game.category,
-          linkPath: `/g/play/${game.id}`,
-          isExternal: false,
-          rawData: game,
-        })),
-        ...toolData.map((tool: Tool) => ({
-          id: tool.id,
-          name: tool.name,
-          type: 'tool' as SearchItemType,
-          category: tool.category,
-          linkPath:
-            tool.sourceType === 'external'
-              ? tool.sourcePath
-              : tool.sourceType === 'iframe'
-              ? `/t/embed/${tool.id}`
-              : tool.sourcePath,
-          isExternal: tool.sourceType === 'external',
-          rawData: tool,
-        })),
-        ...users.map(user => ({
-          id: user.uid,
-          name: user.displayName || user.username, // Display name, fallback to username
-          type: 'user' as SearchItemType,
-          linkPath: `/u/${user.username}`, // Link to user profile page
-          isExternal: false,
-          rawData: user, // Keep all user data for more detailed search
-        })),
+        ...gameSearchItems,
+        ...toolSearchItems,
+        ...userSearchItems,
       ];
       setAllSearchableData(combinedData);
     };
