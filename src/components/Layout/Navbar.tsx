@@ -51,6 +51,18 @@ function isGame(item: unknown): item is Game {
     );
 }
 
+// Type guard to check if an item is a valid Tool object
+function isTool(item: unknown): item is Tool {
+    return (
+        typeof item === 'object' &&
+        item !== null &&
+        'id' in item &&
+        typeof (item as { id: unknown }).id === 'string' &&
+        'name' in item &&
+        typeof (item as { name: unknown }).name === 'string'
+    );
+}
+
 const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
   const { user, userProfile, loading: authLoading, signInWithGoogle, profileVersion } = useAuth();
   const pathname = usePathname();
@@ -79,7 +91,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
         console.error('Error fetching users for search:', error);
       }
 
-      const gameSearchItems: SearchItem[] = gameData.filter(isGame).map((game: Game) => ({
+      const gameSearchItems: SearchItem[] = (gameData as any[]).filter(isGame).map((game: Game) => ({
         id: game.id,
         name: game.name,
         type: 'game',
@@ -89,7 +101,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
         rawData: game,
       }));
 
-      const toolSearchItems: SearchItem[] = (toolData as Tool[]).map((tool: Tool) => ({
+      const toolSearchItems: SearchItem[] = (toolData as any[]).filter(isTool).map((tool: Tool) => ({
         id: tool.id,
         name: tool.name,
         type: 'tool',
