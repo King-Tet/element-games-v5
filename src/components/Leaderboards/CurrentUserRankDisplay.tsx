@@ -23,25 +23,25 @@ const CurrentUserRankDisplay: React.FC<CurrentUserRankDisplayProps> = ({ userDat
                 <span className={styles.itemCol}>
                      <div className={styles.itemLink} style={{cursor: 'default'}}>
                          <Image
-                            src={userData.photoURL || '/logos/defualt-avatar.png'}
+                            src={userData.avatar_url || '/logos/default-avatar.png'}
                             alt={userData.username || 'User'}
                             width={32} height={32}
                             className={styles.itemImage} style={{ borderRadius: '50%' }}
-                            onError={(e) => { (e.target as HTMLImageElement).src = '/logos/defualt-avatar'; }}
+                            onError={(e) => { (e.target as HTMLImageElement).src = '/logos/default-avatar.png'; }}
                          />
                          <span className={styles.itemName}>
-                            {userData.username || userData.displayName || 'You'}
+                            {userData.username || userData.display_name || 'You'}
                          </span>
                      </div>
                 </span>
                  <span className={`${styles.statsCol} ${localStyles.statItem}`}>
-                     <FiClock /> {formatPlaytime(userData.totalPlaytimeSeconds)}
+                     <FiClock /> {formatPlaytime(userData.total_playtime_seconds)}
                  </span>
                  <span className={`${styles.statsCol} ${localStyles.statItem}`}>
-                      <FiStar /> {formatNumber(userData.totalRatingsSubmitted)}
+                      <FiStar /> {formatNumber(userData.total_playtime_seconds)}
                  </span>
                  <span className={`${styles.statsCol} ${localStyles.statItem}`}>
-                     <FiGrid /> {formatNumber(userData.totalGamesPlayed)}
+                     <FiGrid /> {formatNumber(userData.total_playtime_seconds)}
                 </span>
                 <span className={`${styles.scoreCol} ${styles.scoreValue} ${localStyles.score}`}>
                     {userData.userScore?.toFixed(0)}
