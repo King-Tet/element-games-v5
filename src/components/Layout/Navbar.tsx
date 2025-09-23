@@ -18,22 +18,21 @@ import Image from 'next/image';
 
 
 // Debounce function helper
-function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
+function debounce<A extends unknown[], R>(func: (...args: A) => R, waitFor: number): (...args: A) => Promise<R> {
   let timeoutId: NodeJS.Timeout | null = null;
 
-  return (...args: Parameters<F>): Promise<ReturnType<F>> =>
+  return (...args: A): Promise<R> =>
     new Promise(resolve => {
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
 
       timeoutId = setTimeout(() => {
-        timeoutId = null; // Clear timeoutId after execution
+        timeoutId = null;
         resolve(func(...args));
       }, waitFor);
     });
 }
-
 
 interface NavbarProps {
   isSidebarOpen: boolean;
@@ -41,8 +40,15 @@ interface NavbarProps {
 }
 
 // Type guard to check if an item is a valid Game object
-function isGame(item: any): item is Game {
-    return item && typeof item.id === 'string' && typeof item.name === 'string';
+function isGame(item: unknown): item is Game {
+    return (
+        typeof item === 'object' &&
+        item !== null &&
+        'id' in item &&
+        typeof (item as { id: unknown }).id === 'string' &&
+        'name' in item &&
+        typeof (item as { name: unknown }).name === 'string'
+    );
 }
 
 const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, toggleSidebar }) => {
