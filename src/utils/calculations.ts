@@ -49,9 +49,9 @@ export function calculateUserScore(
     user: Partial<UserProfileData>,
     recentPlaySessions?: { lastPlayed: { toDate: () => Date } }[]
 ): number {
-    const playtimeHours = (user.totalPlaytimeSeconds || 0) / 3600;
-    const ratingsCount = user.totalRatingsSubmitted || 0;
-    const gamesPlayedCount = user.totalGamesPlayed || 0;
+    const playtimeHours = (user.total_playtime_seconds || 0) / 3600;
+    const ratingsCount = user.total_ratings_submitted || 0;
+    const gamesPlayedCount = user.total_games_played || 0;
 
     // 1. Playtime Score (Logarithmic Scale)
     const playtimeScore = Math.log10(playtimeHours + 1) * W_USER_PLAYTIME;
