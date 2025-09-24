@@ -2,9 +2,7 @@
 import { supabase } from "./client";
 import { UserProfileData, UserProfile } from "@/types/user";
 import { Game, LeaderboardConfig, IndexedDbConfig } from "@/types/game";
-// import { MediaWatchProgress } from "@/types/watch";
 
-// Define placeholder types.
 export interface RecentlyPlayedInfo {
   last_played: string;
   playtime_seconds?: number;
@@ -35,7 +33,6 @@ interface DbGame {
   visits: number;
 }
 
-// --- Helper to map DB columns to JS properties ---
 const mapGameData = (game: DbGame): Game => ({
   ...game,
   id: game.id,
@@ -51,13 +48,12 @@ const mapGameData = (game: DbGame): Game => ({
   releaseDate: game.release_date,
   localStorageKeys: game.local_storage_keys,
   indexedDbConfig: game.indexed_db_config,
-  leaderboardConfigs: game.leaderboard_configs, // Map snake_case to camelCase
-  elementGamesScore: game.element_games_score, // EGS from RPC
-  rating: game.rating, // fallback
-  visits: game.visits, // fallback
+  leaderboardConfigs: game.leaderboard_configs,
+  elementGamesScore: game.element_games_score,
+  rating: game.rating,
+  visits: game.visits,
 });
 
-// --- User Profile Functions ---
 export async function getUserProfileData(
   userId: string
 ): Promise<UserProfileData | null> {
@@ -87,7 +83,7 @@ export async function getUserDataByUsername(username: string): Promise<
 > {
   const { data: user, error } = await supabase
     .from("profiles")
-    .select("*, user_score") // Explicitly select user_score
+    .select("*, user_score")
     .eq("username", username)
     .single();
   if (error || !user) return null;
@@ -103,8 +99,6 @@ export async function getUserDataByUsername(username: string): Promise<
   return { ...user, rank: rankData, user_score: user.user_score ?? 0 };
 }
 
-
-// --- Game Data Functions ---
 export async function getGameById(gameId: string): Promise<Game | null> {
   const { data, error } = await supabase
     .from("games")
@@ -159,8 +153,6 @@ export async function getNewGames(count: number = 5): Promise<Game[]> {
   return data.map(mapGameData);
 }
 
-// --- NEW LEADERBOARD FUNCTIONS ---
-
 export async function getGamesWithLeaderboards(): Promise<Game[]> {
   const { data, error } = await supabase
     .from('games')
@@ -206,8 +198,6 @@ export async function getTopUsersByScore(count: number): Promise<(UserProfileDat
   }));
 }
 
-
-// --- User Game Interaction Functions ---
 export async function updateUserRecentlyPlayed(
   userId: string,
   gameId: string,
@@ -227,15 +217,7 @@ export async function getUserRecentlyPlayed(
 ): Promise<(Game & RecentlyPlayedInfo)[]> {
   const { data, error } = await supabase
     .from("recently_played")
-    .select(
-      `
-            last_played,
-            playtime_seconds,
-            games (
-                *
-            )
-        `
-    )
+    .select("last_played, playtime_seconds, games(*)")
     .eq("user_id", userId)
     .order("last_played", { ascending: false })
     .limit(count);
@@ -246,12 +228,15 @@ export async function getUserRecentlyPlayed(
   }
 
   return (data || [])
-    .filter((item) => item.games && Array.isArray(item.games) && item.games.length > 0)
-    .map((item) => ({
-      ...mapGameData(item.games[0]),
-      last_played: item.last_played,
-      playtime_seconds: item.playtime_seconds,
-    }));
+    .filter((item) => item.games)
+    .map((item) => {
+      const gameData = Array.isArray(item.games) ? item.games[0] : item.games;
+      return {
+        ...mapGameData(gameData),
+        last_played: item.last_played,
+        playtime_seconds: item.playtime_seconds,
+      };
+    });
 }
 
 export async function getUserRatedGames(
@@ -259,15 +244,7 @@ export async function getUserRatedGames(
 ): Promise<(Game & RatedGameInfo)[]> {
   const { data, error } = await supabase
     .from("game_ratings")
-    .select(
-      `
-            rated_at,
-            rating,
-            games (
-                *
-            )
-        `
-    )
+    .select("rated_at, rating, games(*)")
     .eq("user_id", userId)
     .order("rated_at", { ascending: false });
 
@@ -276,12 +253,15 @@ export async function getUserRatedGames(
     return [];
   }
   return (data || [])
-    .filter((item) => item.games && Array.isArray(item.games) && item.games.length > 0)
-    .map((item) => ({
-      ...mapGameData(item.games[0]),
-      userRating: item.rating,
-      rated_at: item.rated_at,
-    }));
+    .filter((item) => item.games)
+    .map((item) => {
+        const gameData = Array.isArray(item.games) ? item.games[0] : item.games;
+        return {
+            ...mapGameData(gameData),
+            userRating: item.rating,
+            rated_at: item.rated_at,
+        };
+    });
 }
 
 export async function getUserRatingForGame(
@@ -310,7 +290,6 @@ export async function submitGameRating(
   return { error };
 }
 
-// --- Game Save Functions ---
 export async function loadGameSaveData(
   userId: string,
   gameId: string
@@ -338,96 +317,9 @@ export async function saveGameSaveData(
   return { error };
 }
 
-// export async function updateMediaProgress(
-//   userId: string,
-//   progressData: Omit<MediaWatchProgress, 'lastWatched'>
-// ): Promise<{ error: Error | null }> {
-//   const { error } = await supabase
-//     .from('media_watch_history')
-//     .upsert({
-//       user_id: userId,
-//       media_id: progressData.mediaId,
-//       media_type: progressData.mediaType,
-//       title: progressData.title,
-//       poster_path: progressData.posterPath,
-//       last_watched_season: progressData.lastWatchedSeason,
-//       last_watched_episode: progressData.lastWatchedEpisode,
-//       progress_seconds: progressData.progressSeconds,
-//       last_watched: new Date().toISOString(), // Always update timestamp
-//     });
-
-//   if (error) {
-//     console.error("Error updating media progress:", error);
-//   }
-//   return { error };
-// }
-
-// /**
-//  * Fetches the list of media the user is currently watching.
-//  */
-// export async function getContinueWatchingList(
-//   userId: string
-// ): Promise<MediaWatchProgress[]> {
-//   const { data, error } = await supabase
-//     .from('media_watch_history')
-//     .select('*')
-//     .eq('user_id', userId)
-//     .order('last_watched', { ascending: false })
-//     .limit(20);
-
-//   if (.error) {
-//     console.error("Error fetching continue watching list:", error);
-//     return [];
-//   }
-
-//   // Map snake_case from DB to camelCase for the app
-//   return data.map(item => ({
-//       mediaId: item.media_id,
-//       mediaType: item.media_type,
-//       title: item.title,
-//       posterPath: item.poster_path,
-//       lastWatchedSeason: item.last_watched_season,
-//       lastWatchedEpisode: item.last_watched_episode,
-//       progressSeconds: item.progress_seconds,
-//       lastWatched: item.last_watched,
-//   }));
-// }
-
 export async function incrementGameVisit(gameId: string): Promise<void> {
   const { error } = await supabase.rpc('increment_game_visit', { game_id_to_update: gameId });
   if (error) {
     console.error('Error incrementing game visit:', error);
   }
 }
-
-// /**
-//  * Fetches the watch progress for a single media item for a user.
-//  */
-// export async function getMediaProgress( 
-//   userId: string,
-//   mediaId: string
-// ): Promise<MediaWatchProgress | null> {
-//   const { data, error } = await supabase
-//     .from('media_watch_history')
-//     .select('*')
-//     .eq('user_id', userId)
-//     .eq('media_id', mediaId)
-//     .maybeSingle();
-
-//   if (error) {
-//     console.error("Error fetching media progress:", error);
-//     return null;
-//   }
-//   if (!data) return null;
-
-//   return {
-//       mediaId: data.media_id,
-//       mediaType: data.media_type,
-//       title: data.title,
-//       posterPath: data.poster_path,
-//       lastWatchedSeason: data.last_watched_season,
-//       lastWatchedEpisode: data.last_watched_episode,
-//       progressSeconds: data.progress_seconds,
-//       lastWatched: data.last_watched,
-//   };
-// }
