@@ -246,9 +246,9 @@ export async function getUserRecentlyPlayed(
   }
 
   return (data || [])
-    .filter((item) => item.games)
+    .filter((item) => item.games && Array.isArray(item.games) && item.games.length > 0)
     .map((item) => ({
-      ...mapGameData(item.games),
+      ...mapGameData(item.games[0]),
       last_played: item.last_played,
       playtime_seconds: item.playtime_seconds,
     }));
@@ -276,9 +276,9 @@ export async function getUserRatedGames(
     return [];
   }
   return (data || [])
-    .filter((item) => item.games)
+    .filter((item) => item.games && Array.isArray(item.games) && item.games.length > 0)
     .map((item) => ({
-      ...mapGameData(item.games),
+      ...mapGameData(item.games[0]),
       userRating: item.rating,
       rated_at: item.rated_at,
     }));
@@ -338,62 +338,60 @@ export async function saveGameSaveData(
   return { error };
 }
 
-/*
-export async function updateMediaProgress(
-  userId: string,
-  progressData: Omit<MediaWatchProgress, 'lastWatched'>
-): Promise<{ error: Error | null }> {
-  const { error } = await supabase
-    .from('media_watch_history')
-    .upsert({
-      user_id: userId,
-      media_id: progressData.mediaId,
-      media_type: progressData.mediaType,
-      title: progressData.title,
-      poster_path: progressData.posterPath,
-      last_watched_season: progressData.lastWatchedSeason,
-      last_watched_episode: progressData.lastWatchedEpisode,
-      progress_seconds: progressData.progressSeconds,
-      last_watched: new Date().toISOString(), // Always update timestamp
-    });
+// export async function updateMediaProgress(
+//   userId: string,
+//   progressData: Omit<MediaWatchProgress, 'lastWatched'>
+// ): Promise<{ error: Error | null }> {
+//   const { error } = await supabase
+//     .from('media_watch_history')
+//     .upsert({
+//       user_id: userId,
+//       media_id: progressData.mediaId,
+//       media_type: progressData.mediaType,
+//       title: progressData.title,
+//       poster_path: progressData.posterPath,
+//       last_watched_season: progressData.lastWatchedSeason,
+//       last_watched_episode: progressData.lastWatchedEpisode,
+//       progress_seconds: progressData.progressSeconds,
+//       last_watched: new Date().toISOString(), // Always update timestamp
+//     });
 
-  if (error) {
-    console.error("Error updating media progress:", error);
-  }
-  return { error };
-}
+//   if (error) {
+//     console.error("Error updating media progress:", error);
+//   }
+//   return { error };
+// }
 
-/**
- * Fetches the list of media the user is currently watching.
- */
-export async function getContinueWatchingList(
-  userId: string
-): Promise<MediaWatchProgress[]> {
-  const { data, error } = await supabase
-    .from('media_watch_history')
-    .select('*')
-    .eq('user_id', userId)
-    .order('last_watched', { ascending: false })
-    .limit(20);
+// /**
+//  * Fetches the list of media the user is currently watching.
+//  */
+// export async function getContinueWatchingList(
+//   userId: string
+// ): Promise<MediaWatchProgress[]> {
+//   const { data, error } = await supabase
+//     .from('media_watch_history')
+//     .select('*')
+//     .eq('user_id', userId)
+//     .order('last_watched', { ascending: false })
+//     .limit(20);
 
-  if (error) {
-    console.error("Error fetching continue watching list:", error);
-    return [];
-  }
+//   if (.error) {
+//     console.error("Error fetching continue watching list:", error);
+//     return [];
+//   }
 
-  // Map snake_case from DB to camelCase for the app
-  return data.map(item => ({
-      mediaId: item.media_id,
-      mediaType: item.media_type,
-      title: item.title,
-      posterPath: item.poster_path,
-      lastWatchedSeason: item.last_watched_season,
-      lastWatchedEpisode: item.last_watched_episode,
-      progressSeconds: item.progress_seconds,
-      lastWatched: item.last_watched,
-  }));
-}
-*/
+//   // Map snake_case from DB to camelCase for the app
+//   return data.map(item => ({
+//       mediaId: item.media_id,
+//       mediaType: item.media_type,
+//       title: item.title,
+//       posterPath: item.poster_path,
+//       lastWatchedSeason: item.last_watched_season,
+//       lastWatchedEpisode: item.last_watched_episode,
+//       progressSeconds: item.progress_seconds,
+//       lastWatched: item.last_watched,
+//   }));
+// }
 
 export async function incrementGameVisit(gameId: string): Promise<void> {
   const { error } = await supabase.rpc('increment_game_visit', { game_id_to_update: gameId });
@@ -402,36 +400,34 @@ export async function incrementGameVisit(gameId: string): Promise<void> {
   }
 }
 
-/*
-/**
- * Fetches the watch progress for a single media item for a user.
- */
-export async function getMediaProgress( 
-  userId: string,
-  mediaId: string
-): Promise<MediaWatchProgress | null> {
-  const { data, error } = await supabase
-    .from('media_watch_history')
-    .select('*')
-    .eq('user_id', userId)
-    .eq('media_id', mediaId)
-    .maybeSingle();
+// /**
+//  * Fetches the watch progress for a single media item for a user.
+//  */
+// export async function getMediaProgress( 
+//   userId: string,
+//   mediaId: string
+// ): Promise<MediaWatchProgress | null> {
+//   const { data, error } = await supabase
+//     .from('media_watch_history')
+//     .select('*')
+//     .eq('user_id', userId)
+//     .eq('media_id', mediaId)
+//     .maybeSingle();
 
-  if (error) {
-    console.error("Error fetching media progress:", error);
-    return null;
-  }
-  if (!data) return null;
+//   if (error) {
+//     console.error("Error fetching media progress:", error);
+//     return null;
+//   }
+//   if (!data) return null;
 
-  return {
-      mediaId: data.media_id,
-      mediaType: data.media_type,
-      title: data.title,
-      posterPath: data.poster_path,
-      lastWatchedSeason: data.last_watched_season,
-      lastWatchedEpisode: data.last_watched_episode,
-      progressSeconds: data.progress_seconds,
-      lastWatched: data.last_watched,
-  };
-}
-*/
+//   return {
+//       mediaId: data.media_id,
+//       mediaType: data.media_type,
+//       title: data.title,
+//       posterPath: data.poster_path,
+//       lastWatchedSeason: data.last_watched_season,
+//       lastWatchedEpisode: data.last_watched_episode,
+//       progressSeconds: data.progress_seconds,
+//       lastWatched: data.last_watched,
+//   };
+// }
