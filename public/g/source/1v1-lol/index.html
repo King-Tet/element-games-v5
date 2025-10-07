@@ -9,8 +9,7 @@
 	<script src="UnityLoader.js"></script>
     <script src="UnityProgress.js"></script>
     <script>
-      var Instance = UnityLoader.instantiate("Container", "build.json", {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(Instance, "complete")}}});
-    </script>
+ var gameInstance = UnityLoader.instantiate("gameContainer", "build.php", {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(gameInstance, "complete")}}});    </script>
 	<script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js')
@@ -21,7 +20,9 @@
   </head>
   <body>
     <div class="webgl-content">
-      <div id="Container" style="width: 100%; height: 100%; margin: auto;"></div>
+      <div id="gameContainer" style="width: 100%; height: 100%; margin: auto;"></div>
+	  
+<script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
 
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -45,7 +46,7 @@
             }
         );
 
-		window.unityInstance = Instance;
+		window.unityInstance = gameInstance;
 		function showAds() {
 			console.log("show ads");
         }
