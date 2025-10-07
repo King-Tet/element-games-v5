@@ -32,36 +32,37 @@
     <script src="login.js"></script>
 
     <script>
-        // Initialize Firebase and other functions
-        initializeFireBase();
-        initRemoteConfig();
+    // Firebase is initialized automatically when firebase-config.js is loaded.
+    // The login functions below are commented out because your login.js file is empty.
+    // You can add the function definitions to login.js later if you need them.
 
-        firebaseLogin(
-            'google', // provider name
-            function (user) {
-                console.log('Successfully automatically logged in:', user.displayName);
-            },
-            function (error) {
-                console.error('Automatic login failed:', error);
-            }
-        );
+    // initRemoteConfig();
+    // firebaseLogin(
+    //     'google', // provider name
+    //     function (user) {
+    //         console.log('Successfully automatically logged in:', user.displayName);
+    //     },
+    //     function (error) {
+    //         console.error('Automatic login failed:', error);
+    //     }
+    // );
 
-        window.unityInstance = gameInstance;
-        
-        function showAds() {
-            console.log("show ads");
+    window.unityInstance = gameInstance;
+
+    function showAds() {
+        console.log("show ads");
+    }
+
+    function requestNewAd() {
+        // Ad request logic here
+    }
+
+    function unityAdFinishedCallback() {
+        function onUnityReady() {
+            // Unity ready logic here
         }
-
-        function requestNewAd() {
-            // Ad request logic here
-        }
-
-        function unityAdFinishedCallback() {
-            function onUnityReady() {
-                // Unity ready logic here
-            }
-            sendConfig();
-        }
-    </script>
+        sendConfig();
+    }
+</script>
 </body>
 </html>
