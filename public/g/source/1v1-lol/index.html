@@ -9,7 +9,7 @@
 	<script src="UnityLoader.js"></script>
     <script src="UnityProgress.js"></script>
     <script>
-      var Instance = UnityLoader.instantiate("Container", "build.php", {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(Instance, "complete")}}});
+      var Instance = UnityLoader.instantiate("Container", "build.json", {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(Instance, "complete")}}});
     </script>
 	<script>
         if ('serviceWorker' in navigator) {
