@@ -5,7 +5,7 @@
     "dataUrl": "rc.data.unityweb",
     "wasmCodeUrl": "rc.wasm.code.unityweb",
     "wasmFrameworkUrl": "rc.wasm.framework.unityweb",
-    "graphicsAPI": "WebGL 2.0",
+    "graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
     "streamingAssetsUrl": "StreamingAssets",
     "webglContextAttributes": {
         "preserveDrawingBuffer": false
