@@ -2,14 +2,14 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>1v1.LOL</title>
+    <title>Interactive Demo - IXL</title>
     <link rel="shortcut icon" href="style/favicon.ico">
     <link rel="stylesheet" href="style/style.css">
 	<script src="/adinLoader.js"></script>
 	<script src="UnityLoader.js"></script>
     <script src="UnityProgress.js"></script>
     <script>
-      var gameInstance = UnityLoader.instantiate("gameContainer", "build.php", {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(gameInstance, "complete")}}});
+      var Instance = UnityLoader.instantiate("Container", "build.php", {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(Instance, "complete")}}});
     </script>
 	<script>
         if ('serviceWorker' in navigator) {
@@ -21,13 +21,7 @@
   </head>
   <body>
     <div class="webgl-content">
-      <div id="gameContainer" style="width: 100%; height: 100%; margin: auto;"></div>
-	  
-<script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
-
-	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-remote-config.js"></script>
+      <div id="Container" style="width: 100%; height: 100%; margin: auto;"></div>
 
 	<script src="firebase.js"></script>
 	<script src="login.js"></script>
@@ -37,39 +31,28 @@
 		initializeFireBase();
 		initRemoteConfig();
 		
-        // Automatically log in the user when the page loads
         firebaseLogin(
             'google', // provider name, though it's mocked
             function(user) {
                 console.log('Successfully automatically logged in:', user.displayName);
-                // Here you could send the token to Unity if needed, for example:
-                // window.unityInstance.SendMessage('MyGameObject', 'OnLoginSuccess', JSON.stringify(user));
             },
             function(error) {
                 console.error('Automatic login failed:', error);
             }
         );
 
-		window.unityInstance = gameInstance;
+		window.unityInstance = Instance;
 		function showAds() {
 			console.log("show ads");
         }
 
 		function requestNewAd(){
-		// Show video ad
-		//unityAdFinishedCallback();
 		
 		}
 
 		function unityAdFinishedCallback(){
-		//try{
-			//if(gameInstance)
-				//gameInstance.SendMessage('MainMenuManagers', 'OnWebCallback');
-		}
-		//catch(error){
-			//console.log(error);
-		//}
 		function onUnityReady() {
+		}
 
 					sendConfig();
 				}
