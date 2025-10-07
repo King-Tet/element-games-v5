@@ -9,7 +9,8 @@
 	<script src="UnityLoader.js"></script>
     <script src="UnityProgress.js"></script>
     <script>
- var gameInstance = UnityLoader.instantiate("gameContainer", "build.php", {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(gameInstance, "complete")}}});    </script>
+ var gameInstance = UnityLoader.instantiate("gameContainer", "build.json", {onProgress: UnityProgress});
+ </script>
 	<script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js')
