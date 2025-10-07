@@ -1,67 +1,67 @@
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Interactive Demo - IXL</title>
     <link rel="shortcut icon" href="style/favicon.ico">
     <link rel="stylesheet" href="style/style.css">
-	<script src="/adinLoader.js"></script>
-	<script src="UnityLoader.js"></script>
+    <script src="/adinLoader.js"></script>
+    <script src="UnityLoader.js"></script>
     <script src="UnityProgress.js"></script>
     <script>
- var gameInstance = UnityLoader.instantiate("gameContainer", "build.json", {onProgress: UnityProgress});
- </script>
-	<script>
+        var gameInstance = UnityLoader.instantiate("gameContainer", "build.json", { onProgress: UnityProgress });
+    </script>
+    <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js')
                 .then(reg => console.log('Service Worker registered successfully:', reg))
                 .catch(err => console.error('Service Worker registration failed:', err));
         }
     </script>
-  </head>
-  <body>
+</head>
+<body>
     <div class="webgl-content">
-      <div id="gameContainer" style="width: 100%; height: 100%; margin: auto;"></div>
-	  
-<script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
+        <div id="gameContainer" style="width: 100%; height: 100%; margin: auto;"></div>
+    </div>
 
-	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-remote-config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-remote-config.js"></script>
 
-	<script src="firebase.js"></script>
-	<script src="login.js"></script>
-	<script src="firebase-config.js"></script>
-	
-	<script>
-		initializeFireBase();
-		initRemoteConfig();
-		
+    <script src="firebase-config.js"></script>
+    <script src="login.js"></script>
+
+    <script>
+        // Initialize Firebase and other functions
+        initializeFireBase();
+        initRemoteConfig();
+
         firebaseLogin(
-            'google', // provider name, though it's mocked
-            function(user) {
+            'google', // provider name
+            function (user) {
                 console.log('Successfully automatically logged in:', user.displayName);
             },
-            function(error) {
+            function (error) {
                 console.error('Automatic login failed:', error);
             }
         );
 
-		window.unityInstance = gameInstance;
-		function showAds() {
-			console.log("show ads");
+        window.unityInstance = gameInstance;
+        
+        function showAds() {
+            console.log("show ads");
         }
 
-		function requestNewAd(){
-		
-		}
+        function requestNewAd() {
+            // Ad request logic here
+        }
 
-		function unityAdFinishedCallback(){
-		function onUnityReady() {
-		}
-
-					sendConfig();
-				}
-	</script>
-  </body>
+        function unityAdFinishedCallback() {
+            function onUnityReady() {
+                // Unity ready logic here
+            }
+            sendConfig();
+        }
+    </script>
+</body>
 </html>
