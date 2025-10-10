@@ -922,5 +922,14 @@ function OpenAuthDialog() {
 
         document.body.appendChild(script);
     </script>
+
+    <script>
+      // This configuration must match the `localStorageKeys` in your Supabase games table
+      new CloudBridge({
+        localStorageKeys: [
+          "savesData"
+        ],
+      });
+    </script>
 </body>
 </html>

@@ -83,5 +83,15 @@
         <!-- Run the game code -->
         <script type="text/javascript" src="html5game/RetroBowl.js"></script>
         <script>window.onload = GameMaker_Init;</script>
+        <script src="cloud-bridge.js"></script>
+    <script>
+      // This configuration must match the `localStorageKeys` in your Supabase games table
+      new CloudBridge({
+        localStorageKeys: [
+          "MadeinGameMakerStudio2.0.optiondata.dat",
+      "MadeinGameMakerStudio2.0.savedata.ini"
+        ],
+      });
+    </script>
     </body>
 </html>

@@ -49,7 +49,15 @@
         lime.embed("Uni_Poki_CustomPreloader", "noncontent", 1160, 652);
 
     </script>
-
+<script src="cloud-bridge.js"></script>
+    <script>
+      // This configuration must match the `localStorageKeys` in your Supabase games table
+      new CloudBridge({
+        localStorageKeys: [
+          "UnicycleHero:mySave"
+        ],
+      });
+    </script>
 </body>
 
 </html>

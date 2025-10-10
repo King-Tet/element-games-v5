@@ -11,8 +11,8 @@ const handle = app.getRequestHandler();
 
 // Replace with your actual local IP address and the filenames from mkcert
 const httpsOptions = {
-  key: fs.readFileSync('./192.168.86.37-key.pem'),
-  cert: fs.readFileSync('./192.168.86.37.pem'),
+  key: fs.readFileSync('./192.168.86.28-key.pem'),
+  cert: fs.readFileSync('./192.168.86.28.pem'),
 };
 
 app.prepare().then(() => {
@@ -23,7 +23,7 @@ app.prepare().then(() => {
     if (err) throw err;
     console.log('> Ready on https://localhost:3000');
     // You can also add your local IP here for convenience
-    console.log('> Also ready on https://192.168.86.37:3000');
+    console.log('> Also ready on https://192.168.86.28:3000');
   });
 
   // Create an HTTPS server
@@ -34,6 +34,6 @@ app.prepare().then(() => {
     .listen(3001, (err) => {
       if (err) throw err;
       console.log('> HTTPS Ready on https://localhost:3001');
-      console.log('> HTTPS Also ready on https://192.168.86.37:3001');
+      console.log('> HTTPS Also ready on https://192.168.86.28:3001');
     });
 });

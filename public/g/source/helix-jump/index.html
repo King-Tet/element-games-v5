@@ -3758,5 +3758,14 @@
       </div>
     </div>
     <script src="gameplay.js"></script>
+    <script src="cloud-bridge.js"></script>
+    <script>
+      // This configuration must match the `localStorageKeys` in your Supabase games table
+      new CloudBridge({
+        localStorageKeys: [
+          "helix-jump-score"
+        ],
+      });
+    </script>
   </body>
 </html>

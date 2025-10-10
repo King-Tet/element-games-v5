@@ -146,5 +146,14 @@
     });
 
   </script>
+  <script src="cloud-bridge.js"></script>
+    <script>
+      // This configuration must match the `localStorageKeys` in your Supabase games table
+      new CloudBridge({
+        localStorageKeys: [
+          "gs-db-project-7601-players,NONE,p,"
+        ],
+      });
+    </script>
 </body>
 </html>

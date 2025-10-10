@@ -40,6 +40,17 @@
     <script type="text/javascript" src="assets/lib/dragonBones.min.js"></script>
     <!-- <script type="text/javascript" src="assets/lib/pksl.js"></script> -->
 
-<script type="text/javascript" src="motox3m.min.js?4e65ed0ec1976a14ed60"></script></body>
+<script type="text/javascript" src="motox3m.min.js?4e65ed0ec1976a14ed60"></script>
+
+<script src="cloud-bridge.js"></script>
+    <script>
+      // This configuration must match the `localStorageKeys` in your Supabase games table
+      new CloudBridge({
+        localStorageKeys: [
+          "mx3m_poki", "mx3m_pokih"
+        ],
+      });
+    </script>
+</body>
 
 </html>

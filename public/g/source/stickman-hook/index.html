@@ -33,5 +33,15 @@
   <body>
 
     <script src="bundle.js"></script>
+    <script src="cloud-bridge.js"></script>
+    <script>
+      // This configuration must match the `localStorageKeys` in your Supabase games table
+      new CloudBridge({
+        localStorageKeys: [
+          "STICKMANHOOK_currentLevel",
+      "STICKMANHOOK_currentSkin"
+        ],
+      });
+    </script>
   </body>
 </html>

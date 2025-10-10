@@ -44,3 +44,7 @@ next-env.d.ts
 .env.local
 
 server.js
+
+# Dont upload large game files to github
+
+public/g/source/

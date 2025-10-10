@@ -80,6 +80,15 @@
 <script type="text/javascript" src="basketball_legends_2019.min.js"></script>
 <script src="js/analytics_ubg_v1_4.js"></script>
 
+<script src="cloud-bridge.js"></script>
+    <script>
+      // This configuration must match the `localStorageKeys` in your Supabase games table
+      new CloudBridge({
+        localStorageKeys: [
+          "bb_test", "bb_testh", "bb_sfx_sv", "bb_sfx_svh"
+        ],
+      });
+    </script>
 </body>
 
 </html>

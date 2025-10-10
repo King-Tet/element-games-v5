@@ -74,6 +74,17 @@
             }(document, 'script', 'gamedistribution-jssdk'));
     </script>
 
-<script type="text/javascript" src="motox3m4.min.js?691008a15c637df4dcc4"></script></body>
+<script type="text/javascript" src="motox3m4.min.js?691008a15c637df4dcc4"></script>
+
+<script src="cloud-bridge.js"></script>
+    <script>
+      // This configuration must match the `localStorageKeys` in your Supabase games table
+      new CloudBridge({
+        localStorageKeys: [
+          "mx3m_4_gd", "mx3m_4_gdh"
+        ],
+      });
+    </script>
+</body>
 
 </html>

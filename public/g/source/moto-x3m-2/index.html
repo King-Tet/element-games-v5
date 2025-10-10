@@ -19,5 +19,19 @@
 <script type="text/javascript" src="./assets/box2dweb/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="./assets/box2dweb/easeljs-0.8.2.combined.js"></script>
 <script type="text/javascript" src="./assets/box2dweb/bluebird.min.js"></script>
-<script type="text/javascript" src="./motox3m2.min.js?1489d20b164b3a2d04c4"></script></body>
+<script type="text/javascript" src="./motox3m2.min.js?1489d20b164b3a2d04c4"></script>
+
+<script src="cloud-bridge.js"></script>
+    <script>
+      // This configuration must match the `localStorageKeys` in your Supabase games table
+      new CloudBridge({
+        localStorageKeys: [
+         "mx3m2sf2sfx",
+      "mx3m2sf2sfxh",
+      "mx3m2sf2_vseigru",
+      "mx3m2sf2_vseigruh"
+        ],
+      });
+    </script>
+</body>
 </html>

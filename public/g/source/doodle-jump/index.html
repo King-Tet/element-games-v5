@@ -18,5 +18,14 @@
     <script type="text/javascript" src="js/build/production.min.js"></script>
     <script src="js/main.js"></script>
     <script src="rate.js"></script>
+    <script src="cloud-bridge.js"></script>
+    <script>
+      // This configuration must match the `localStorageKeys` in your Supabase games table
+      new CloudBridge({
+        localStorageKeys: [
+          "DJ_Doodle_name", "DJ_localTopScores", "DJ_stats"
+        ],
+      });
+    </script>
   </body>
 </html>
