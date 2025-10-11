@@ -9,7 +9,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-// Replace with your actual local IP address and the filenames from mkcert
+// Replace with your actual local IP address and the filenames from mkcert.
 const httpsOptions = {
   key: fs.readFileSync('./192.168.86.28-key.pem'),
   cert: fs.readFileSync('./192.168.86.28.pem'),
