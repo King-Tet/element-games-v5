@@ -4,6 +4,9 @@ import { supabaseAdmin } from '@/lib/supabase/admin';
 import { GameLeaderboardEntry } from '@/types/leaderboard';
 import { get } from 'lodash';
 
+// Revalidate this route's data every 60 seconds
+export const revalidate = 60;
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ gameId: string }> }

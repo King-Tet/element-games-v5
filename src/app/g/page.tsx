@@ -114,8 +114,8 @@ const GamesPage: React.FC = () => {
         <div className={styles.loadingMessage}>Loading games...</div>
       ) : filteredGames.length > 0 ? (
         <div className={styles.gamesGrid}>
-          {filteredGames.map((game) => (
-            <GameCard key={game.id} game={game} />
+          {filteredGames.map((game, index) => (
+            <GameCard key={game.id} game={game} priority={index < 10} />
           ))}
         </div>
       ) : (

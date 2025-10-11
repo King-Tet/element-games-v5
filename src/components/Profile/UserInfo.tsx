@@ -3,18 +3,25 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { UserProfile } from '@/types/user'; // Use the comprehensive UserProfile type
+import { UserProfile } from '@/types/user';
 import styles from './UserInfo.module.css';
 import { getGameById } from '@/lib/supabase/db';
 import { supabase } from '@/lib/supabase/client';
 
 interface UserInfoProps {
-  user: UserProfile; // Update prop type
+  user: UserProfile;
 }
 
+// Interfaces for better type-safety with presence data
 interface ActivityState {
   type: 'game' | 'activity';
   name: string;
+}
+
+interface PresencePayload {
+    username?: string | null;
+    display_name?: string | null;
+    activity?: ActivityState | null;
 }
 
 interface PresenceState {
@@ -31,44 +38,49 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
 
     const channel = supabase.channel('online-users');
 
-    const updatePresence = () => {
-        if (!user.uid) return;
-        const presenceState = channel.presenceState<{ [key: string]: unknown }>();
-        const userPresence = presenceState[user.uid];
+    // Handles the initial state of the channel
+    const handleSync = () => {
+      const presenceState = channel.presenceState<PresencePayload>();
+      const userPresence = presenceState[user.uid];
+      if (userPresence && userPresence.length > 0) {
+        setPresence({ isOnline: true, activity: userPresence[0]?.activity });
+      } else {
+        setPresence({ isOnline: false, activity: null });
+      }
+    };
 
-        if (userPresence && userPresence.length > 0) {
-            const statusData = userPresence[0];
-            const activity = statusData.activity as ActivityState;
-            setPresence({
-                isOnline: true,
-                activity: activity && activity.type && activity.name ? activity : null,
-            });
-        } else {
-            setPresence({ isOnline: false });
-        }
+    // Handles when a new user joins
+    const handleJoin = ({ key, newPresences }: { key: string; newPresences: PresencePayload[] }) => {
+      if (key === user.uid) {
+        setPresence({ isOnline: true, activity: newPresences[0]?.activity });
+      }
+    };
+
+    // Handles when a user leaves
+    const handleLeave = ({ key }: { key: string; leftPresences: PresencePayload[] }) => {
+      if (key === user.uid) {
+        setPresence({ isOnline: false, activity: null });
+      }
     };
 
     channel
-        .on('presence', { event: 'sync' }, updatePresence)
-        .on('presence', { event: 'join' }, updatePresence)
-        .on('presence', { event: 'leave' }, updatePresence)
-        .subscribe((status) => {
-            if (status === 'SUBSCRIBED') {
-                updatePresence();
-            }
-        });
+      .on('presence', { event: 'sync' }, handleSync)
+      .on('presence', { event: 'join' }, handleJoin)
+      .on('presence', { event: 'leave' }, handleLeave)
+      .subscribe();
 
     return () => {
-        supabase.removeChannel(channel);
+      supabase.removeChannel(channel);
     };
   }, [user.uid]);
+
 
   useEffect(() => {
     const updateStatusDetail = async () => {
       if (presence?.activity) {
         if (presence.activity.type === 'game') {
           const gameData = await getGameById(presence.activity.name);
-          setStatusDetail(gameData ? `Playing ${gameData.name}` : null);
+          setStatusDetail(gameData ? `Playing ${gameData.name}` : 'Playing a game');
         } else if (presence.activity.type === 'activity') {
           setStatusDetail(presence.activity.name);
         } else {

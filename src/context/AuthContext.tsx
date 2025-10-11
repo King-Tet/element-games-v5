@@ -3,7 +3,7 @@
 'use client';
 
 import React, {
-  createContext, useContext, useState, useEffect, ReactNode, useCallback
+  createContext, useContext, useState, useEffect, ReactNode, useCallback, useRef
 } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
@@ -32,7 +32,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [requiresUsernameSetup, setRequiresUsernameSetup] = useState(false);
-  const [profileVersion, setProfileVersion] = useState(0); // State for cache busting
+  const [profileVersion, setProfileVersion] = useState(0);
+  const userIdRef = useRef<string | null>(null);
 
   const fetchUserProfile = useCallback(async (supabaseUser: User | null) => {
     setIsAdmin(false);
@@ -60,24 +61,47 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    // 1. Get the initial session to unblock the UI quickly on page load.
+    const getInitialSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       const currentUser = session?.user ?? null;
+      userIdRef.current = currentUser?.id ?? null;
       setUser(currentUser);
       if (currentUser) {
-          await fetchUserProfile(currentUser);
-      } else {
-          setUserProfile(null);
-          setIsAdmin(false);
-          setRequiresUsernameSetup(false);
+        await fetchUserProfile(currentUser);
       }
-      setLoading(false);
-    });
+      setLoading(false); // Initial auth check is complete.
+    };
+
+    getInitialSession();
+
+    // 2. Set up a listener for subsequent auth events like login, logout, and token refresh.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        const currentUser = session?.user ?? null;
+
+        // Only update state if the user has actually changed by comparing with our ref
+        if (currentUser?.id !== userIdRef.current) {
+            userIdRef.current = currentUser?.id ?? null; // Update the ref to the new user ID
+            setUser(currentUser);
+
+            // Fetch profile for the new user or clear it on logout
+            if (currentUser) {
+                await fetchUserProfile(currentUser);
+            } else {
+                setUserProfile(null);
+                setIsAdmin(false);
+                setRequiresUsernameSetup(false);
+            }
+        }
+      }
+    );
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [fetchUserProfile]);
+  }, [fetchUserProfile]); // The dependency array is now stable
+
 
   const signInWithGoogle = async (): Promise<void> => {
     await supabase.auth.signInWithOAuth({
@@ -90,8 +114,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signOutUser = async () => {
     await supabase.auth.signOut();
-    setUser(null);
-    setUserProfile(null);
+    // The onAuthStateChange listener will handle clearing the state.
   };
 
   const reloadUserProfile = useCallback(async () => {
@@ -112,7 +135,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     signInWithGoogle,
     signOutUser,
     reloadUserProfile,
-    profileVersion, // Export new value
+    profileVersion,
   };
 
   return (
@@ -125,3 +148,4 @@ export const useAuth = (): AuthContextType => {
   if (context === undefined) { throw new Error('useAuth must be used within an AuthProvider'); }
   return context;
 };
+

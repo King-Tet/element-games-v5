@@ -7,7 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import styles from './CompleteProfilePage.module.css';
 import { FiUserCheck, FiLoader } from 'react-icons/fi';
 import { supabase } from '@/lib/supabase/client';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce'; // Import only the debounce function
 
 // Logger for this component
 const logProfileSetup = (message: string, ...optionalParams: unknown[]) => {

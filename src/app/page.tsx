@@ -18,6 +18,30 @@ import {
 } from "@/lib/supabase/db";
 import { RecentlyPlayedInfo } from "@/lib/supabase/db";
 
+// Helper function to determine how many games to show based on screen size
+const getNumberOfGames = () => {
+  if (typeof window === 'undefined') {
+    return 5; // Default for server-side rendering
+  }
+  // Height override: If the screen is wide but not tall, show 4
+  if (window.innerHeight < 1000 && window.innerWidth >= 1280) {
+    return 4;
+  }
+  // Width-based rules
+  if (window.innerWidth >= 1600) {
+    return 6; // Large desktops
+  }
+  if (window.innerWidth >= 1280) {
+    return 5; // Standard desktops
+  }
+  if (window.innerWidth >= 768) {
+    return 4; // Tablets
+  }
+  // Mobile fallback (will display as 2x2 grid)
+  return 4;
+};
+
+
 const ToolIconLink: React.FC<{ tool: Tool }> = ({ tool }) => {
   const href = tool.sourceType === 'iframe' ? `/t/embed/${tool.id}` : tool.sourcePath;
   return (
@@ -38,16 +62,33 @@ const HomePage: React.FC = () => {
   const [isLoadingNew, setIsLoadingNew] = useState(true);
   const [isLoadingRecent, setIsLoadingRecent] = useState(true);
 
+  // State to hold the number of games to display
+  const [numGamesToShow, setNumGamesToShow] = useState(5);
+
   const featuredTools = toolData.slice(0, 4);
+
+  // Effect to handle window resize and update the number of games to show
+  useEffect(() => {
+    const handleResize = () => {
+      setNumGamesToShow(getNumberOfGames());
+    };
+    // Set the initial number of games on mount
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    // Cleanup listener on component unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
 
   // Fetch static game lists (Trending, New) on component mount
   useEffect(() => {
     const fetchStaticGames = async () => {
       setIsLoadingTrending(true);
       setIsLoadingNew(true);
+      // Always fetch 6 (the max possible) to avoid re-fetching on resize
       const [trending, newG] = await Promise.all([
-        getTrendingGames(5),
-        getNewGames(5)
+        getTrendingGames(6),
+        getNewGames(6)
       ]);
       setTrendingGames(trending);
       setNewGames(newG);
@@ -62,7 +103,8 @@ const HomePage: React.FC = () => {
     const fetchRecent = async () => {
       if (user) {
         setIsLoadingRecent(true);
-        const games = await getUserRecentlyPlayed(user.id, 5);
+        // Also fetch the max possible for this list
+        const games = await getUserRecentlyPlayed(user.id, 6);
         setRecentlyPlayed(games);
         setIsLoadingRecent(false);
       } else {
@@ -88,8 +130,8 @@ const HomePage: React.FC = () => {
             <p className={styles.loadingText}>Loading your recently played games...</p>
           ) : recentlyPlayed.length > 0 ? (
             <div className={styles.gameGrid}>
-              {recentlyPlayed.map(gameInfo => (
-                <GameCard key={`recent-${gameInfo.id}`} game={gameInfo as Game} />
+              {recentlyPlayed.slice(0, numGamesToShow).map((gameInfo, index) => (
+                <GameCard key={`recent-${gameInfo.id}`} game={gameInfo as Game} priority={index < 6} />
               ))}
             </div>
           ) : (
@@ -108,8 +150,8 @@ const HomePage: React.FC = () => {
         ) : (
           <>
             <div className={styles.gameGrid}>
-              {trendingGames.map((game) => (
-                <GameCard key={`trending-${game.id}`} game={game} />
+              {trendingGames.slice(0, numGamesToShow).map((game, index) => (
+                <GameCard key={`trending-${game.id}`} game={game} priority={index < 6} />
               ))}
             </div>
             <Link href="/g" className={`${styles.viewAllLink} ${styles.viewAllGames}`}>
@@ -127,8 +169,8 @@ const HomePage: React.FC = () => {
         ) : (
           <>
             <div className={styles.gameGrid}>
-              {newGames.map((game) => (
-                <GameCard key={`new-${game.id}`} game={game} />
+              {newGames.slice(0, numGamesToShow).map((game, index) => (
+                <GameCard key={`new-${game.id}`} game={game} priority={index < 6} />
               ))}
             </div>
             <Link href="/g" className={`${styles.viewAllLink} ${styles.viewAllGames}`}>

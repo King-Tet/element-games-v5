@@ -2,11 +2,18 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import styles from './AdminPage.module.css';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase/client';
 import { FiUsers, FiSearch, FiEye, FiLoader, FiArrowLeft, FiCircle, FiEdit, FiSave } from 'react-icons/fi';
-import AdminPanel from '@/components/Admin/AdminPanel.js';
+
+// Dynamically import the AdminPanel component with a loading state
+const AdminPanel = dynamic(() => import('@/components/Admin/AdminPanel.js'), {
+    loading: () => <p>Loading Control Panel...</p>,
+    ssr: false // This component will only be rendered on the client side
+});
+
 
 // --- Interfaces ---
 interface PresencePayload {

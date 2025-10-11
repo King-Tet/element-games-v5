@@ -1,0 +1,30 @@
+/* src/app/auth/callback/CallbackPage.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - var(--navbar-height));
+  text-align: center;
+  color: var(--text-sec-col);
+  font-size: 1.1rem;
+}
+
+.loader {
+  border: 4px solid var(--hover-col);
+  border-top: 4px solid var(--accent-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

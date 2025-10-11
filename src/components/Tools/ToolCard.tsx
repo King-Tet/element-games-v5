@@ -77,4 +77,4 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
   }
 };
 
-export default ToolCard;
+export default React.memo(ToolCard);

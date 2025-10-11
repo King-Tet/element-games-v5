@@ -18,10 +18,38 @@
   /* Game Grid */
   .gameGrid {
     display: grid;
-    /* This creates a responsive grid that will show between 4 and 6 columns on most screen sizes,
-       ensuring the cards have a consistent minimum width. */
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
+    /* Default to 2 columns for small screens (mobile) */
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* For tablets and up, show 4 columns */
+  @media (min-width: 768px) {
+    .gameGrid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  /* For standard desktop screens, show 5 columns */
+  @media (min-width: 1280px) {
+    .gameGrid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+  
+  /* For very large screens, show 6 columns */
+  @media (min-width: 1600px) {
+    .gameGrid {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+  
+  /* Height-based override: On wide screens that are not very tall,
+     force 4 columns to prevent content from being pushed down. */
+  @media (min-width: 1280px) and (max-height: 999px) {
+    .gameGrid {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
   
   

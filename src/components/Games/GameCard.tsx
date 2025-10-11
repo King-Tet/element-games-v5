@@ -8,9 +8,10 @@ import { FiStar, FiEye } from 'react-icons/fi'; // Icons for rating/visits
 
 interface GameCardProps {
   game: Game; // Expects the full Game object, including Firestore fields
+  priority?: boolean; // Accept an optional priority prop
 }
 
-const GameCard: React.FC<GameCardProps> = ({ game }) => {
+const GameCard: React.FC<GameCardProps> = ({ game, priority = false }) => {
   // Format large numbers for visits using totalVisits from Firestore
   const formatVisits = (num: number | undefined): string => {
     const actualNum = num || 0; // Default to 0 if undefined
@@ -40,15 +41,15 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
         <Image
           src={game.imageUrl || '/game-images/default-placeholder.png'} // Add fallback directly here
           alt={game.name}
-          layout="fill"
-          objectFit="cover"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className={styles.image}
           unoptimized={game.imageUrl?.startsWith('http')}
           onError={(e) => {
             console.warn(`Failed to load image: ${game.imageUrl}`);
             (e.target as HTMLImageElement).src = '/game-images/default-placeholder.png';
           }}
-          priority={false} // Can set priority=true for above-the-fold images if needed
+          priority={priority} // Use the priority prop here
         />
       </div>
       <div className={styles.info}>
@@ -71,4 +72,4 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
   );
 };
 
-export default GameCard;
+export default React.memo(GameCard);

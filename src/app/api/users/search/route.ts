@@ -10,6 +10,9 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
+// Revalidate this data every 5 minutes (300 seconds)
+export const revalidate = 300;
+
 export async function GET() {
   try {
     // Fetch all profiles that have a username set.
