@@ -31,6 +31,7 @@ interface DbGame {
   element_games_score?: number;
   rating: number;
   visits: number;
+  pinned_note?: string | null;
 }
 
 const mapGameData = (game: DbGame): Game => ({
@@ -52,6 +53,7 @@ const mapGameData = (game: DbGame): Game => ({
   elementGamesScore: game.element_games_score,
   rating: game.rating,
   visits: game.visits,
+  pinned_note: game.pinned_note,
 });
 
 export async function getUserProfileData(

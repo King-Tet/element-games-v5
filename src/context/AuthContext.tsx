@@ -63,14 +63,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     // 1. Get the initial session to unblock the UI quickly on page load.
     const getInitialSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      const currentUser = session?.user ?? null;
-      userIdRef.current = currentUser?.id ?? null;
-      setUser(currentUser);
-      if (currentUser) {
-        await fetchUserProfile(currentUser);
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (error) throw error; // If getSession fails, throw to catch block
+
+        const currentUser = session?.user ?? null;
+        userIdRef.current = currentUser?.id ?? null;
+        setUser(currentUser);
+        if (currentUser) {
+          await fetchUserProfile(currentUser);
+        }
+      } catch (error) {
+         console.error("[AuthContext] Error getting initial session:", error);
+      } finally {
+        // This is crucial. It runs regardless of success or failure in the try block.
+        setLoading(false);
       }
-      setLoading(false); // Initial auth check is complete.
     };
 
     getInitialSession();
@@ -100,7 +108,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [fetchUserProfile]); // The dependency array is now stable
+  }, [fetchUserProfile]); // The dependency array is stable
 
 
   const signInWithGoogle = async (): Promise<void> => {

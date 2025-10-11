@@ -19,6 +19,7 @@ import {
   FiCheckCircle,
   FiLoader,
   FiInfo,
+  FiZap,
 } from "react-icons/fi";
 
 import {
@@ -204,6 +205,12 @@ const GamePlayPage: React.FC = () => {
 
     return (
         <div className={styles.gamePlayContainer}>
+            {game.pinned_note && (
+                <div className={styles.pinnedNote}>
+                    <FiZap className={styles.pinnedNoteIcon} />
+                    <p>{game.pinned_note}</p>
+                </div>
+            )}
             <div className={styles.gameWrapper}>
                 {iframeSrc ? (
                     <iframe

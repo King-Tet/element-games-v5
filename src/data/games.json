@@ -69,14 +69,15 @@
   {
     "id": "stumble-guys",
     "name": "Stumble Guys",
-    "description": "NOTE: Game will throw an error becuase of a CORS Policy but just ignoore it it will work fine. You dont realize how hard it is to steal a game this large. The code is very fragile and could break in the future. Stumble Guys is a multiplayer party game where players compete in obstacle courses and mini-games to be the last one standing. The game features colorful graphics, fun characters, and a variety of challenges to keep players entertained.",
+    "description": "NOTE: This game is very large (1.2 GB) and storing it in my own server would not be very wise to my debit card so i configured it to acsess Stumble Guys servers. These servers are blocked on the school intenet cuasing the game to not load. You can still play this game on a different device/network that doesnt have a filter installed and it will work.   Stumble Guys is a multiplayer party game where players compete in obstacle courses and mini-games to be the last one standing. The game features colorful graphics, fun characters, and a variety of challenges to keep players entertained.",
     "imageUrl": "/game-images/stumble-guys.png",
     "category": "Multiplayer",
     "rating": 4.2,
     "visits": 0,
     "sourceUrl": "https://pub-58b20219dcb04c9d927e78b91b3dbecc.r2.dev/stumble-guys/index.html",
     "tags": ["multiplayer", "party", "obstacle", "fun"],
-    "releaseDate": "2025-09-16 17:53:00"
+    "releaseDate": "2025-09-16 17:53:00",
+    "pinned_note": "This game will not work on the school devices and networks. More info in the description."
   },
   {
     "id": "steal-a-brainrot",

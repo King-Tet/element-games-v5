@@ -41,4 +41,5 @@ export interface Game {
   indexedDbConfig?: IndexedDbConfig;
   leaderboardConfigs?: LeaderboardConfig[]; // Changed to an array for multiple leaderboards
   releaseDate: string | null;
+  pinned_note?: string | null;
 }
