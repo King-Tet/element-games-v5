@@ -52,13 +52,14 @@
     max-width: 700px; /* Limit max width */
   }
   
-  .rightSection {
+    .rightSection {
     display: flex;
     align-items: center;
     gap: 15px;
     flex-shrink: 0; /* Prevent shrinking */
   }
   
+  .discordButton,
   .settingsButton, .signInButton {
     /* ... keep existing styles ... */
       background: none;
@@ -73,7 +74,7 @@
       border-radius: 50%;
   }
   .settingsButton:hover { background-color: var(--hover-col); }
-  .signInButton { /* ... keep existing styles ... */
+  .signInButton {
       font-size: 0.9rem;
       padding: 8px 16px;
       background-color: var(--primary-button-bg);

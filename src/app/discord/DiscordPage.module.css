@@ -1,0 +1,86 @@
+/* src/app/discord/DiscordPage.module.css */
+.discordContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - var(--navbar-height) - 40px); /* Adjust for layout padding */
+  padding: 20px;
+}
+
+.card {
+  background-color: var(--card-col);
+  padding: 40px 35px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-col);
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.mainIcon {
+  font-size: 4rem;
+  color: #de1b12; /* Discord brand color */
+  margin-bottom: 15px;
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.description {
+  color: var(--text-sec-col);
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.qrContainer {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: var(--nav-col);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-col);
+}
+
+.qrCode {
+  border-radius: 8px; /* Slightly rounded corners for the QR code image */
+  background-color: white; /* Ensure white background for QR code */
+  padding: 10px; /* Padding around the QR code */
+}
+
+.qrInstruction {
+  font-size: 0.9rem;
+  color: var(--text-sec-col);
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+
+.linkInstruction {
+  font-size: 0.9rem;
+  color: var(--text-sec-col);
+  margin-bottom: 10px;
+}
+
+.linkWrapper {
+  background-color: var(--input-col);
+  border: 1px solid var(--border-col);
+  padding: 12px 15px;
+  border-radius: var(--border-radius);
+}
+
+.discordLink {
+  color: #7289DA;
+  font-weight: 500;
+  font-family: monospace;
+  font-size: 1rem;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.discordLink:hover {
+  text-decoration: underline;
+}
