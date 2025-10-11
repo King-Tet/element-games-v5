@@ -63,16 +63,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(true);
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       const currentUser = session?.user ?? null;
-      
-      if (JSON.stringify(user) !== JSON.stringify(currentUser)) {
-        setUser(currentUser);
-        if (currentUser) {
-            await fetchUserProfile(currentUser);
-        } else {
-            setUserProfile(null);
-            setIsAdmin(false);
-            setRequiresUsernameSetup(false);
-        }
+      setUser(currentUser);
+      if (currentUser) {
+          await fetchUserProfile(currentUser);
+      } else {
+          setUserProfile(null);
+          setIsAdmin(false);
+          setRequiresUsernameSetup(false);
       }
       setLoading(false);
     });
@@ -80,7 +77,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [fetchUserProfile, user]);
+  }, [fetchUserProfile]);
 
   const signInWithGoogle = async (): Promise<void> => {
     await supabase.auth.signInWithOAuth({
