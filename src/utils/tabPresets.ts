@@ -45,13 +45,14 @@ const dynamicGoogleCalendarTitle = getCalendarTitle();
 
 export const TAB_PRESETS: TabPreset[] = [
   // Use the dynamically generated title for the 'default' preset
-  { key: 'default', name: 'Google Calendar', title: dynamicGoogleCalendarTitle, iconUrl: '/preset-icons/google-calendar.ico' },
+  { key: 'defualt', name: 'IXL', title: 'IXL | Dashboard', iconUrl: '/preset-icons/ixl.ico' },
+  { key: 'google-calendar', name: 'Google Calendar', title: dynamicGoogleCalendarTitle, iconUrl: '/preset-icons/google-calendar.ico' },
   { key: 'google', name: 'Google', title: 'Google', iconUrl: '/preset-icons/google.ico' },
   { key: 'google-docs', name: 'Google Docs', title: 'Google Docs - Untitled Document', iconUrl: '/preset-icons/google-docs.ico' },
   { key: 'google-drive', name: 'Google Drive', title: 'My Drive - Google Drive', iconUrl: '/preset-icons/google-drive.ico' },
   { key: 'classroom', name: 'Google Classroom', title: 'Home', iconUrl: '/preset-icons/google-classroom.ico' },
-  { key: 'clever', name: 'Clever', title: 'Clever | Portal', iconUrl: '/preset-icons/clever.ico' },
-  { key: 'ixl', name: 'IXL', title: 'IXL | Math, Language Arts, Science, Social Studies, and Spanish', iconUrl: '/preset-icons/ixl.ico' }
+  { key: 'clever', name: 'Clever', title: 'Clever | Portal', iconUrl: '/preset-icons/clever.ico' }
+  
   // Add more presets
 ];
 
