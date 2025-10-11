@@ -63,7 +63,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         const preset = TAB_PRESETS.find(p => p.key === savedPresetKey) || DEFAULT_PRESET;
         let targetTitle = preset.title;
         if (preset.key === 'default') {
-             const d = new Date(); const y = d.getFullYear(); const m = d.getMonth();
+             //const d = new Date(); const y = d.getFullYear(); const m = d.getMonth();
              //const names = ["January","February","March","April","May","June","July","August","September","October","November","December"];
              targetTitle = `IXL | Dashboard`;
         }
