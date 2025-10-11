@@ -34,14 +34,15 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   const [statusDetail, setStatusDetail] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user.uid) return;
+    const uid = user.uid;
+    if (!uid) return;
 
     const channel = supabase.channel('online-users');
 
     // Handles the initial state of the channel
     const handleSync = () => {
       const presenceState = channel.presenceState<PresencePayload>();
-      const userPresence = presenceState[user.uid];
+      const userPresence = presenceState[uid];
       if (userPresence && userPresence.length > 0) {
         setPresence({ isOnline: true, activity: userPresence[0]?.activity });
       } else {
@@ -51,14 +52,14 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
 
     // Handles when a new user joins
     const handleJoin = ({ key, newPresences }: { key: string; newPresences: PresencePayload[] }) => {
-      if (key === user.uid) {
+      if (key === uid) {
         setPresence({ isOnline: true, activity: newPresences[0]?.activity });
       }
     };
 
     // Handles when a user leaves
     const handleLeave = ({ key }: { key: string; leftPresences: PresencePayload[] }) => {
-      if (key === user.uid) {
+      if (key === uid) {
         setPresence({ isOnline: false, activity: null });
       }
     };
