@@ -3,6 +3,19 @@
     "how-to-use": "Create a new object for each game. To upload to firestore use the command node 'scripts/populateFirestore.js' in the projects root terminal.",
     "quick-copy": "node scripts/populateSupabase.js"
   },
+
+    {
+    "id": "volley-random",
+    "name": "Volley Random",
+    "description": "Volley Random is a fun and addictive multiplayer volleyball game where players can compete against each other in fast-paced matches. The game features simple controls, colorful graphics, and various characters to choose from.",
+    "imageUrl": "/game-images/volley-random.png",
+    "category": "Sports",
+    "rating": 4.2,
+    "visits": 0,
+    "sourceUrl": "https://pub-58b20219dcb04c9d927e78b91b3dbecc.r2.dev/volley-random/index.html",
+    "tags": ["sports", "multiplayer", "volleyball", "fun"],
+    "releaseDate": "2025-05-28 19:44:00"
+  },
   {
     "id": "hextris",
     "name": "Hextris",
@@ -903,7 +916,8 @@
     "visits": 0,
     "sourceUrl": "https://pub-58b20219dcb04c9d927e78b91b3dbecc.r2.dev/1v1-lol/index.html",
     "tags": ["battle royale", "multiplayer", "shooter", "strategy"],
-    "releaseDate": "2025-05-27 21:45:00"
+    "releaseDate": "2025-05-27 21:45:00",
+    "pinned_note": "Press \"Login With Google\" to unlock skins and acsessories."
   },
   {
     "id": "paper-io",

@@ -63,8 +63,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         const preset = TAB_PRESETS.find(p => p.key === savedPresetKey) || DEFAULT_PRESET;
         let targetTitle = preset.title;
         if (preset.key === 'default') {
-             //const d = new Date(); const y = d.getFullYear(); const m = d.getMonth();
-             //const names = ["January","February","March","April","May","June","July","August","September","October","November","December"];
              targetTitle = `IXL | Dashboard`;
         }
         const targetIconUrl = preset.iconUrl;
@@ -86,13 +84,19 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   }, [pathname, applySavedTabCloak]);
 
   useEffect(() => {
-    const publicPaths = ['/login', '/signup', '/complete-profile'];
-    if (authLoading || publicPaths.includes(pathname)) return;
+    const protectedPaths = ['/account', '/admin', '/complete-profile'];
+    // If we are still loading the auth state, AND we are trying to access a protected path, show the loader.
+    if (authLoading && protectedPaths.some(p => pathname.startsWith(p))) {
+        return; // Effectively, do nothing but wait for loading to finish.
+    }
 
-    if (user && requiresUsernameSetup) {
-         router.push('/complete-profile');
-    } else if (user && !requiresUsernameSetup && pathname === '/complete-profile') {
-          router.push('/');
+    if (!authLoading) {
+      // If loading is done, then we can run our redirects.
+      if (user && requiresUsernameSetup && pathname !== '/complete-profile') {
+           router.push('/complete-profile');
+      } else if (user && !requiresUsernameSetup && pathname === '/complete-profile') {
+            router.push('/');
+      }
     }
   }, [user, authLoading, requiresUsernameSetup, pathname, router]);
 
@@ -109,50 +113,43 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
   }, []);
 
-  // --- REFACTORED SUPABASE REALTIME PRESENCE ---
-
-  // Effect for connecting/disconnecting to the channel
+  // --- SUPABASE REALTIME PRESENCE ---
   useEffect(() => {
     if (!user || !userProfile || authLoading) {
+      if (channelRef.current) {
+        supabase.removeChannel(channelRef.current);
+        channelRef.current = null;
+      }
       return;
     }
 
-    const channel = supabase.channel('online-users', {
-      config: {
-        presence: {
-          key: user.id, // Use user.id which is stable
-        },
-      },
-    });
-    
-    channelRef.current = channel;
+    if (!channelRef.current) {
+      const channel = supabase.channel('online-users', {
+        config: { presence: { key: user.id } },
+      });
+      channelRef.current = channel;
 
-    channel.subscribe((status) => {
-      if (status === 'SUBSCRIBED') {
-        logLayout("Successfully subscribed to presence channel.");
-        // Initial track when subscribing
-        const activity = getCurrentActivity(pathname);
-        const payload = {
-          username: userProfile.username,
-          display_name: userProfile.display_name,
-          activity,
-        };
-        channel.track(payload, { expires_in: 60 });
-      }
-    });
+      channel.subscribe((status) => {
+        if (status === 'SUBSCRIBED') {
+          const activity = getCurrentActivity(pathname);
+          const payload = {
+            username: userProfile.username,
+            display_name: userProfile.display_name,
+            activity,
+          };
+          channel.track(payload, { expires_in: 60 });
+        }
+      });
+    }
 
-    // Cleanup function
     return () => {
       if (channelRef.current) {
-        logLayout("Unsubscribing from presence channel.");
-        channelRef.current.untrack();
         supabase.removeChannel(channelRef.current);
         channelRef.current = null;
       }
     };
   }, [user, userProfile, authLoading, pathname]);
 
-  // Effect for tracking activity changes (page navigation)
   useEffect(() => {
     if (channelRef.current && channelRef.current.state === 'joined' && userProfile) {
       const activity = getCurrentActivity(pathname);
@@ -161,13 +158,12 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         display_name: userProfile.display_name,
         activity,
       };
-      logLayout("Pathname changed, tracking new activity:", activity);
       channelRef.current.track(payload, { expires_in: 60 });
     }
   }, [pathname, userProfile]);
 
-
-   if (authLoading) {
+  const protectedPaths = ['/account', '/admin', '/complete-profile'];
+  if (authLoading && protectedPaths.some(p => pathname.startsWith(p))) {
     return <div className={styles.fullPageLoader}>Loading Application...</div>;
    }
 

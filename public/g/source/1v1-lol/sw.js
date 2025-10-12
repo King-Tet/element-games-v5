@@ -1,21 +1,24 @@
 // sw.js - Service Worker for Mocking API Responses
 
-// The base URL of the backend API we want to intercept requests for.
-const MOCK_BACKEND_URL =
-  "https://us-central1-justbuild-cdb86.cloudfunctions.net";
+// --- URLs to Intercept ---
+const MOCK_BACKEND_URL = "https://us-central1-justbuild-cdb86.cloudfunctions.net";
+const MOCK_FIREBASE_URL = "https://firebaseremoteconfig.googleapis.com";
 
-// --- WHITELIST: Add any URL paths you want to mock here ---
-// The service worker will only intercept and mock requests whose paths
-// start with one of the strings in this array.
+// --- WHITELIST for the original backend ---
 const endpointsToMock = [
-  "/userSettings/group", // Provides the main inventory and currency data
+  "/userSettings/group",
   "/player/rvSkinLastTime",
   "/product/coinPurchase",
-  "/player/login", // We can mock this to avoid an error
+  "/player/login",
 ];
 
-// --- MOCK DATA: The fake data we want to send back ---
-// This object contains the mock response for the "/userSettings/group" endpoint.
+// --- MOCK DATA for Firebase ---
+const mockFirebaseResponse = {
+  "state": "NO_CHANGE",
+  "templateVersion": "3369"
+};
+
+// --- MOCK DATA for the original backend ---
 const mockUserSettings = {
   inventory: {
     skins: [
@@ -144,13 +147,11 @@ const mockLogin = {
     ],
     CompensationVersion: 1,
   },
-  
 };
 
 /**
  * Installation event listener.
- * self.skipWaiting() forces the waiting service worker to become the
- * active service worker.
+ * Forces the waiting service worker to become the active one.
  */
 self.addEventListener("install", (event) => {
   self.skipWaiting();
@@ -158,23 +159,39 @@ self.addEventListener("install", (event) => {
 
 /**
  * Activation event listener.
- * self.clients.claim() allows an active service worker to take control of
- * all clients (open tabs/windows) that are in its scope.
+ * Allows an active service worker to take control of all clients in its scope.
  */
 self.addEventListener("activate", (event) => {
   event.waitUntil(self.clients.claim());
 });
 
 /**
- * Fetch event listener.
- * This is where we intercept network requests.
+ * Fetch event listener. This is where we intercept network requests.
  */
 self.addEventListener("fetch", function (event) {
   const requestUrl = new URL(event.request.url);
 
+  // --- NEW: Handle Firebase Remote Config requests ---
+  // Check if the request is for the specific Firebase URL.
+  if (requestUrl.href.startsWith(`${MOCK_FIREBASE_URL}/v1/projects/justbuild-cdb86/namespaces/firebase:fetch`)) {
+    console.log(
+        `%c[Service Worker] INTERCEPTED FIREBASE: ${requestUrl.pathname}`,
+        "color: #ff4500; font-weight: bold;"
+    );
+
+    // Create a new Response object with our mock Firebase data.
+    const mockResponse = new Response(JSON.stringify(mockFirebaseResponse), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+    });
+
+    // Fulfill the fetch event with our mock response.
+    event.respondWith(mockResponse);
+    return; // Stop further processing
+  }
+
+  // --- Original logic for the game's backend ---
   // We only care about requests going to our target backend.
-  // If the request is for a different domain, we ignore it and let the
-  // browser handle it normally.
   if (requestUrl.hostname === new URL(MOCK_BACKEND_URL).hostname) {
     // Check if the request's path is in our whitelist of endpoints to mock.
     const shouldMock = endpointsToMock.some((endpoint) =>
@@ -199,6 +216,7 @@ self.addEventListener("fetch", function (event) {
       } else if (requestUrl.pathname.startsWith("/product/coinPurchase")) {
         responseBody = {};
       }
+
       // Create a new Response object with our mock data.
       const mockResponse = new Response(JSON.stringify(responseBody), {
         status: 200,
@@ -214,9 +232,6 @@ self.addEventListener("fetch", function (event) {
         `%c[Service Worker] PASSING THROUGH: ${requestUrl.pathname}`,
         "color: #ffaa00;"
       );
-
-      // *** FIX: Explicitly fetch the original request from the network ***
-      // Without this, the request would hang and fail.
       event.respondWith(fetch(event.request));
     }
   }

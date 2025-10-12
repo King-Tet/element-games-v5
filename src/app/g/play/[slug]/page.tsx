@@ -20,6 +20,7 @@ import {
   FiLoader,
   FiInfo,
   FiZap,
+  FiAward, // Added for leaderboard icon
 } from "react-icons/fi";
 
 import {
@@ -231,7 +232,11 @@ const GamePlayPage: React.FC = () => {
                 {renderSyncStatus()}
                 <div className={styles.gameTools}>
                     <button onClick={handleFullscreen} className={styles.toolButton}><FiMaximize /> Fullscreen</button>
-
+                    {game.leaderboardConfigs && game.leaderboardConfigs.length > 0 && (
+                        <Link href={`/leaderboards/${game.id}`} className={styles.toolButton}>
+                            <FiAward /> Leaderboard
+                        </Link>
+                    )}
                     <button onClick={handleReload} className={styles.toolButton}><FiRefreshCw /> Reload</button>
                     <Link href="/feedback" className={styles.toolButton}><FiAlertTriangle /> Report Bug</Link>
                 </div>
