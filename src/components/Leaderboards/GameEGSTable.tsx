@@ -24,6 +24,7 @@ const GameEGSTable: React.FC<GameEGSTableProps> = ({ games, maxItems = 10 }) => 
                         <th className={styles.rankCol}>Rank</th>
                         <th className={styles.itemCol}>Game</th>
                         <th className={`${styles.statsCol} ${styles.hideOnMobile}`}><FiStar /> Rating</th>
+                        {/* The Playtime column is now restored */}
                         <th className={`${styles.statsCol} ${styles.hideOnMobile}`}><FiClock /> Playtime</th>
                         <th className={`${styles.statsCol} ${styles.hideOnMobile}`}><FiEye/> Visits</th>
                         <th className={`${styles.scoreCol} ${styles.scoreHeader}`}>EGS</th>
@@ -53,6 +54,7 @@ const GameEGSTable: React.FC<GameEGSTableProps> = ({ games, maxItems = 10 }) => 
                                 {game.averageRating !== undefined ? game.averageRating.toFixed(1) : 'N/A'}
                                 <span className={styles.subStat}> ({formatNumber(game.ratingCount)})</span>
                             </td>
+                             {/* This cell now correctly displays the formatted playtime */}
                              <td className={`${styles.statsCol} ${styles.hideOnMobile}`}>
                                  {formatPlaytime(game.totalPlaytimeSeconds)}
                              </td>
