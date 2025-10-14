@@ -26,6 +26,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 interface AuthProviderProps { children: ReactNode; }
 const adminUids = (process.env.NEXT_PUBLIC_ADMIN_UIDS || '').split(',');
 
+const APP_VERSION = process.env.NEXT_PUBLIC_APP_VERSION || '1.0.0';
+
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
@@ -60,56 +62,82 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  useEffect(() => {
-    // 1. Get the initial session to unblock the UI quickly on page load.
-    const getInitialSession = async () => {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) throw error; // If getSession fails, throw to catch block
+  const validateSession = useCallback(async () => {
+    const storedVersion = localStorage.getItem('appVersion');
+    if (storedVersion !== APP_VERSION) {
+      console.warn(`[AuthContext] App version mismatch. Forcing sign out.`);
+      await supabase.auth.signOut();
+      localStorage.setItem('appVersion', APP_VERSION);
+      setUser(null);
+      setUserProfile(null);
+      setIsAdmin(false);
+      setRequiresUsernameSetup(false);
+      return;
+    }
 
-        const currentUser = session?.user ?? null;
+    const { data: { session }, error } = await supabase.auth.getSession();
+    if (error) {
+      console.error("[AuthContext] Error re-validating session:", error);
+      await supabase.auth.signOut();
+    }
+    
+    const currentUser = session?.user ?? null;
+
+    if (currentUser?.id !== userIdRef.current) {
+        console.log('[AuthContext] User state changed after re-validation.');
         userIdRef.current = currentUser?.id ?? null;
         setUser(currentUser);
-        if (currentUser) {
-          await fetchUserProfile(currentUser);
-        }
-      } catch (error) {
-         console.error("[AuthContext] Error getting initial session:", error);
+        await fetchUserProfile(currentUser);
+    }
+  }, [fetchUserProfile]);
+
+  useEffect(() => {
+    const initializeAndListen = async () => {
+      // --- MODIFICATION: Wrap initial validation in a try/finally block ---
+      try {
+        await validateSession();
+      } catch (e) {
+        console.error("[AuthContext] Critical error during session initialization:", e);
       } finally {
-        // This is crucial. It runs regardless of success or failure in the try block.
+        // This guarantees that loading is set to false, preventing the stuck screen.
         setLoading(false);
       }
-    };
+      // --- END MODIFICATION ---
 
-    getInitialSession();
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
+        async (event, session) => {
+          if (event === 'SIGNED_IN') {
+              localStorage.setItem('appVersion', APP_VERSION);
+          }
+          if (event === 'SIGNED_OUT') {
+              localStorage.removeItem('appVersion');
+          }
 
-    // 2. Set up a listener for subsequent auth events like login, logout, and token refresh.
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        const currentUser = session?.user ?? null;
-
-        // Only update state if the user has actually changed by comparing with our ref
-        if (currentUser?.id !== userIdRef.current) {
-            userIdRef.current = currentUser?.id ?? null; // Update the ref to the new user ID
-            setUser(currentUser);
-
-            // Fetch profile for the new user or clear it on logout
-            if (currentUser) {
-                await fetchUserProfile(currentUser);
-            } else {
-                setUserProfile(null);
-                setIsAdmin(false);
-                setRequiresUsernameSetup(false);
-            }
+          const currentUser = session?.user ?? null;
+          if (currentUser?.id !== userIdRef.current) {
+              userIdRef.current = currentUser?.id ?? null;
+              setUser(currentUser);
+              await fetchUserProfile(currentUser);
+          }
         }
-      }
-    );
+      );
 
-    return () => {
-      subscription.unsubscribe();
+      const handleVisibilityChange = () => {
+        if (document.visibilityState === 'visible') {
+          console.log('[AuthContext] Tab became visible. Re-validating session.');
+          validateSession();
+        }
+      };
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+
+      return () => {
+        subscription.unsubscribe();
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+      };
     };
-  }, [fetchUserProfile]); // The dependency array is stable
 
+    initializeAndListen();
+  }, [validateSession, fetchUserProfile]);
 
   const signInWithGoogle = async (): Promise<void> => {
     await supabase.auth.signInWithOAuth({
@@ -122,14 +150,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signOutUser = async () => {
     await supabase.auth.signOut();
-    // The onAuthStateChange listener will handle clearing the state.
   };
 
   const reloadUserProfile = useCallback(async () => {
        if (user) {
          setLoading(true);
          await fetchUserProfile(user);
-         setProfileVersion(v => v + 1); // Increment version to trigger re-renders
+         setProfileVersion(v => v + 1);
          setLoading(false);
        }
    }, [user, fetchUserProfile]);
@@ -156,4 +183,3 @@ export const useAuth = (): AuthContextType => {
   if (context === undefined) { throw new Error('useAuth must be used within an AuthProvider'); }
   return context;
 };
-
