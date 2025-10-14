@@ -200,17 +200,20 @@ export async function getTopUsersByScore(count: number): Promise<(UserProfileDat
   }));
 }
 
-export async function updateUserRecentlyPlayed(
+export async function logPlaytime(
   userId: string,
   gameId: string,
   playtimeSeconds: number
 ): Promise<void> {
-  const { error } = await supabase.rpc("update_recently_played", {
+  // This now calls the new, more powerful RPC function
+  const { error } = await supabase.rpc("update_playtime_and_total", {
     p_user_id: userId,
     p_game_id: gameId,
-    p_playtime_seconds: playtimeSeconds,
+    p_playtime_seconds_increment: playtimeSeconds,
   });
-  if (error) console.error("Error updating recently played:", error);
+  if (error) {
+    console.error("Error logging playtime:", error);
+  }
 }
 
 export async function getUserRecentlyPlayed(
