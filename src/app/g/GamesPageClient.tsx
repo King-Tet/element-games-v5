@@ -1,60 +1,43 @@
 // src/app/g/GamesPageClient.tsx
 'use client';
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import GameCard from '@/components/Games/GameCard';
 import { Game } from '@/types/game';
 import styles from './GamesPage.module.css';
-import { getAllGames } from '@/lib/supabase/db';
 import { FiChevronDown } from 'react-icons/fi';
 
 type SortOptionValue = 'releaseDate_desc' | 'name_asc' | 'totalVisits_desc';
 
-export default function GamesPageClient() {
+// Define props to accept initial games from the server
+interface GamesPageClientProps {
+  initialGames: Game[];
+}
+
+export default function GamesPageClient({ initialGames }: GamesPageClientProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const initialCategory = searchParams.get('category');
   const initialSort = searchParams.get('sort') as SortOptionValue || 'releaseDate_desc';
-
-  const [allGamesData, setAllGamesData] = useState<Game[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  
+  // Use the prop from the server as the initial state
+  const [allGamesData] = useState<Game[]>(initialGames);
+  const [isLoading] = useState(false); // No client-side loading needed anymore
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCategory);
   const [currentSort, setCurrentSort] = useState<SortOptionValue>(initialSort);
 
-  const fetchGames = useCallback(async () => {
-      setIsLoading(true);
-      let orderByField = 'release_date';
-      let ascending = false;
-      if (currentSort === 'name_asc') {
-          orderByField = 'name';
-          ascending = true;
-      } else if (currentSort === 'totalVisits_desc') {
-          orderByField = 'total_visits';
-          ascending = false;
-      }
-      const gamesFromDb = await getAllGames(orderByField, ascending);
-      setAllGamesData(gamesFromDb);
-      setIsLoading(false);
-  }, [currentSort]);
-
-  useEffect(() => {
-    fetchGames();
-  }, [fetchGames]);
-
+  // This effect now only syncs state with the URL, no data fetching
   useEffect(() => {
     const params = new URLSearchParams();
     if (selectedCategory) params.set('category', selectedCategory);
     if (currentSort) params.set('sort', currentSort);
-    // Use `toString()` to get the query string
     const queryString = params.toString();
-    // Update the URL without causing a full page reload
     router.replace(`${pathname}${queryString ? `?${queryString}` : ''}`, { scroll: false });
   }, [selectedCategory, currentSort, pathname, router]);
-
 
   const handleSortChange = (newSortValue: SortOptionValue) => {
     setCurrentSort(newSortValue);
@@ -64,19 +47,35 @@ export default function GamesPageClient() {
   };
 
   const categories = useMemo(() => {
-    if (allGamesData.length === 0) return ['All'];
     const uniqueCategories = new Set(allGamesData.map(game => game.category));
     return ['All', ...Array.from(uniqueCategories).sort()];
   }, [allGamesData]);
+  
+  // This logic now sorts and filters the data passed from the server
+  const displayedGames = useMemo(() => {
+    let games = [...allGamesData]; 
 
-  const filteredGames = useMemo(() => {
-    if (!selectedCategory || selectedCategory === 'All') {
-      return allGamesData;
+    switch (currentSort) {
+      case 'name_asc':
+        games.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'totalVisits_desc':
+        games.sort((a, b) => (b.totalVisits || 0) - (a.totalVisits || 0));
+        break;
+      case 'releaseDate_desc':
+      default:
+        games.sort((a, b) => new Date(b.releaseDate || 0).getTime() - new Date(a.releaseDate || 0).getTime());
+        break;
     }
-    return allGamesData.filter(
+    
+    if (!selectedCategory || selectedCategory === 'All') {
+      return games;
+    }
+    return games.filter(
       (game) => game.category.toLowerCase() === selectedCategory.toLowerCase()
     );
-  }, [allGamesData, selectedCategory]);
+  }, [allGamesData, selectedCategory, currentSort]);
+
 
   return (
     <div className={styles.gamesContainer}>
@@ -116,9 +115,9 @@ export default function GamesPageClient() {
       </div>
       {isLoading ? (
         <div className={styles.loadingMessage}>Loading games...</div>
-      ) : filteredGames.length > 0 ? (
+      ) : displayedGames.length > 0 ? (
         <div className={styles.gamesGrid}>
-          {filteredGames.map((game, index) => (
+          {displayedGames.map((game, index) => (
             <GameCard key={game.id} game={game} priority={index < 10} />
           ))}
         </div>
@@ -127,4 +126,4 @@ export default function GamesPageClient() {
       )}
     </div>
   );
-};
+}

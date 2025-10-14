@@ -1,46 +1,12 @@
 // src/app/page.tsx
-"use client";
-
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { useAuth } from "@/context/AuthContext";
-import { Game } from "@/types/game";
-import { Tool } from "@/types/tools";
-import styles from "./HomePage.module.css";
-import GameCard from "@/components/Games/GameCard";
-import toolData from "@/data/tools.json";
-
-// Import Supabase helpers
-import {
-  getNewGames,
-  getTrendingGames,
-  getUserRecentlyPlayed,
-} from "@/lib/supabase/db";
-import { RecentlyPlayedInfo } from "@/lib/supabase/db";
-
-// Helper function to determine how many games to show based on screen size
-const getNumberOfGames = () => {
-  if (typeof window === 'undefined') {
-    return 5; // Default for server-side rendering
-  }
-  // Height override: If the screen is wide but not tall, show 4
-  if (window.innerHeight < 1000 && window.innerWidth >= 1280) {
-    return 4;
-  }
-  // Width-based rules
-  if (window.innerWidth >= 1600) {
-    return 6; // Large desktops
-  }
-  if (window.innerWidth >= 1280) {
-    return 5; // Standard desktops
-  }
-  if (window.innerWidth >= 768) {
-    return 4; // Tablets
-  }
-  // Mobile fallback (will display as 2x2 grid)
-  return 4;
-};
-
+import React from 'react';
+import Link from 'next/link';
+import { Tool } from '@/types/tools';
+import styles from './HomePage.module.css';
+import GameCard from '@/components/Games/GameCard';
+import toolData from '@/data/tools.json';
+import { getNewGames, getTrendingGames } from '@/lib/supabase/db';
+import RecentlyPlayedSection from '@/components/Home/RecentlyPlayedSection'; // Import the new component
 
 const ToolIconLink: React.FC<{ tool: Tool }> = ({ tool }) => {
   const href = tool.sourceType === 'iframe' ? `/t/embed/${tool.id}` : tool.sourcePath;
@@ -52,135 +18,58 @@ const ToolIconLink: React.FC<{ tool: Tool }> = ({ tool }) => {
   );
 };
 
-const HomePage: React.FC = () => {
-  const { user, loading: authLoading } = useAuth();
-
-  const [trendingGames, setTrendingGames] = useState<Game[]>([]);
-  const [newGames, setNewGames] = useState<Game[]>([]);
-  const [recentlyPlayed, setRecentlyPlayed] = useState<(Game & RecentlyPlayedInfo)[]>([]);
-  const [isLoadingTrending, setIsLoadingTrending] = useState(true);
-  const [isLoadingNew, setIsLoadingNew] = useState(true);
-  const [isLoadingRecent, setIsLoadingRecent] = useState(true);
-
-  // State to hold the number of games to display
-  const [numGamesToShow, setNumGamesToShow] = useState(5);
+// Make the component async to fetch data on the server
+const HomePage = async () => {
+  // Fetch static game lists directly on the server
+  const [trendingGames, newGames] = await Promise.all([
+    getTrendingGames(6),
+    getNewGames(6)
+  ]);
 
   const featuredTools = toolData.slice(0, 4);
 
-  // Effect to handle window resize and update the number of games to show
-  useEffect(() => {
-    const handleResize = () => {
-      setNumGamesToShow(getNumberOfGames());
-    };
-    // Set the initial number of games on mount
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    // Cleanup listener on component unmount
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-
-  // Fetch static game lists (Trending, New) on component mount
-  useEffect(() => {
-    const fetchStaticGames = async () => {
-      setIsLoadingTrending(true);
-      setIsLoadingNew(true);
-      // Always fetch 6 (the max possible) to avoid re-fetching on resize
-      const [trending, newG] = await Promise.all([
-        getTrendingGames(6),
-        getNewGames(6)
-      ]);
-      setTrendingGames(trending);
-      setNewGames(newG);
-      setIsLoadingTrending(false);
-      setIsLoadingNew(false);
-    };
-    fetchStaticGames();
-  }, []);
-
-  // Fetch user-specific list (Recently Played) when auth state is known
-  useEffect(() => {
-    const fetchRecent = async () => {
-      if (user) {
-        setIsLoadingRecent(true);
-        // Also fetch the max possible for this list
-        const games = await getUserRecentlyPlayed(user.id, 6);
-        setRecentlyPlayed(games);
-        setIsLoadingRecent(false);
-      } else {
-        // Clear data if user logs out
-        setRecentlyPlayed([]);
-        setIsLoadingRecent(false);
-      }
-    };
-
-    // Only run the fetch function when authentication is no longer loading
-    if (!authLoading) {
-      fetchRecent();
-    }
-  }, [user, authLoading]); // Re-run whenever the user or auth loading state changes
-
   return (
     <div className={styles.homeContainer}>
-      {/* Recently Played Section */}
-      {!authLoading && user && (
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Recently Played</h2>
-          {isLoadingRecent ? (
-            <p className={styles.loadingText}>Loading your recently played games...</p>
-          ) : recentlyPlayed.length > 0 ? (
-            <div className={styles.gameGrid}>
-              {recentlyPlayed.slice(0, numGamesToShow).map((gameInfo, index) => (
-                <GameCard key={`recent-${gameInfo.id}`} game={gameInfo as Game} priority={index < 6} />
-              ))}
-            </div>
-          ) : (
-            <p className={styles.noItemsText}>
-              You haven&apos;t played any games recently.
-            </p>
-          )}
-        </section>
-      )}
+      {/* The "Recently Played" section is now a self-contained client component */}
+      <RecentlyPlayedSection />
 
-      {/* Trending Games Section */}
+      {/* The rest of the page is rendered on the server with pre-fetched data */}
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Trending Games</h2>
-        {isLoadingTrending ? (
-          <p className={styles.loadingText}>Loading trending games...</p>
-        ) : (
+        {trendingGames.length > 0 ? (
           <>
             <div className={styles.gameGrid}>
-              {trendingGames.slice(0, numGamesToShow).map((game, index) => (
+              {trendingGames.map((game, index) => (
                 <GameCard key={`trending-${game.id}`} game={game} priority={index < 6} />
               ))}
             </div>
-            <Link href="/g" className={`${styles.viewAllLink} ${styles.viewAllGames}`}>
+            <Link href="/g" className={`${styles.viewAllLink}`}>
               View All Games →
             </Link>
           </>
+        ) : (
+          <p className={styles.loadingText}>Could not load trending games.</p>
         )}
       </section>
 
-      {/* New Games Section */}
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>New Games</h2>
-        {isLoadingNew ? (
-          <p className={styles.loadingText}>Loading new games...</p>
-        ) : (
+        {newGames.length > 0 ? (
           <>
             <div className={styles.gameGrid}>
-              {newGames.slice(0, numGamesToShow).map((game, index) => (
+              {newGames.map((game, index) => (
                 <GameCard key={`new-${game.id}`} game={game} priority={index < 6} />
               ))}
             </div>
-            <Link href="/g" className={`${styles.viewAllLink} ${styles.viewAllGames}`}>
+            <Link href="/g" className={`${styles.viewAllLink}`}>
               View All Games →
             </Link>
           </>
+        ) : (
+           <p className={styles.loadingText}>Could not load new games.</p>
         )}
       </section>
 
-      {/* Tools Section */}
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Featured Tools</h2>
         <div className={styles.toolsGrid}>
@@ -191,7 +80,7 @@ const HomePage: React.FC = () => {
             />
           ))}
         </div>
-        <Link href="/t" className={`${styles.viewAllLink} ${styles.viewAllTools}`}>
+        <Link href="/t" className={`${styles.viewAllLink}`}>
           View All Tools →
         </Link>
       </section>
