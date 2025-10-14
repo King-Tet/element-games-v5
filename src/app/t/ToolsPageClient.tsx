@@ -1,0 +1,79 @@
+// src/app/t/ToolsPageClient.tsx
+'use client'; 
+
+import React, { useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import ToolCard from '@/components/Tools/ToolCard';
+import { Tool } from '@/types/tools';
+import styles from './ToolsPage.module.css';
+import toolData from '@/data/tools.json'; 
+
+export default function ToolsPageClient() {
+  const searchParams = useSearchParams();
+  const initialCategory = searchParams.get('category');
+
+  const allTools: Tool[] = toolData as Tool[];
+
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCategory);
+
+  useEffect(() => {
+    setSelectedCategory(initialCategory);
+  }, [initialCategory]);
+
+  const categories = useMemo(() => {
+    const uniqueCategories = new Set(allTools.map(tool => tool.category));
+    return ['All', ...Array.from(uniqueCategories).sort()];
+  }, [allTools]);
+
+  const filteredTools = useMemo(() => {
+    if (!selectedCategory || selectedCategory === 'All') {
+      return allTools;
+    }
+    return allTools.filter(
+      (tool) => tool.category.toLowerCase() === selectedCategory.toLowerCase()
+    );
+  }, [allTools, selectedCategory]);
+
+  return (
+    <div className={styles.toolsContainer}>
+      <div className={styles.header}>
+         <h1>Tools</h1>
+      </div>
+
+       <div className={styles.categoryFilter}>
+          {categories.map(category => (
+              <Link
+                  key={category}
+                  href={category === 'All' ? '/t' : `/t?category=${category.toLowerCase()}`}
+                  passHref
+                  scroll={false}
+              >
+                 <button
+                    className={`${styles.categoryButton} ${
+                        (selectedCategory === category.toLowerCase() || (category === 'All' && !selectedCategory))
+                            ? styles.active
+                            : ''
+                        }`}
+                    onClick={() => setSelectedCategory(category === 'All' ? null : category.toLowerCase())}
+                  >
+                      {category}
+                  </button>
+              </Link>
+          ))}
+       </div>
+
+      {filteredTools.length > 0 ? (
+        <div className={styles.toolsGrid}>
+          {filteredTools.map((tool) => (
+            <ToolCard key={tool.id} tool={tool} />
+          ))}
+        </div>
+      ) : (
+         <p className={styles.noToolsMessage}>
+            No tools found{selectedCategory ? ` in the "${selectedCategory}" category` : ''}.
+        </p>
+      )}
+    </div>
+  );
+};
