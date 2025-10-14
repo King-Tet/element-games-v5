@@ -1,0 +1,49 @@
+/* src/components/Auth/ForcedSignIn.module.css */
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    width: 100%;
+}
+
+.card {
+    background-color: var(--card-col);
+    padding: 40px 35px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-col);
+    max-width: 450px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.description {
+    color: var(--text-sec-col);
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.signInButton {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: var(--primary-button-bg);
+    color: var(--primary-button-text);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.signInButton:hover {
+    background-color: var(--primary-button-hover-bg);
+}

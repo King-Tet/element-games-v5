@@ -10,10 +10,12 @@ import { useAuth } from '@/context/AuthContext';
 import { TAB_PRESETS, DEFAULT_PRESET } from '@/utils/tabPresets';
 import { supabase } from '@/lib/supabase/client';
 import { RealtimeChannel } from '@supabase/supabase-js';
+import ForcedSignIn from '@/components/Auth/ForcedSignIn'; // Import the new component
 
 const DEFAULT_PANIC_KEY = '\`';
 const DEFAULT_PANIC_URL = 'https://ixl.com/dashboard';
 
+// ... (PRESENCE_MAPPINGS and getCurrentActivity function remain the same) ...
 const PRESENCE_MAPPINGS: Array<{
     pattern: RegExp;
     getActivity: (match: RegExpMatchArray) => { type: 'game' | 'activity'; name: string } | null;
@@ -39,6 +41,7 @@ function getCurrentActivity(pathname: string): { type: 'game' | 'activity'; name
     }
     return null;
 }
+
 
 interface MainLayoutProps { children: ReactNode; }
 
@@ -78,18 +81,12 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     applySavedTabCloak();
   }, [pathname, applySavedTabCloak]);
 
+  // This useEffect handles redirects *after* a user is already logged in
   useEffect(() => {
-    const protectedPaths = ['/account', '/admin', '/complete-profile'];
-    // If we are still loading the auth state, AND we are trying to access a protected path, show the loader.
-    if (authLoading && protectedPaths.some(p => pathname.startsWith(p))) {
-        return; // Effectively, do nothing but wait for loading to finish.
-    }
-
-    if (!authLoading) {
-      // If loading is done, then we can run our redirects.
-      if (user && requiresUsernameSetup && pathname !== '/complete-profile') {
+    if (!authLoading && user) {
+      if (requiresUsernameSetup && pathname !== '/complete-profile') {
            router.push('/complete-profile');
-      } else if (user && !requiresUsernameSetup && pathname === '/complete-profile') {
+      } else if (!requiresUsernameSetup && pathname === '/complete-profile') {
             router.push('/');
       }
     }
@@ -108,59 +105,59 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
   }, []);
 
-  // --- SUPABASE REALTIME PRESENCE ---
-  useEffect(() => {
-    if (!user || !userProfile || authLoading) {
-      if (channelRef.current) {
-        supabase.removeChannel(channelRef.current);
-        channelRef.current = null;
-      }
-      return;
-    }
+  // ... (Presence useEffects remain the same) ...
+    // --- SUPABASE REALTIME PRESENCE ---
+    useEffect(() => {
+        if (!user || !userProfile || authLoading) {
+        if (channelRef.current) {
+            supabase.removeChannel(channelRef.current);
+            channelRef.current = null;
+        }
+        return;
+        }
 
-    if (!channelRef.current) {
-      const channel = supabase.channel('online-users', {
-        config: { presence: { key: user.id } },
-      });
-      channelRef.current = channel;
+        if (!channelRef.current) {
+        const channel = supabase.channel('online-users', {
+            config: { presence: { key: user.id } },
+        });
+        channelRef.current = channel;
 
-      channel.subscribe((status) => {
-        if (status === 'SUBSCRIBED') {
-          const activity = getCurrentActivity(pathname);
-          const payload = {
+        channel.subscribe((status) => {
+            if (status === 'SUBSCRIBED') {
+            const activity = getCurrentActivity(pathname);
+            const payload = {
+                username: userProfile.username,
+                display_name: userProfile.display_name,
+                activity,
+            };
+            channel.track(payload, { expires_in: 60 });
+            }
+        });
+        }
+
+        return () => {
+        if (channelRef.current) {
+            supabase.removeChannel(channelRef.current);
+            channelRef.current = null;
+        }
+        };
+    }, [user, userProfile, authLoading, pathname]);
+
+    useEffect(() => {
+        if (channelRef.current && channelRef.current.state === 'joined' && userProfile) {
+        const activity = getCurrentActivity(pathname);
+        const payload = {
             username: userProfile.username,
             display_name: userProfile.display_name,
             activity,
-          };
-          channel.track(payload, { expires_in: 60 });
+        };
+        channelRef.current.track(payload, { expires_in: 60 });
         }
-      });
-    }
+    }, [pathname, userProfile]);
 
-    return () => {
-      if (channelRef.current) {
-        supabase.removeChannel(channelRef.current);
-        channelRef.current = null;
-      }
-    };
-  }, [user, userProfile, authLoading, pathname]);
-
-  useEffect(() => {
-    if (channelRef.current && channelRef.current.state === 'joined' && userProfile) {
-      const activity = getCurrentActivity(pathname);
-      const payload = {
-        username: userProfile.username,
-        display_name: userProfile.display_name,
-        activity,
-      };
-      channelRef.current.track(payload, { expires_in: 60 });
-    }
-  }, [pathname, userProfile]);
-
-  const protectedPaths = ['/account', '/admin', '/complete-profile'];
-  if (authLoading && protectedPaths.some(p => pathname.startsWith(p))) {
-    return <div className={styles.fullPageLoader}>Loading Application...</div>;
-   }
+  // Define paths that don't require authentication
+  const publicPaths = ['/auth/callback'];
+  const isPublicPath = publicPaths.includes(pathname);
 
    return (
      <div className={styles.layoutContainer}>
@@ -168,7 +165,15 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
        <Navbar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
        <main className={`${styles.contentArea} ${!isSidebarOpen ? styles.sidebarClosed : ''}`}>
          <div className={styles.mainContent}>
-            {children}
+            {isPublicPath ? (
+              children // If it's a public path, render the content immediately
+            ) : authLoading ? (
+              <div className={styles.fullPageLoader}>Authenticating...</div>
+            ) : !user ? (
+              <ForcedSignIn /> // If not loading and no user, show the sign-in prompt
+            ) : (
+              children // Otherwise, the user is logged in, so show the page content
+            )}
          </div>
        </main>
      </div>
