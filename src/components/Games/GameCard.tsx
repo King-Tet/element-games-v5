@@ -1,4 +1,6 @@
 // src/components/Games/GameCard.tsx
+'use client'; // This directive marks the component as a Client Component
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image'; // Use Next.js Image for optimization
