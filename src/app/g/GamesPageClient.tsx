@@ -23,14 +23,12 @@ export default function GamesPageClient({ initialGames }: GamesPageClientProps) 
   const initialCategory = searchParams.get('category');
   const initialSort = searchParams.get('sort') as SortOptionValue || 'releaseDate_desc';
   
-  // Use the prop from the server as the initial state
   const [allGamesData] = useState<Game[]>(initialGames);
-  const [isLoading] = useState(false); // No client-side loading needed anymore
+  const [isLoading] = useState(false); 
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCategory);
   const [currentSort, setCurrentSort] = useState<SortOptionValue>(initialSort);
 
-  // This effect now only syncs state with the URL, no data fetching
   useEffect(() => {
     const params = new URLSearchParams();
     if (selectedCategory) params.set('category', selectedCategory);
@@ -51,9 +49,9 @@ export default function GamesPageClient({ initialGames }: GamesPageClientProps) 
     return ['All', ...Array.from(uniqueCategories).sort()];
   }, [allGamesData]);
   
-  // This logic now sorts and filters the data passed from the server
   const displayedGames = useMemo(() => {
-    let games = [...allGamesData]; 
+    // --- THIS IS THE FIX: Changed 'let' to 'const' ---
+    const games = [...allGamesData]; 
 
     switch (currentSort) {
       case 'name_asc':
