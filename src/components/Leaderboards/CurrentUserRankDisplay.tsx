@@ -38,10 +38,10 @@ const CurrentUserRankDisplay: React.FC<CurrentUserRankDisplayProps> = ({ userDat
                      <FiClock /> {formatPlaytime(userData.total_playtime_seconds)}
                  </span>
                  <span className={`${styles.statsCol} ${localStyles.statItem}`}>
-                      <FiStar /> {formatNumber(userData.total_playtime_seconds)}
+                      <FiStar /> {formatNumber(userData.total_ratings_submitted)}
                  </span>
                  <span className={`${styles.statsCol} ${localStyles.statItem}`}>
-                     <FiGrid /> {formatNumber(userData.total_playtime_seconds)}
+                     <FiGrid /> {formatNumber(userData.total_games_played)}
                 </span>
                 <span className={`${styles.scoreCol} ${styles.scoreValue} ${localStyles.score}`}>
                     {userData.userScore?.toFixed(0)}
