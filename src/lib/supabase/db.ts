@@ -205,41 +205,16 @@ export async function logPlaytime(
   gameId: string,
   playtimeSeconds: number
 ): Promise<void> {
-  // First, check if a record for this user and game already exists.
-  const { data: existingPlay, error: checkError } = await supabase
-    .from('recently_played')
-    .select('id')
-    .eq('user_id', userId)
-    .eq('game_id', gameId)
-    .maybeSingle();
-
-  if (checkError) {
-    console.error('Error checking for existing play record:', checkError);
-    // Even if this check fails, we still try to log the playtime.
-  }
-
-  // If `existingPlay` is null, it means this is the first time the user is playing this game.
-  if (!existingPlay) {
-    console.log(`First-time play detected for user ${userId} and game ${gameId}. Incrementing total_games_played.`);
-    // Call an RPC function to safely increment the total_games_played count on the profiles table.
-    const { error: incrementError } = await supabase.rpc('increment_games_played', { p_user_id: userId });
-    if (incrementError) {
-      console.error('Error incrementing total_games_played:', incrementError);
-    }
-  }
-  
-  // Now, call the existing RPC function to update the playtime and last_played timestamp.
-  const { error: playtimeError } = await supabase.rpc("update_playtime_and_total", {
+  // This now calls the new, more powerful RPC function
+  const { error } = await supabase.rpc("update_playtime_and_total", {
     p_user_id: userId,
     p_game_id: gameId,
     p_playtime_seconds_increment: playtimeSeconds,
   });
-
-  if (playtimeError) {
-    console.error("Error logging playtime:", playtimeError);
+  if (error) {
+    console.error("Error logging playtime:", error);
   }
 }
-
 
 export async function getUserRecentlyPlayed(
   userId: string,
